@@ -12,6 +12,7 @@ import CoreImage
 
 class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
 
+    private var manageMode:Bool = false
     private var referenceViewController:ReferenceViewController? = nil
     private var registrationViewController:RegistrationViewController? = nil
     
@@ -61,10 +62,12 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
         
         //サブビュー
         self.referenceViewController = self.storyboard?.instantiateViewController(withIdentifier: "referenceViewController") as? ReferenceViewController
+        self.addChildViewController(self.referenceViewController!)
         self.view.addSubview((self.referenceViewController?.view)!)
         self.referenceViewController?.view.isHidden = true
 
         self.registrationViewController = self.storyboard?.instantiateViewController(withIdentifier: "registrationViewController") as? RegistrationViewController
+        self.addChildViewController(self.registrationViewController!)
         self.view.addSubview((self.registrationViewController?.view)!)
         self.registrationViewController?.view.isHidden = false
     }
@@ -130,6 +133,8 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
 //        wineImageView.image = image
 //    }
     func selectedCell(wine: Wine) {
+        self.registrationViewController?.selectedCell(wine: wine)
+        /****
         self.title = "ワインの更新"
 
         self.wine = wine
@@ -145,8 +150,11 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
         else{
             self.wineImageView.image = nil
         }
+        *****/
     }
     func addWine() {
+        self.registrationViewController?.addWine()
+        /****
         self.title = "ワインの追加"
         self.wine = nil
         self.nameTextField.text = nil
@@ -156,8 +164,12 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
         self.vintageTextField.text = nil
         self.categorySegmentedControl.selectedSegmentIndex = 0
         self.wineImageView.image = UIImage(named: self.newImageName)
+        ****/
     }
-
+    // delegate
+    func setManageMode(){
+        self.manageMode = true
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

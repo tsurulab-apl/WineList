@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		EB28D33A1EBB655500E77397 /* ReferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB28D3391EBB655500E77397 /* ReferenceViewController.swift */; };
 		EB28D33E1EBD594100E77397 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB28D33D1EBD594100E77397 /* RegistrationViewController.swift */; };
+		EB28D3401EC34FCA00E77397 /* UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png in Resources */ = {isa = PBXBuildFile; fileRef = EB28D33F1EC34FCA00E77397 /* UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png */; };
 		EB9CBE201EAAFFB400238D52 /* Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9CBE1F1EAAFFB400238D52 /* Extention.swift */; };
 		EB9CBE6F1EB6CF8A00238D52 /* Wine+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9CBE6D1EB6CF8A00238D52 /* Wine+CoreDataClass.swift */; };
 		EB9CBE701EB6CF8A00238D52 /* Wine+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9CBE6E1EB6CF8A00238D52 /* Wine+CoreDataProperties.swift */; };
@@ -46,6 +47,7 @@
 /* Begin PBXFileReference section */
 		EB28D3391EBB655500E77397 /* ReferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferenceViewController.swift; sourceTree = "<group>"; };
 		EB28D33D1EBD594100E77397 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		EB28D33F1EC34FCA00E77397 /* UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png"; sourceTree = "<group>"; };
 		EB9CBE1F1EAAFFB400238D52 /* Extention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extention.swift; sourceTree = "<group>"; };
 		EB9CBE6D1EB6CF8A00238D52 /* Wine+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Wine+CoreDataClass.swift"; path = "WineList/Wine+CoreDataClass.swift"; sourceTree = "<group>"; };
 		EB9CBE6E1EB6CF8A00238D52 /* Wine+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Wine+CoreDataProperties.swift"; path = "WineList/Wine+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 		EBA9C47F1E9E601100311E3B /* images */ = {
 			isa = PBXGroup;
 			children = (
+				EB28D33F1EC34FCA00E77397 /* UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png */,
 				EBA9C4801E9E603200311E3B /* test_evening_sample.png */,
 				EBA9C4811E9E603200311E3B /* test_morning_sample.png */,
 				EBA9C4821E9E603200311E3B /* test_night_sample.png */,
@@ -274,6 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EBA9C4841E9E603200311E3B /* test_morning_sample.png in Resources */,
+				EB28D3401EC34FCA00E77397 /* UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png in Resources */,
 				EBA9C4851E9E603200311E3B /* test_night_sample.png in Resources */,
 				EBA9C4831E9E603200311E3B /* test_evening_sample.png in Resources */,
 				EBA9C4531E9E526400311E3B /* Assets.xcassets in Resources */,

@@ -2,7 +2,7 @@
 //  Wine+CoreDataProperties.swift
 //  WineList
 //
-//  Created by 鶴澤幸治 on 2017/05/03.
+//  Created by 鶴澤幸治 on 2017/05/06.
 //  Copyright © 2017年 Koji Tsurusawa. All rights reserved.
 //
 
@@ -16,12 +16,17 @@ extension Wine {
         return NSFetchRequest<Wine>(entityName: "Wine")
     }
 
+    @NSManaged public var category: Int16
     @NSManaged public var color: String?
+    //NSDataをDataに変更
+    @NSManaged public var image: Data?
     @NSManaged public var name: String?
     @NSManaged public var note: String?
     @NSManaged public var vintage: Int16
-    // NSDataからData型に変更(再作成時に注意)
-    @NSManaged public var image: Data?
-    @NSManaged public var category: Int16
+    @NSManaged public var price: Int16
+    @NSManaged public var display: Bool
+    //NSDateをDateに変更
+    @NSManaged public var insertDate: Date?
+    @NSManaged public var updateDate: Date?
 
 }

@@ -14,6 +14,7 @@ protocol MasterViewControllerDelegate: class {
     //func selectedCell(image: UIImage)
     func selectedCell(wine: Wine)
     func addWine()
+    func setManageMode()
 }
 
 class MasterViewController: UITableViewController {
@@ -34,9 +35,35 @@ class MasterViewController: UITableViewController {
         self.title = "リスト"
         
         //navigationItem.leftBarButtonItem = editButtonItem
-        
+
+        let button: UIButton = UIButton()
+        button.setImage(UIImage(named: "UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc"), for: .normal)
+        button.frame = CGRect(x:0.0, y:0.0, width:20.0, height:20.0)
+        //button.imageView?.contentMode = UIViewContentMode.scaleAspectFit
+        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap(_:)))
+        longGesture.minimumPressDuration = 1.0  // default:0.5秒
+        longGesture.allowableMovement = 15 // default:10point
+        longGesture.numberOfTapsRequired = 2    // default:0
+
+        button.addGestureRecognizer(longGesture)
+        let manageButton = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(setManageMode(_:)))
+        manageButton.customView = button
+
+        //let manageButtonView = UIView()
+        //manageButtonView.frame = CGRect(x:0.0, y:0.0, width:45.0, height:45.0)
+        //manageButtonView.backgroundColor = UIColor.clear
+        //manageButtonView.alpha = 0.0
+        //manageButtonView.addGestureRecognizer(longGesture)
+        //manageButton.customView = manageButtonView
+        //let manageButtonView:UIView = manageButton.value(forKey: "view") as! UIView
+        //manageButtonView.addGestureRecognizer(longGesture)
+        //let uiImage = manageButton.backgroundImage(for: .normal, barMetrics: UIBarMetrics.default)
+        //button.setImage(uiImage, for: .normal)
+        //manageButton.customView?.addGestureRecognizer(longGesture)
+
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addWine(_:)))
-        navigationItem.rightBarButtonItem = addButton
+        //navigationItem.rightBarButtonItem = addButton
+        navigationItem.setRightBarButtonItems([manageButton,addButton], animated: true)
 
     }
     func addWine(_ sender: Any) {
@@ -44,7 +71,21 @@ class MasterViewController: UITableViewController {
         self.delegate?.addWine()
         //self.splitViewController?.preferredDisplayMode = UISplitViewControllerDisplayMode.primaryHidden
     }
-
+    func setManageMode(_ sender: Any) {
+        print("setManageMode")
+        self.delegate?.setManageMode()
+    }
+    func longTap(_ sender: UIGestureRecognizer) {
+        print("logTap")
+        if sender.state == .ended {
+            print("UIGestureRecognizerStateEnded")
+            //Do Whatever You want on End of Gesture
+        }
+        else if sender.state == .began {
+            print("UIGestureRecognizerStateBegan.")
+            //Do Whatever You want on Began of Gesture
+        }
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
