@@ -64,12 +64,12 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
         self.referenceViewController = self.storyboard?.instantiateViewController(withIdentifier: "referenceViewController") as? ReferenceViewController
         self.addChildViewController(self.referenceViewController!)
         self.view.addSubview((self.referenceViewController?.view)!)
-        self.referenceViewController?.view.isHidden = true
+        self.referenceViewController?.view.isHidden = false
 
         self.registrationViewController = self.storyboard?.instantiateViewController(withIdentifier: "registrationViewController") as? RegistrationViewController
         self.addChildViewController(self.registrationViewController!)
         self.view.addSubview((self.registrationViewController?.view)!)
-        self.registrationViewController?.view.isHidden = false
+        self.registrationViewController?.view.isHidden = true
     }
     // カテゴリーの作成
     func initCategory(){
@@ -133,7 +133,12 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
 //        wineImageView.image = image
 //    }
     func selectedCell(wine: Wine) {
-        self.registrationViewController?.selectedCell(wine: wine)
+        if(self.manageMode){
+            self.registrationViewController?.selectedCell(wine: wine)
+        }else{
+            self.referenceViewController?.selectedCell(wine: wine)
+        }
+        //self.registrationViewController?.selectedCell(wine: wine)
         /****
         self.title = "ワインの更新"
 
@@ -169,6 +174,17 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
     // delegate
     func setManageMode(){
         self.manageMode = true
+        self.chengeScreen()
+    }
+    // delegate
+    func setReferenceMode(){
+        self.manageMode = false
+        self.chengeScreen()
+    }
+    // 画面の切り替え
+    func chengeScreen(){
+        self.referenceViewController?.view.isHidden = !self.manageMode
+        self.registrationViewController?.view.isHidden = self.manageMode
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

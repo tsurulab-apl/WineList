@@ -15,17 +15,25 @@ protocol MasterViewControllerDelegate: class {
     func selectedCell(wine: Wine)
     func addWine()
     func setManageMode()
+    func setReferenceMode()
 }
 
 class MasterViewController: UITableViewController {
+    private var manageMode:Bool = false
+    
     @IBOutlet var wineTableView: UITableView!
     private let tableData = ["test_morning_sample", "test_evening_sample", "test_night_sample"]
 
     var delegate: MasterViewControllerDelegate?
     var wineList:Array<Wine> = []
 
+    private var addButton:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonAction(_:)))
+    private var replyButton:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .reply, target: self, action: #selector(replyButtonAction(_:)))
+
+    // viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("MasterViewController.viewDidLoad")
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -33,9 +41,26 @@ class MasterViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         self.title = "リスト"
+
+        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap(_:)))
+        longGesture.minimumPressDuration = 1.0  // default:0.5秒
+        longGesture.allowableMovement = 15 // default:10point
+        longGesture.numberOfTapsRequired = 2    // default:0
+        
+        let titleView = UILabel()
+        titleView.text = self.title
+        //titleView.font = UIFont(name: "HelveticaNeue-Medium", size: 17)
+        titleView.sizeToFit()
+        //let width = titleView.sizeThatFits(CGSizeMake(CGFloat.max, CGFloat.max)).width
+        //titleView.frame = CGRect(origin:CGPointZero, size:CGSizeMake(width, 500))
+        titleView.addGestureRecognizer(longGesture)
+        titleView.isUserInteractionEnabled = true
+        self.navigationItem.titleView = titleView
+        
+        //self.setReferenceMode()
         
         //navigationItem.leftBarButtonItem = editButtonItem
-
+/***********
         let button: UIButton = UIButton()
         button.setImage(UIImage(named: "UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc"), for: .normal)
         button.frame = CGRect(x:0.0, y:0.0, width:20.0, height:20.0)
@@ -64,28 +89,128 @@ class MasterViewController: UITableViewController {
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addWine(_:)))
         //navigationItem.rightBarButtonItem = addButton
         navigationItem.setRightBarButtonItems([manageButton,addButton], animated: true)
+*************/
+/********
+        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap(_:)))
+        longGesture.minimumPressDuration = 1.0  // default:0.5秒
+        longGesture.allowableMovement = 15 // default:10point
+        longGesture.numberOfTapsRequired = 2    // default:0
 
+        //
+        //self.navigationItem.titleView?.addGestureRecognizer(longGesture)
+        //TableView全体に長押し
+        //self.wineTableView.addGestureRecognizer(longGesture)
+        let titleView = UILabel()
+        titleView.text = "リスト"
+        //titleView.font = UIFont(name: "HelveticaNeue-Medium", size: 17)
+        titleView.sizeToFit()
+        //let width = titleView.sizeThatFits(CGSizeMake(CGFloat.max, CGFloat.max)).width
+        //titleView.frame = CGRect(origin:CGPointZero, size:CGSizeMake(width, 500))
+        titleView.addGestureRecognizer(longGesture)
+        titleView.isUserInteractionEnabled = true
+        self.navigationItem.titleView = titleView
+*******/
     }
-    func addWine(_ sender: Any) {
+    func longTap(_ sender: UIGestureRecognizer) {
+        print("logTap")
+        if sender.state == .began {
+            print("UIGestureRecognizerStateBegan.")
+            //Do Whatever You want on Began of Gesture
+            if(self.manageMode){
+                self.endManageModeAlert()
+            } else {
+                self.passwordAlert()
+            }
+        }
+        else if sender.state == .ended {
+            print("UIGestureRecognizerStateEnded")
+            //Do Whatever You want on End of Gesture
+        }
+    }
+    // 管理モード移行時のパスワード認証
+    func passwordAlert(){
+        let alert = UIAlertController( title:"パスワード", message: "入力してください",
+                                       preferredStyle: UIAlertControllerStyle.alert)
+
+        alert.addTextField( configurationHandler: { (passwordTextField: UITextField!) -> Void in
+            passwordTextField.isSecureTextEntry = true
+            passwordTextField.keyboardType = UIKeyboardType.numberPad
+        })
+        alert.addAction(
+            UIAlertAction(title: "OK", style: .default, handler: {
+                (action: UIAlertAction!) -> Void in
+                
+                let textFields:Array<UITextField>? =  alert.textFields as Array<UITextField>?
+                if textFields != nil {
+                    for textField:UITextField in textFields! {
+                        // isSecureTextEntryの状態で判定
+                        if textField.isSecureTextEntry == true {
+                            // ラベルにパスワード表示
+                            print("password=" + textField.text!)
+                            self.setManageMode()
+                        }
+                    }
+                }
+            })
+        )
+        
+        alert.addAction( UIAlertAction(title: "Cancel", style: .cancel) {
+            action in
+        })
+        
+        present(alert, animated: true, completion: nil)
+    }
+    // 管理モード終了時のパスワード認証
+    func endManageModeAlert(){
+        let alert = UIAlertController( title:"確認", message: "管理モードを終了します。よろしいですか？",
+                                       preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addAction(
+            UIAlertAction(title: "OK", style: .default, handler: {
+                (action: UIAlertAction!) -> Void in
+                self.setReferenceMode()
+            })
+        )
+        
+        alert.addAction( UIAlertAction(title: "Cancel", style: .cancel) {
+            action in
+        })
+        
+        present(alert, animated: true, completion: nil)
+    }
+
+    // 管理モードへの変更
+    func setManageMode(){
+        self.manageMode = true
+        navigationItem.setRightBarButtonItems([self.addButton, self.replyButton], animated: true)
+        // DetailViewを管理モードに変更
+        self.delegate?.setManageMode()
+    }
+    // ナビゲーションバーの追加ボタン
+    func addButtonAction(_ sender: Any){
+        self.addWine()
+    }
+    // ナビゲーションバーのreplyボタン(管理モードの終了)
+    func replyButtonAction(_ sender: Any){
+        self.setReferenceMode()
+    }
+    // ワインの追加
+    func addWine() {
         //ディテール部を表示する。
         self.delegate?.addWine()
         //self.splitViewController?.preferredDisplayMode = UISplitViewControllerDisplayMode.primaryHidden
     }
-    func setManageMode(_ sender: Any) {
-        print("setManageMode")
-        self.delegate?.setManageMode()
+    // 参照モードへの変更
+    func setReferenceMode(){
+        self.manageMode = false
+        navigationItem.setRightBarButton(nil, animated: true)
+        
+ 
+        // DetailViewを参照モードに変更
+        self.delegate?.setReferenceMode()
     }
-    func longTap(_ sender: UIGestureRecognizer) {
-        print("logTap")
-        if sender.state == .ended {
-            print("UIGestureRecognizerStateEnded")
-            //Do Whatever You want on End of Gesture
-        }
-        else if sender.state == .began {
-            print("UIGestureRecognizerStateBegan.")
-            //Do Whatever You want on Began of Gesture
-        }
-    }
+    
+    //
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

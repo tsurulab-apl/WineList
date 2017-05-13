@@ -338,9 +338,23 @@
                                 <rect key="frame" x="167" y="28" width="434" height="352"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="price" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CMz-ci-j2H">
+                                <rect key="frame" x="204" y="821" width="277" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="nameLabel" destination="Klw-ZK-Mch" id="s75-d4-cHW"/>
+                        <outlet property="noteLabel" destination="4Q8-Ay-5g2" id="Gbp-2c-qaE"/>
+                        <outlet property="priceLabel" destination="CMz-ci-j2H" id="QPq-Tv-Yge"/>
+                        <outlet property="vintageLabel" destination="CoZ-Ta-buL" id="uSs-eV-roD"/>
+                        <outlet property="wineImageView" destination="zwb-hG-mEK" id="2j4-GA-Wh1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w3e-Po-wjz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

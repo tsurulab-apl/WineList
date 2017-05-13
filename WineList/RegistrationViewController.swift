@@ -34,7 +34,7 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
 
         print("RegistrationViewController.viewDidLoad")
 
-        self.title = "ワイン"
+        self.title = "ワイン登録"
         
         // カテゴリー
         self.initCategory()
