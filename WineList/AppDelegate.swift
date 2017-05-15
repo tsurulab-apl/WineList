@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let splitViewController = self.window!.rootViewController as! UISplitViewController
 
         //常に両方表示にセット
-//        splitViewController.preferredDisplayMode = UISplitViewControllerDisplayMode.allVisible
+        //splitViewController.preferredDisplayMode = UISplitViewControllerDisplayMode.allVisible
         
         //マスター部のテーブルビューコントローラーを取得する。
         let masterNavController = splitViewController.viewControllers.first as! UINavigationController

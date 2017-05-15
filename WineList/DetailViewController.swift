@@ -133,6 +133,7 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
 //        wineImageView.image = image
 //    }
     func selectedCell(wine: Wine) {
+        self.wine = wine
         if(self.manageMode){
             self.registrationViewController?.selectedCell(wine: wine)
         }else{
@@ -183,8 +184,11 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
     }
     // 画面の切り替え
     func chengeScreen(){
-        self.referenceViewController?.view.isHidden = !self.manageMode
-        self.registrationViewController?.view.isHidden = self.manageMode
+        if let wine = self.wine {
+            self.selectedCell(wine: wine)
+        }
+        self.referenceViewController?.view.isHidden = self.manageMode
+        self.registrationViewController?.view.isHidden = !self.manageMode
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

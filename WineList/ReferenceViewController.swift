@@ -16,6 +16,8 @@ class ReferenceViewController: UIViewController {
     @IBOutlet weak var vintageLabel: UILabel!
     @IBOutlet weak var noteLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var categoryLabel: UILabel!
+    @IBOutlet weak var noteTextView: UITextView!
 
     // viewDidLoad
     override func viewDidLoad() {
@@ -23,7 +25,15 @@ class ReferenceViewController: UIViewController {
         print("ReferenceViewController.viewDidLoad")
         
         self.title = "ワイン参照"
-
+        self.noteLabel.isHidden = true
+        // センタリング
+//        let x = self.view.center.x
+//        self.wineImageView.center.x = x
+//        self.nameLabel.center.x = x
+//        self.vintageLabel.center.x = x
+//        self.noteLabel.center.x = x
+//        self.priceLabel.center.x = x
+        
         // Do any additional setup after loading the view.
     }
 
@@ -41,7 +51,10 @@ class ReferenceViewController: UIViewController {
         self.nameLabel.text = wine.name
         self.vintageLabel.text = String(wine.vintage)
         self.noteLabel.text = wine.note
-        self.priceLabel.text = String(wine.price)
+        self.noteTextView.text = wine.note
+        self.priceLabel.text = "¥" + self.separateComma(num: Int(wine.price))
+        let category = Category.init(raw: Int(wine.category))
+        self.categoryLabel.text = category?.description
         if let image = wine.image {
             self.wineImageView.image = UIImage(data: image)
         }
@@ -49,7 +62,14 @@ class ReferenceViewController: UIViewController {
             self.wineImageView.image = nil
         }
     }
-
+    // カンマ区切り
+    func separateComma(num:Int) -> String {
+        let formatter = NumberFormatter()
+        formatter.groupingSeparator = ","
+        formatter.numberStyle = .decimal
+        let str = formatter.string(for: num)
+        return str!
+    }
     /*
     // MARK: - Navigation
 

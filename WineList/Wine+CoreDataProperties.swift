@@ -23,7 +23,7 @@ extension Wine {
     @NSManaged public var name: String?
     @NSManaged public var note: String?
     @NSManaged public var vintage: Int16
-    @NSManaged public var price: Int16
+    @NSManaged public var price: Int32
     @NSManaged public var display: Bool
     //NSDateをDateに変更
     @NSManaged public var insertDate: Date?

@@ -45,7 +45,10 @@ public enum Category: Int16, CustomStringConvertible,EnumEnumerable {
     case Red = 1
     case Rose = 2
     case Sparkling = 3
-    
+    //
+    init?(raw: Int) {
+        self.init(rawValue: Int16(raw))
+    }
     //var description: String { return rawValue }
     public var description: String {
         switch self {

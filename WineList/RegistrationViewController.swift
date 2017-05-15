@@ -42,6 +42,9 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         // ヴィンテージのpickerView
         self.initVintagePickerView()
 
+        // noteの枠線
+        self.noteTextView.layer.borderWidth = 0.5
+        self.noteTextView.layer.borderColor = UIColor.lightGray.cgColor
     }
 
     override func didReceiveMemoryWarning() {
@@ -115,6 +118,13 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
     func cancel() {
         self.vintageTextField.text = ""
         self.vintageTextField.endEditing(true)
+    }
+    // PickerViewを閉じる
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("touchesBegan vintageTextField.isEditing=" + String(self.vintageTextField.isEditing))
+        if (self.vintageTextField.isEditing){
+            self.vintageTextField.endEditing(true)
+        }
     }
     // 写真ボタン
     @IBAction func imageSelectTouchUpInside(_ sender: Any) {
@@ -304,7 +314,7 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
 
         wine.category = Int16(self.categorySegmentedControl.selectedSegmentIndex)
 
-        let price = self.textFieldToInt16(textField: self.priceTextField)
+        let price = self.textFieldToInt32(textField: self.priceTextField)
         wine.price = price
 
         wine.display = self.displaySwitch.isOn
@@ -319,7 +329,9 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
 
         do{
             try viewContext.save()
-            self.selectedCell(wine: wine)
+            let detailViewController = self.parent as! DetailViewController
+            detailViewController.selectedCell(wine: wine)
+            //self.selectedCell(wine: wine)
         }catch{
             print(error)
         }
@@ -330,6 +342,12 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
     func textFieldToInt16(textField: UITextField) -> Int16 {
         let str:String = textField.text!
         let num :Int16 = Int16(str)!
+        return num
+    }
+    // テキストフィールドの値をInt32で取得
+    func textFieldToInt32(textField: UITextField) -> Int32 {
+        let str:String = textField.text!
+        let num :Int32 = Int32(str)!
         return num
     }
     // マスターテーブルのリロード
