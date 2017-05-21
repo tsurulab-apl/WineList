@@ -27,11 +27,13 @@ class MasterViewController: UITableViewController {
     var delegate: MasterViewControllerDelegate?
     var wineList:Array<Wine> = []
     var wineDictionary:Dictionary<Category, Array<Wine>> = [:]
+    var wineLinkedList = LinkedList<Wine>()
 
 //    private var addButton:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonAction(_:)))
 //    private var replyButton:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .reply, target: self, action: #selector(replyButtonAction(_:)))
     private var addButton:UIBarButtonItem?
     private var replyButton:UIBarButtonItem?
+    private var editButton:UIBarButtonItem?
 
     // viewDidLoad
     override func viewDidLoad() {
@@ -62,9 +64,15 @@ class MasterViewController: UITableViewController {
 
         self.addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonAction(_:)))
         self.replyButton = UIBarButtonItem(barButtonSystemItem: .reply, target: self, action: #selector(replyButtonAction(_:)))
+        self.editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonAction(_:)))
 
         // ワインディクショナリーの初期化
         self.initWineDictionary()
+
+        // 編集時にセル選択を許可
+        self.wineTableView.allowsSelectionDuringEditing = true
+        //self.wineTableView.estimatedRowHeight = 20
+        //self.wineTableView.rowHeight = UITableViewAutomaticDimension
         
         //self.setReferenceMode()
         
@@ -191,7 +199,11 @@ class MasterViewController: UITableViewController {
     // 管理モードへの変更
     func setManageMode(){
         self.manageMode = true
-        navigationItem.setRightBarButtonItems([self.addButton!, self.replyButton!], animated: true)
+        navigationItem.setRightBarButtonItems([self.addButton!, self.replyButton!, self.editButton!], animated: true)
+
+        // reload
+        self.reloadWineTableView()
+
         // DetailViewを管理モードに変更
         self.delegate?.setManageMode()
     }
@@ -205,6 +217,15 @@ class MasterViewController: UITableViewController {
         print("replyButtonAction")
         self.endManageModeAlert()
     }
+    // ナビゲーションバーのeditボタン
+    func editButtonAction(_ sender: Any){
+        print("editButtonAction")
+        if (self.wineTableView.isEditing){
+            self.wineTableView.setEditing(false, animated: true)
+        } else {
+            self.wineTableView.setEditing(true, animated: true)
+        }
+    }
     // ワインの追加
     func addWine() {
         //ディテール部を表示する。
@@ -215,6 +236,12 @@ class MasterViewController: UITableViewController {
     func setReferenceMode(){
         self.manageMode = false
         navigationItem.setRightBarButtonItems(nil, animated: true)
+
+        // 編集モードを終了
+        self.wineTableView.setEditing(false, animated: true)
+        
+        // reload
+        self.reloadWineTableView()
  
         // DetailViewを参照モードに変更
         self.delegate?.setReferenceMode()
@@ -225,13 +252,14 @@ class MasterViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    //
     override func viewWillAppear(_ animated: Bool) {
         // CoreDataからデータをfetchしてくる
         getData()
         // TableViewを再読み込みする
         self.wineTableView.reloadData()
     }
+    //
     func reloadWineTableView(){
         self.getData()
         self.wineTableView.reloadData()
@@ -252,6 +280,7 @@ class MasterViewController: UITableViewController {
         wineArray?.append(wine)
         self.wineDictionary.updateValue(wineArray!, forKey: category!)
     }
+    //
     func getData() {
         self.wineList = []
         self.initWineDictionary()
@@ -271,11 +300,37 @@ class MasterViewController: UITableViewController {
                 //                wine.vintage = data.vintage
                 self.wineList.append(wine)
                 self.appendWineDictionary(wine: wine)
+                self.wineLinkedList.append(value: wine)
             }
         } catch {
             print("Fetching Failed.")
         }
+        // LinkedListの確認用
+        self.linkedListTest()
+        self.printLinkedList()
     }
+    /// LinkedListのテスト
+    func linkedListTest(){
+        let list = LinkedList<Int>()
+        list.append(value: 1)
+        list.append(value: 2)
+        list.append(value: 3)
+        for num in list {
+            print("\(num)")
+        }
+    }
+    /// LinkedListの確認用
+    func printLinkedList(){
+        for wine in self.wineLinkedList{
+            print("\(wine)")
+        }
+        let count = self.wineLinkedList.count
+        for i in 0..<count {
+            let wine = self.wineLinkedList.nodeAt(index: i)
+            print("\(wine)")
+        }
+    }
+    
     // MARK: - Table view data source
 
     // テーブルビューのセクション数
@@ -307,7 +362,24 @@ class MasterViewController: UITableViewController {
         //let wine = self.wineList[indexPath.row]
         cell.textLabel?.text = wine?.name
         cell.detailTextLabel?.text = wine?.note
+        if(!(wine?.display)!){
+            //UIColor.blue2は、Extentionで作成したカスタムカラー
+            //cell.backgroundColor = UIColor.blue2
+            cell.textLabel?.textColor = UIColor.blue2
+            if(self.isReferenceMode()){
+                // hiddenにするだけだと、高さが詰まらない。
+                //cell.isHidden = true
+                //cell.frame.size = CGSize(width:0, height:0)
+                //cell.sizeToFit()
+            }
+        }
         return cell
+    }
+    func isManageMode() -> Bool{
+        return self.manageMode
+    }
+    func isReferenceMode() -> Bool{
+        return !self.manageMode
     }
 
     //データ選択後の呼び出しメソッド
@@ -328,40 +400,42 @@ class MasterViewController: UITableViewController {
         }
     }
 
-    /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    */
 
-    /*
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            print("editingStyle=delete")
             // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            //tableView.deleteRows(at: [indexPath], with: .fade)
+            let category = Category.init(raw: indexPath.section)
+            var wineArray = self.wineDictionary[category!]
+            wineArray?.remove(at: indexPath.row)
+            tableView.reloadData()
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            print("editingStyle=insert")
+        }
     }
-    */
 
-    /*
     // Override to support rearranging the table view.
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
+        print("moveRowAt")
+        let category = Category.init(raw: fromIndexPath.section)
+        let wineArray = self.wineDictionary[category!]
+        let wine = wineArray?[fromIndexPath.row]
+        print("name=" + (wine?.name)!)
     }
-    */
 
-    /*
     // Override to support conditional rearranging of the table view.
     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the item to be re-orderable.
         return true
     }
-    */
 
     /*
     // MARK: - Navigation
