@@ -25,21 +25,56 @@ class MasterViewController: UITableViewController {
     private let tableData = ["test_morning_sample", "test_evening_sample", "test_night_sample"]
 
     var delegate: MasterViewControllerDelegate?
-    var wineList:Array<Wine> = []
+    //var wineList:Array<Wine> = []
+    private var wineList:WineList
     var wineDictionary:Dictionary<Category, Array<Wine>> = [:]
     var wineLinkedList = LinkedList<Wine>()
 
 //    private var addButton:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonAction(_:)))
 //    private var replyButton:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .reply, target: self, action: #selector(replyButtonAction(_:)))
-    private var addButton:UIBarButtonItem?
-    private var replyButton:UIBarButtonItem?
-    private var editButton:UIBarButtonItem?
+    private var addButton:UIBarButtonItem
+    private var replyButton:UIBarButtonItem
+    private var editButton:UIBarButtonItem
 
+    ///
+    /// イニシャライザ
+    ///
+    required init?(coder aDecoder: NSCoder) {
+        // WineList
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        let viewContext = appDelegate.persistentContainer.viewContext
+        self.wineList = WineList(managedObjectContext: viewContext)
+
+        // BarButton
+        self.addButton = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
+        self.replyButton = UIBarButtonItem(barButtonSystemItem: .reply, target: nil, action: nil)
+        self.editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: nil, action: nil)
+
+        super.init(coder: aDecoder)
+
+        // super.iniの後にselfを設定可能
+        self.addButton.target = self
+        self.addButton.action = #selector(addButtonAction(_:))
+        self.replyButton.target = self
+        self.replyButton.action = #selector(replyButtonAction(_:))
+        self.editButton.target = self
+        self.editButton.action = #selector(editButtonAction(_:))
+    }
+    func setup(){
+        
+/**
+        // BarButton
+        self.addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonAction(_:)))
+        self.replyButton = UIBarButtonItem(barButtonSystemItem: .reply, target: self, action: #selector(replyButtonAction(_:)))
+        self.editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonAction(_:)))
+ ***/
+    }
     // viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         print("MasterViewController.viewDidLoad")
 
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -61,11 +96,11 @@ class MasterViewController: UITableViewController {
         titleView.addGestureRecognizer(longGesture)
         titleView.isUserInteractionEnabled = true
         self.navigationItem.titleView = titleView
-
+/*****
         self.addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonAction(_:)))
         self.replyButton = UIBarButtonItem(barButtonSystemItem: .reply, target: self, action: #selector(replyButtonAction(_:)))
         self.editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonAction(_:)))
-
+********/
         // ワインディクショナリーの初期化
         self.initWineDictionary()
 
@@ -128,6 +163,9 @@ class MasterViewController: UITableViewController {
         self.navigationItem.titleView = titleView
 *******/
     }
+    ///
+    /// タイトル長押し時
+    ///
     func longTap(_ sender: UIGestureRecognizer) {
         print("logTap")
         if sender.state == .began {
@@ -199,8 +237,11 @@ class MasterViewController: UITableViewController {
     // 管理モードへの変更
     func setManageMode(){
         self.manageMode = true
-        navigationItem.setRightBarButtonItems([self.addButton!, self.replyButton!, self.editButton!], animated: true)
+        navigationItem.setRightBarButtonItems([self.addButton, self.replyButton, self.editButton], animated: true)
 
+        // WineList
+        self.wineList.setManageMode()
+        
         // reload
         self.reloadWineTableView()
 
@@ -236,6 +277,9 @@ class MasterViewController: UITableViewController {
     func setReferenceMode(){
         self.manageMode = false
         navigationItem.setRightBarButtonItems(nil, animated: true)
+        
+        // WineList
+        self.wineList.setReferenceMode()
 
         // 編集モードを終了
         self.wineTableView.setEditing(false, animated: true)
@@ -255,16 +299,21 @@ class MasterViewController: UITableViewController {
     //
     override func viewWillAppear(_ animated: Bool) {
         // CoreDataからデータをfetchしてくる
-        getData()
+        //self.getData()
+        self.wineList.getData()
+        // 並び順を初期化
+        //self.wineList?.initWineOrder()
         // TableViewを再読み込みする
         self.wineTableView.reloadData()
     }
     //
     func reloadWineTableView(){
-        self.getData()
+        //self.getData()
+        self.wineList.getData()
         self.wineTableView.reloadData()
     }
     // ワインディクショナリーの初期化
+    // todo:メソッド削除
     func initWineDictionary(){
         self.wineDictionary = [:]
         for elem in Category.enumerate() {
@@ -274,15 +323,16 @@ class MasterViewController: UITableViewController {
         }
     }
     // ワインディクショナリーへのワインの追加
+    // todo:メソッド削除
     func appendWineDictionary(wine: Wine){
         let category = Category.init(raw: Int(wine.category))
         var wineArray = self.wineDictionary[category!]
         wineArray?.append(wine)
         self.wineDictionary.updateValue(wineArray!, forKey: category!)
     }
-    //
+    // todo:メソッド削除
     func getData() {
-        self.wineList = []
+        //self.wineList = []
         self.initWineDictionary()
 
         // データ保存時と同様にcontextを定義
@@ -298,7 +348,7 @@ class MasterViewController: UITableViewController {
                 //                wine.note = data.note
                 //                wine.color = data.color
                 //                wine.vintage = data.vintage
-                self.wineList.append(wine)
+                //self.wineList.append(wine)
                 self.appendWineDictionary(wine: wine)
                 self.wineLinkedList.append(value: wine)
             }
@@ -347,31 +397,37 @@ class MasterViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //return self.wineList.count
         let category = Category.init(raw: section)
-        let wineArray = self.wineDictionary[category!]
-        let count = wineArray?.count
-        return count!
+        //let wineArray = self.wineDictionary[category!]
+        //let count = wineArray?.count
+        let count = self.wineList.count(category!)
+        return count
     }
-    //データを返すメソッド
+    ///
+    /// データを返すメソッド
+    ///
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let category = Category.init(raw: indexPath.section)
-        let wineArray = self.wineDictionary[category!]
+        //let wineArray = self.wineDictionary[category!]
         
         //セルを取得し、テキストを設定して返す。
         let cell = tableView.dequeueReusableCell(withIdentifier: "WineCell", for: indexPath)
-        let wine = wineArray?[indexPath.row]
+        //let wine = wineArray?[indexPath.row]
         //let wine = self.wineList[indexPath.row]
-        cell.textLabel?.text = wine?.name
-        cell.detailTextLabel?.text = wine?.note
-        if(!(wine?.display)!){
+        let wine = self.wineList.getWine(category!, indexPath.row)
+        cell.textLabel?.text = wine.name
+        cell.detailTextLabel?.text = wine.note
+        if(!(wine.display)){
             //UIColor.blue2は、Extentionで作成したカスタムカラー
             //cell.backgroundColor = UIColor.blue2
             cell.textLabel?.textColor = UIColor.blue2
-            if(self.isReferenceMode()){
+            //if(self.isReferenceMode()){
                 // hiddenにするだけだと、高さが詰まらない。
                 //cell.isHidden = true
                 //cell.frame.size = CGSize(width:0, height:0)
                 //cell.sizeToFit()
-            }
+            //}
+        } else {
+            cell.textLabel?.textColor = nil
         }
         return cell
     }
@@ -385,9 +441,10 @@ class MasterViewController: UITableViewController {
     //データ選択後の呼び出しメソッド
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let category = Category.init(raw: indexPath.section)
-        let wineArray = self.wineDictionary[category!]
-        let wine = wineArray?[indexPath.row]
-        self.delegate?.selectedCell(wine: wine!)
+        //let wineArray = self.wineDictionary[category!]
+        //let wine = wineArray?[indexPath.row]
+        let wine = self.wineList.getWine(category!, indexPath.row)
+        self.delegate?.selectedCell(wine: wine)
         //todo
 //        if let selectedRowIndexPath = tableView.indexPathForSelectedRow {
 //            //デリゲートメソッドを呼び出す。

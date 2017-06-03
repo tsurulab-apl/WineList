@@ -2,6 +2,7 @@
 //  LinkedList.swift
 //  WineList
 //
+//  https://hugotunius.se/2016/07/17/implementing-a-linked-list-in-swift.html
 //  Created by 鶴澤幸治 on 2017/05/20.
 //  Copyright © 2017年 Koji Tsurusawa. All rights reserved.
 //
