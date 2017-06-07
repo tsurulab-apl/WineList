@@ -260,10 +260,22 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
         }
         self.reloadWineTableView()
     }
+    ///
+    /// テーブルビューのリロード
+    ///
     func reloadWineTableView(){
         let masterNavController = self.splitViewController?.viewControllers.first as! UINavigationController
         let masterViewController = masterNavController.topViewController as! MasterViewController
         masterViewController.reloadWineTableView()
+    }
+    ///
+    /// ワインリストの取得
+    ///
+    func getWineList() -> WineList{
+        let masterNavController = self.splitViewController?.viewControllers.first as! UINavigationController
+        let masterViewController = masterNavController.topViewController as! MasterViewController
+        let wineList = masterViewController.getWineList()
+        return wineList
     }
     // ワイン画像の選択ボタン
     @IBAction func wineImageSelectTouchUpInside(_ sender: Any) {

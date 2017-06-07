@@ -27,7 +27,10 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
     let newImageName = "test_morning_sample"
 
     var wine: Wine? = nil
-    
+
+    ///
+    /// viewDidLoad
+    ///
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -46,7 +49,9 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         self.noteTextView.layer.borderWidth = 0.5
         self.noteTextView.layer.borderColor = UIColor.lightGray.cgColor
     }
-
+    ///
+    /// didReceiveMemoryWarning
+    ///
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -204,8 +209,9 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         // フォトライブラリの画像・写真選択画面を閉じる
         picker.dismiss(animated: true, completion: nil)
     }
-    
-    // 保存ボタン
+    ///
+    /// 保存ボタン
+    ///
     @IBAction func saveTouchUpInside(_ sender: Any) {
         print("saveTouchUpInside")
         // ① UIAlertControllerクラスのインスタンスを生成
@@ -275,7 +281,9 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
             self.updateDateLabel.text = formatter.string(from: updateDate)
         }
     }
-    // ワインの追加
+    ///
+    /// ワインの追加(空画面の生成)
+    ///
     func addWine() {
         self.title = "ワインの追加"
         self.wine = nil
@@ -289,11 +297,21 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         self.insertDateLabel.text = nil
         self.updateDateLabel.text = nil
     }
-    // CoreDataへのワインデータ保存
+    ///
+    /// ワインリストの取得
+    ///
+    func getWineList() -> WineList {
+        let detailViewController = self.parent as! DetailViewController
+        let wineList = detailViewController.getWineList()
+        return wineList
+    }
+    ///
+    /// CoreDataへのワインデータ保存
+    ///
     func saveWine(){
-        
-        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        let viewContext = appDelegate.persistentContainer.viewContext
+        let wineList = self.getWineList()
+        //let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        //let viewContext = appDelegate.persistentContainer.viewContext
         
         //        let entity = NSEntityDescription.entity(forEntityName: "Wine", in: viewContext)
         //        let wine = NSManagedObject(entity:entity!,insertInto:viewContext) as! Wine
@@ -304,7 +322,8 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         }
         else {
             // 追加
-            wine = Wine(context: viewContext)
+            //wine = Wine(context: viewContext)
+            wine = wineList.newWine()
         }
         wine.name = self.nameTextField.text
         wine.note = self.noteTextView.text
@@ -326,7 +345,7 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
             wine.insertDate = now
         }
         wine.updateDate = now
-
+/***
         do{
             try viewContext.save()
             let detailViewController = self.parent as! DetailViewController
@@ -335,6 +354,10 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         }catch{
             print(error)
         }
+***/
+        wineList.save(wine: wine)
+        let detailViewController = self.parent as! DetailViewController
+        detailViewController.selectedCell(wine: wine)
 
         self.reloadWineTableView()
     }

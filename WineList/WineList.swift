@@ -20,8 +20,6 @@ public class WineList {
     ///
     init(managedObjectContext:NSManagedObjectContext) {
         self.managedObjectContext = managedObjectContext
-        self.initWineDictionary()
-        self.initFirstWine()
     }
     ///
     /// 管理モードへの変更
@@ -40,17 +38,14 @@ public class WineList {
     /// 読み込んだ順序でリンクリスト化する。
     ///
     func initWineOrder(){
+        self.getAllData()
         for elem in Category.enumerate() {
             let category = elem.element
             let wineArray = self.wineDictionary[category]
             self.initWineOrderFromArray(wineArray!)
         }
         // CoreDataを保存
-        do{
-            try self.managedObjectContext.save()
-        }catch{
-            print(error)
-        }
+        self.save()
     }
     ///
     /// カテゴリーごとの配列の順に順序を付与する。
@@ -67,6 +62,7 @@ public class WineList {
     }
     ///
     /// 最初のワインの初期化
+    /// TODO:削除
     ///
     func initFirstWine(){
         self.firstWine = [:]
@@ -113,10 +109,6 @@ public class WineList {
     func getFirstWine(category:Category)->Wine?{
         var firstWine:Wine? = nil
         let fetchRequest: NSFetchRequest<Wine> = Wine.fetchRequest()
-//        let predicates = [
-//            NSPredicate(format: "category = %@", category.rawValue),
-//            NSPredicate(format: "previous == nil")
-//        ]
         let predicates = [
             NSPredicate(format: "category = %d", category.rawValue),
             NSPredicate(format: "previous == nil")
@@ -140,7 +132,7 @@ public class WineList {
     func getAllData() {
         self.initWineDictionary()
         
-        // CoreDataからデータをfetchしてtasksに格納
+        // CoreDataからデータをfetchして格納
         let fetchRequest: NSFetchRequest<Wine> = Wine.fetchRequest()
         do {
             let fetchData = try self.managedObjectContext.fetch(fetchRequest)
@@ -174,9 +166,15 @@ public class WineList {
         }
         return count
     }
+    ///
+    /// 管理モード判定
+    ///
     func isMangeMode() -> Bool{
         return self.manageMode
     }
+    ///
+    /// 参照モード判定
+    ///
     func isReferenceMode() -> Bool{
         return !self.manageMode
     }
@@ -224,12 +222,215 @@ public class WineList {
         return wine!
     }
     ///
+    /// ワインの削除
+    ///
+    func delete(_ category:Category, _ row: Int){
+        let wine = self.getWine(category,row)
+        
+        self.leave(wine: wine)
+
+        self.managedObjectContext.delete(wine)
+        self.save()
+    }
+    ///
+    /// ワインリストの保存
+    ///
+    func save(){
+        do {
+            try self.managedObjectContext.save()
+        } catch {
+            print("Save Failed.")
+        }
+    }
+    ///
     /// TODO:削除
     ///
     func getWineDictionary(_ category:Category, _ row: Int) -> Wine{
         let wineArray = self.wineDictionary[category]
         let wine = wineArray?[row]
         return wine!
+    }
+    ///
+    /// 新しいワインの作成
+    ///
+    func newWine()->Wine{
+        let wine = Wine(context: managedObjectContext)
+        return wine
+    }
+    ///
+    /// カテゴリー内の最後のワインを取得
+    ///
+    func getLastWine(category:Category) -> Wine?{
+        var wine = self.firstWine[category]
+        while true {
+            if let next = wine?.next {
+                wine = next
+            } else {
+                break
+            }
+        }
+        return wine
+    }
+    ///
+    /// カテゴリー内のワインの存在判定
+    ///
+    func isExists(category:Category) -> Bool{
+        let wine = self.firstWine[category]
+        let isExists = (wine != nil)
+        return isExists
+    }
+    ///
+    /// ワインの保存
+    ///
+    func save(wine:Wine){
+        if (wine.isInserted) {
+            self.insert(wine: wine)
+        } else if (wine.isUpdated) {
+            self.update(wine: wine)
+        }
+        self.save()
+    }
+    ///
+    /// ワインの追加
+    ///
+    func insert(wine:Wine){
+        let category = Category.init(raw: Int(wine.category))
+        wine.previous = nil
+        wine.next = nil
+        if let last = self.getLastWine(category: category!) {
+            last.next = wine
+        } else {
+            // 自身をカテゴリーの先頭に設定
+            self.setFirst(wine: wine)
+        }
+    }
+    ///
+    /// ワインの更新
+    ///
+    func update(wine:Wine){
+        let isChange = self.isChangeCategory(wine: wine)
+        if isChange {
+            // 元の位置の調整
+            self.leave(wine: wine)
+            // 自身をカテゴリーの最後に追加
+            self.insert(wine: wine)
+        }
+    }
+    ///
+    /// カテゴリーの先頭に設定
+    ///
+    func setFirst(wine:Wine){
+        let category = Category.init(raw: Int(wine.category))
+        self.firstWine[category!] = wine
+    }
+    ///
+    /// カテゴリーの先頭をクリア
+    ///
+    func clearFirst(wine:Wine){
+        for elem in Category.enumerate() {
+            let category = elem.element
+            let firstWine = self.firstWine[category]
+            if let firstWine = firstWine {
+                // ===で参照が同じかを確認
+                if firstWine === wine {
+                    self.firstWine[category] = nil
+                    break
+                }
+            }
+        }
+    }
+    ///
+    /// カテゴリーの変更判定
+    ///
+    func isChangeCategory(wine:Wine)->Bool {
+        var isChange:Bool = false
+        if let next = wine.next {
+            isChange = (next.category != wine.category)
+        } else {
+            if let previous = wine.previous {
+                isChange = (previous.category != wine.category)
+            } else {
+                // next/previousともにnilの場合
+                // カテゴリー内に別のワインが存在すれば、変更判定をtrueとする。
+                // 別のワインがない場合でもカテゴリーの変更はあり得るが、その場合はnext,previousの設定
+                // は不要なため、ここでは判定しない。
+                let category = Category.init(raw: Int(wine.category))
+                let isExists = self.isExists(category: category!)
+                if isExists {
+                    isChange = true
+                }
+            }
+        }
+        return isChange
+    }
+    ///
+    /// 並べ替え
+    ///
+    func moveRow(wine:Wine, toCategory:Category, toRow:Int){
+        // 元の位置の調整
+        self.leave(wine: wine)
+        // 新しい位置の調整
+        self.arrive(wine: wine, toCategory: toCategory, toRow: toRow)
+        // 保存
+        self.save()
+    }
+    ///
+    /// 元の位置の調整
+    ///
+    func leave(wine:Wine){
+        if let next = wine.next {
+            if let previous = wine.previous {
+                // 前後とも存在する場合は、前後を連結
+                previous.next = next
+            } else {
+                // 後のみ存在する場合は、後ろを先頭に設定
+                next.previous = nil
+                setFirst(wine: next)
+            }
+        } else {
+            if let previous = wine.previous {
+                // 前のみ存在する場合は、前のnextをクリア
+                previous.next = nil
+            } else {
+                // 前後が空の場合は、カテゴリーの先頭をクリア
+                self.clearFirst(wine: wine)
+            }
+        }
+    }
+    ///
+    /// 新しい位置の調整
+    ///
+    func arrive(wine:Wine, toCategory:Category, toRow:Int){
+        // 新しいカテゴリーを設定
+        wine.category = toCategory.rawValue
+
+        // 新しい位置のワインを検索
+        if let position:Wine = self.getWineWithNil(category:toCategory, row:toRow) {
+            wine.previous = position.previous
+            wine.next = position
+            if wine.previous == nil {
+                // カテゴリーの先頭の設定
+                self.setFirst(wine: wine)
+            }
+        } else {
+            // 当該カテゴリーにワインがない場合
+            self.insert(wine:wine)
+        }
+    }
+    ///
+    /// ワイン取得(Nilを含む)
+    ///
+    func getWineWithNil(category:Category, row: Int) -> Wine?{
+        var index:Int = 0
+        var wine:Wine? = self.firstWine[category]
+        while wine != nil {
+            if ( index == row ){
+                break
+            }
+            wine = wine?.next
+            index += 1
+        }
+        return wine
     }
 }
 /********
