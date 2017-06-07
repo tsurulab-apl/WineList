@@ -7,22 +7,28 @@
 //
 
 import UIKit
+/*****
 import CoreData
 import CoreImage
-
 class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+*******/
+class DetailViewController: UIViewController,MasterViewControllerDelegate {
 
     private var manageMode:Bool = false
     private var referenceViewController:ReferenceViewController? = nil
     private var registrationViewController:RegistrationViewController? = nil
     
+/*****
     @IBOutlet var detailView: UIView!
+*******/
     var wine: Wine? = nil
-    
+
+/******
     var pickerView: UIPickerView = UIPickerView()
     var vintageList:[String] = [""]
     let newImageName = "test_morning_sample"
-    
+ *******/
+/*****
     @IBOutlet weak var wineImageView: UIImageView!
 
     @IBOutlet weak var colorTextField: UITextField!
@@ -32,7 +38,7 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
     @IBOutlet weak var nameTextField: UITextField!
 
     @IBOutlet weak var categorySegmentedControl: UISegmentedControl!
-
+*********/
     // viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,9 +49,11 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
 //        if(imageName != nil) {
 //            wineImageView.image = UIImage(named: imageName)
 //        }
+/*****
         // カテゴリー
         self.initCategory()
-        
+********/
+/********
         // ヴィンテージのpickerView
         self.initVintageList()
         pickerView.delegate = self
@@ -59,7 +67,7 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
         
         self.vintageTextField.inputView = pickerView
         self.vintageTextField.inputAccessoryView = toolbar
-        
+***********/
         //サブビュー
         self.referenceViewController = self.storyboard?.instantiateViewController(withIdentifier: "referenceViewController") as? ReferenceViewController
         self.addChildViewController(self.referenceViewController!)
@@ -71,6 +79,13 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
         self.view.addSubview((self.registrationViewController?.view)!)
         self.registrationViewController?.view.isHidden = true
     }
+    ///
+    /// viewWillAppear
+    ///
+    override func viewWillAppear(_ animated: Bool) {
+        print("DetailViewController#viewWillAppear")
+    }
+/********:
     // カテゴリーの作成
     func initCategory(){
         self.categorySegmentedControl.removeAllSegments()
@@ -84,6 +99,8 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
         }
         self.categorySegmentedControl.sizeToFit()
     }
+ **********/
+/**************
     // ヴィンテージリストの作成
     func initVintageList(){
         let now = Date()
@@ -98,10 +115,14 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
             self.vintageList.append(String(year))
         }
     }
+ ***********/
+/*******
     //
     func CGRectMake(_ x: CGFloat, _ y: CGFloat, _ width: CGFloat, _ height: CGFloat) -> CGRect {
         return CGRect(x: x, y: y, width: width, height: height)
     }
+*********/
+/************
     // PickerViewの列数
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -127,11 +148,10 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
     func done() {
         self.vintageTextField.endEditing(true)
     }
-
-    //セル選択時の呼び出しメソッド
-//    func selectedCell(image: UIImage) {
-//        wineImageView.image = image
-//    }
+***********************/
+    ///
+    /// セル選択時(delegate)
+    ///
     func selectedCell(wine: Wine) {
         self.wine = wine
         if(self.manageMode){
@@ -139,61 +159,45 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
         }else{
             self.referenceViewController?.selectedCell(wine: wine)
         }
-        //self.registrationViewController?.selectedCell(wine: wine)
-        /****
-        self.title = "ワインの更新"
-
-        self.wine = wine
-        self.nameTextField.text = wine.name
-//        self.noteTextField.text = wine.note
-        self.noteTextView.text = wine.note
-        self.vintageTextField.text = String(wine.vintage)
-        self.colorTextField.text = wine.color
-        self.categorySegmentedControl.selectedSegmentIndex = Int(wine.category)
-        if let image = wine.image {
-            self.wineImageView.image = UIImage(data: image)
-        }
-        else{
-            self.wineImageView.image = nil
-        }
-        *****/
     }
+    ///
+    /// ワインの追加(delegate)
+    ///
     func addWine() {
         self.registrationViewController?.addWine()
-        /****
-        self.title = "ワインの追加"
-        self.wine = nil
-        self.nameTextField.text = nil
-        //self.noteTextField.text = nil
-        self.noteTextView.text = nil
-        self.colorTextField.text = nil
-        self.vintageTextField.text = nil
-        self.categorySegmentedControl.selectedSegmentIndex = 0
-        self.wineImageView.image = UIImage(named: self.newImageName)
-        ****/
     }
-    // delegate
+    ///
+    /// 管理モード設定(delegate)
+    ///
     func setManageMode(){
         self.manageMode = true
-        self.chengeScreen()
+        self.changeScreen()
     }
-    // delegate
+    ///
+    /// 参照モード設定(delegate)
+    ///
     func setReferenceMode(){
         self.manageMode = false
-        self.chengeScreen()
+        self.changeScreen()
     }
-    // 画面の切り替え
-    func chengeScreen(){
+    ///
+    /// 画面の切り替え
+    ///
+    func changeScreen(){
         if let wine = self.wine {
             self.selectedCell(wine: wine)
         }
         self.referenceViewController?.view.isHidden = self.manageMode
         self.registrationViewController?.view.isHidden = !self.manageMode
     }
+    ///
+    /// didReceiveMemoryWarning
+    ///
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+/*********
     @IBAction func saveButtonTouchUpInside(_ sender: Any) {
         // ① UIAlertControllerクラスのインスタンスを生成
         // タイトル, メッセージ, Alertのスタイルを指定する
@@ -224,6 +228,8 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
         // ④ Alertを表示
         present(alert, animated: true, completion: nil)
     }
+ **********/
+/**********
     // CoreData
     func saveWine(){
 
@@ -260,6 +266,7 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
         }
         self.reloadWineTableView()
     }
+ ********/
     ///
     /// テーブルビューのリロード
     ///
@@ -277,6 +284,7 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
         let wineList = masterViewController.getWineList()
         return wineList
     }
+/**********
     // ワイン画像の選択ボタン
     @IBAction func wineImageSelectTouchUpInside(_ sender: Any) {
         let alert = UIAlertController(title:"ワイン画像", message: "画像を選択してください。", preferredStyle: UIAlertControllerStyle.alert)
@@ -320,6 +328,8 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
 //        
 //        self.present(actionSheet, animated: true, completion: nil)
     }
+********/
+/**********
     // Photo Libraryから選択
     func pickImageFromLibrary(){
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary){
@@ -340,6 +350,8 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
             present(imagePickerController, animated: true, completion: nil)
         }
     }
+*************/
+/*************
     //
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]){
 
@@ -369,6 +381,8 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
         // フォトライブラリの画像・写真選択画面を閉じる
         picker.dismiss(animated: true, completion: nil)
     }
+ *************/
+/********
     func fit(image: UIImage,rect:CGRect) -> UIImage {
 //https://developer.apple.com/library/content/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CILanczosScaleTransform
         
@@ -386,7 +400,7 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
 //        let uiImage : UIImage = UIImage(ciImage: outputImage)
         return filteredImage
     }
-
+***********/
     /*
     // MARK: - Navigation
 

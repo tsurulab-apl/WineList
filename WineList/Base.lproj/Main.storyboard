@@ -78,9 +78,6 @@
                                 <rect key="frame" x="582" y="477" width="31" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="写真"/>
-                                <connections>
-                                    <action selector="wineImageSelectTouchUpInside:" destination="Lcc-NR-7Lz" eventType="touchUpInside" id="m6F-Tf-vC5"/>
-                                </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="l7K-3p-w9y">
                                 <rect key="frame" x="289" y="641" width="416" height="128"/>
@@ -101,9 +98,6 @@
                                 <rect key="frame" x="260" y="896" width="31" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="保存"/>
-                                <connections>
-                                    <action selector="saveButtonTouchUpInside:" destination="Lcc-NR-7Lz" eventType="touchUpInside" id="9cD-Sj-dWn"/>
-                                </connections>
                             </button>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="EEs-g6-bCb">
                                 <rect key="frame" x="289" y="841" width="121" height="29"/>
@@ -117,15 +111,6 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="Ama-br-GZO"/>
-                    <connections>
-                        <outlet property="categorySegmentedControl" destination="EEs-g6-bCb" id="7vb-uR-pRv"/>
-                        <outlet property="colorTextField" destination="nID-1L-1Mw" id="kpP-gP-nrY"/>
-                        <outlet property="detailView" destination="wKK-rS-gGd" id="fBx-4n-eza"/>
-                        <outlet property="nameTextField" destination="r7E-e5-Lzy" id="QBg-de-DlP"/>
-                        <outlet property="noteTextView" destination="l7K-3p-w9y" id="QCx-GF-ga1"/>
-                        <outlet property="vintageTextField" destination="Vfo-9h-Ta9" id="v4n-mM-uVq"/>
-                        <outlet property="wineImageView" destination="1Rp-Cy-gvK" id="lwH-Wl-2Qr"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PFc-Wm-CGk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -458,10 +443,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JVI-au-Q07">
-                                <rect key="frame" x="355" y="520" width="68" height="21"/>
+                                <rect key="frame" x="355" y="520" width="200" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="4Bw-ne-qIU"/>
-                                    <constraint firstAttribute="width" constant="68" id="9s8-Tr-0Gq"/>
+                                    <constraint firstAttribute="width" constant="200" id="9s8-Tr-0Gq"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>

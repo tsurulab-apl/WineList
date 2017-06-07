@@ -62,7 +62,7 @@ class MasterViewController: UITableViewController {
         
         // WineListの並び順設定
         // 並び順が設定できなかった際にコメントを外して実行する。
-        self.wineList.initWineOrder()
+        //self.wineList.initWineOrder()
     }
     ///
     /// viewDidLoad
