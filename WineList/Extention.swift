@@ -8,7 +8,9 @@
 
 import UIKit
 
-// UIImage Extension リサイズメソッド
+///
+/// UIImage Extension リサイズメソッド
+///
 extension UIImage {
     
     func resize(size: CGSize) -> UIImage {
@@ -43,12 +45,24 @@ extension UIImage {
         return UIImagePNGRepresentation(self)!
     }
 }
-// UIColor
+///
+/// UIColor
+///
 extension UIColor {
     class func rgb(r: Int, g: Int, b: Int, alpha: CGFloat) -> UIColor{
         return UIColor(red: CGFloat(r) / 255.0, green: CGFloat(g) / 255.0, blue: CGFloat(b) / 255.0, alpha: alpha)
     }
     static var blue2: UIColor {
         return UIColor.rgb(r: 66,g: 134,b: 244,alpha: 1.0)
+    }
+}
+///
+/// UIScrollView
+/// 画面をタッチした際にキーボードやPickerViewを閉じる対応をUIScrollViewでも実現
+/// 可能なようにtouchesBeganを作成する。
+/// http://qiita.com/nao-otsu/items/a2b60098a702ab1852c6
+extension UIScrollView {
+    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.next?.touchesBegan(touches, with: event)
     }
 }

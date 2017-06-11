@@ -14,13 +14,16 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPick
 *******/
 class DetailViewController: UIViewController,MasterViewControllerDelegate {
 
+    // 管理モード
     private var manageMode:Bool = false
+    // サブビュー
     private var referenceViewController:ReferenceViewController? = nil
     private var registrationViewController:RegistrationViewController? = nil
     
 /*****
     @IBOutlet var detailView: UIView!
 *******/
+    // ワイン
     var wine: Wine? = nil
 
 /******
@@ -39,7 +42,9 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
 
     @IBOutlet weak var categorySegmentedControl: UISegmentedControl!
 *********/
-    // viewDidLoad
+    ///
+    /// viewDidLoad
+    ///
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -72,7 +77,7 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
         self.referenceViewController = self.storyboard?.instantiateViewController(withIdentifier: "referenceViewController") as? ReferenceViewController
         self.addChildViewController(self.referenceViewController!)
         self.view.addSubview((self.referenceViewController?.view)!)
-        self.referenceViewController?.view.isHidden = false
+        self.referenceViewController?.view.isHidden = true
 
         self.registrationViewController = self.storyboard?.instantiateViewController(withIdentifier: "registrationViewController") as? RegistrationViewController
         self.addChildViewController(self.registrationViewController!)
@@ -156,21 +161,29 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
         self.wine = wine
         if(self.manageMode){
             self.registrationViewController?.selectedCell(wine: wine)
-        }else{
+        } else {
             self.referenceViewController?.selectedCell(wine: wine)
         }
+        self.changeScreen()
     }
     ///
     /// ワインの追加(delegate)
     ///
     func addWine() {
         self.registrationViewController?.addWine()
+
+        // 画面が出ていない場合(ワインを選択していない状態)もあるため、画面の切り替えを実施する。
+        self.referenceViewController?.view.isHidden = true
+        self.registrationViewController?.view.isHidden = false
     }
     ///
     /// 管理モード設定(delegate)
     ///
     func setManageMode(){
         self.manageMode = true
+        if let wine = self.wine {
+            self.selectedCell(wine: wine)
+        }
         self.changeScreen()
     }
     ///
@@ -178,17 +191,22 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
     ///
     func setReferenceMode(){
         self.manageMode = false
+        if let wine = self.wine {
+            self.selectedCell(wine: wine)
+        }
         self.changeScreen()
     }
     ///
     /// 画面の切り替え
     ///
     func changeScreen(){
-        if let wine = self.wine {
-            self.selectedCell(wine: wine)
+        if self.wine != nil {
+            self.referenceViewController?.view.isHidden = self.manageMode
+            self.registrationViewController?.view.isHidden = !self.manageMode
+        } else {
+            self.referenceViewController?.view.isHidden = true
+            self.registrationViewController?.view.isHidden = true
         }
-        self.referenceViewController?.view.isHidden = self.manageMode
-        self.registrationViewController?.view.isHidden = !self.manageMode
     }
     ///
     /// didReceiveMemoryWarning

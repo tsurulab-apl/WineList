@@ -8,11 +8,13 @@
 
 import UIKit
 
-class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate,UIScrollViewDelegate {
 
+    @IBOutlet weak var mainScrollView: UIScrollView!
     @IBOutlet weak var categorySegmentedControl: UISegmentedControl!
     @IBOutlet weak var vintageTextField: UITextField!
     @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var aliasTextField: UITextField!
     @IBOutlet weak var wineImageView: UIImageView!
     @IBOutlet weak var noteTextView: UITextView!
     @IBOutlet weak var priceTextField: UITextField!
@@ -27,6 +29,10 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
     let newImageName = "test_morning_sample"
 
     var wine: Wine? = nil
+    
+    // キーボード表示時にテキストフィールドやテキストビューが隠れないようにスクロールする対応用
+    var activeText:UIView?
+    let scrollMargin:Float = 8.0
 
     ///
     /// viewDidLoad
@@ -48,6 +54,15 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         // noteの枠線
         self.noteTextView.layer.borderWidth = 0.5
         self.noteTextView.layer.borderColor = UIColor.lightGray.cgColor
+        
+        // スクロールビューのdelegate設定
+        self.mainScrollView.delegate = self
+
+        // テキストフィールド、テキストビューのdelegate設定 改行(Enter)時のキーボード閉じる対応用
+        self.nameTextField.delegate = self
+        self.aliasTextField.delegate = self
+        self.priceTextField.delegate = self
+        self.noteTextView.delegate = self
     }
     ///
     /// didReceiveMemoryWarning
@@ -56,8 +71,79 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    ///
+    /// viewWillAppear
+    ///
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        // キーボード表示時のスクロール対応
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(RegistrationViewController.keyboardWillShowNotification(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(RegistrationViewController.keyboardWillHideNotification(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    ///
+    /// キーボードを表示する際にテキストフィールドやテキストビューと重複しないようスクロールを調整する。
+    ///
+    func keyboardWillShowNotification(_ notification: Notification) {
+        if let activeText = self.activeText {
+            if let userInfo = notification.userInfo {
+                // キーボードの上端を取得
+                let keyboardEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+                let boundSize = UIScreen.main.bounds.size
+                let keyboardTop = boundSize.height - keyboardEndFrame.size.height
+                print("キーボードの上端：(\(keyboardTop))")
+
+                // テキストフィールド、テキストビューの下端を取得
+                let textRect = activeText.superview?.convert(activeText.frame, to: nil)
+                let textBottom = (textRect?.origin.y)! + (textRect?.height)! + CGFloat(self.scrollMargin)
+                print("テキストフィールドの下端：(\(textBottom))")
+
+                // テキストフィールド、テキストビューがキーボードに隠れている場合は、スクロールを調整。
+                if textBottom >= keyboardTop {
+                    let scroll = textBottom - keyboardTop
+                    self.mainScrollView.contentOffset.y = scroll
+                }
+            }
+            // activeTextを初期化
+            self.activeText = nil
+        }
+    }
     
-    // カテゴリーの作成
+    ///
+    /// キーボードの表示を終了する際にスクロールを元に戻す。
+    ///
+    func keyboardWillHideNotification(_ notification: Notification) {
+        self.mainScrollView.contentOffset.y = 0
+    }
+    ///
+    /// 改行(Enter)時にキーボードを閉じる
+    /// 名前、価格
+    ///
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    ///
+    /// UITextFieldの編集を開始した際
+    /// activeTextに自身を保存し、キーボードのスクロールを制御する。
+    ///
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        self.activeText = textField
+        return true
+    }
+    ///
+    /// UITextViewの編集を開始した際
+    /// activeTextに自身を保存し、キーボードのスクロールを制御する。
+    ///
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        self.activeText = textView
+        return true
+    }
+
+    ///
+    /// カテゴリーの作成
+    ///
     func initCategory(){
         self.categorySegmentedControl.removeAllSegments()
         var i = 0
@@ -124,11 +210,25 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         self.vintageTextField.text = ""
         self.vintageTextField.endEditing(true)
     }
-    // PickerViewを閉じる
+    ///
+    /// PickerViewやキーボードを閉じる
+    ///
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("touchesBegan vintageTextField.isEditing=" + String(self.vintageTextField.isEditing))
+        //print("touchesBegan vintageTextField.isEditing=" + String(self.vintageTextField.isEditing))
+        if (self.nameTextField.isEditing){
+            self.nameTextField.endEditing(true)
+        }
+        if (self.aliasTextField.isEditing){
+            self.aliasTextField.endEditing(true)
+        }
         if (self.vintageTextField.isEditing){
             self.vintageTextField.endEditing(true)
+        }
+        //if (self.noteTextView){
+        self.noteTextView.endEditing(true)
+        //}
+        if (self.priceTextField.isEditing){
+            self.priceTextField.endEditing(true)
         }
     }
     // 写真ボタン
@@ -259,6 +359,7 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         
         self.wine = wine
         self.nameTextField.text = wine.name
+        self.aliasTextField.text = wine.alias
         self.noteTextView.text = wine.note
         self.vintageTextField.text = String(wine.vintage)
         self.categorySegmentedControl.selectedSegmentIndex = Int(wine.category)
@@ -288,6 +389,7 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         self.title = "ワインの追加"
         self.wine = nil
         self.nameTextField.text = nil
+        self.aliasTextField.text = nil
         self.noteTextView.text = nil
         self.vintageTextField.text = nil
         self.categorySegmentedControl.selectedSegmentIndex = 0
@@ -326,6 +428,7 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
             wine = wineList.newWine()
         }
         wine.name = self.nameTextField.text
+        wine.alias = self.aliasTextField.text
         wine.note = self.noteTextView.text
 
         let vintage = self.textFieldToInt16(textField: self.vintageTextField)

@@ -13,8 +13,8 @@ class ReferenceViewController: UIViewController {
 
     @IBOutlet weak var wineImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var aliasLabel: UILabel!
     @IBOutlet weak var vintageLabel: UILabel!
-    @IBOutlet weak var noteLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var noteTextView: UITextView!
@@ -25,7 +25,6 @@ class ReferenceViewController: UIViewController {
         print("ReferenceViewController.viewDidLoad")
         
         self.title = "ワイン参照"
-        self.noteLabel.isHidden = true
         // センタリング
 //        let x = self.view.center.x
 //        self.wineImageView.center.x = x
@@ -49,9 +48,10 @@ class ReferenceViewController: UIViewController {
         
         self.wine = wine
         self.nameLabel.text = wine.name
+        self.aliasLabel.text = wine.alias
         self.vintageLabel.text = String(wine.vintage)
-        self.noteLabel.text = wine.note
         self.noteTextView.text = wine.note
+        //self.noteTextView.sizeToFit()
         self.priceLabel.text = "¥" + self.separateComma(num: Int(wine.price))
         let category = Category.init(raw: Int(wine.category))
         self.categoryLabel.text = category?.description

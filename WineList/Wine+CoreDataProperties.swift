@@ -24,6 +24,7 @@ extension Wine {
     //NSDateをDateに変更
     @NSManaged public var insertDate: Date?
     @NSManaged public var name: String?
+    @NSManaged public var alias: String?
     @NSManaged public var note: String?
     @NSManaged public var price: Int32
     //NSDateをDateに変更
