@@ -9,7 +9,8 @@
 import UIKit
 
 class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate,UIScrollViewDelegate {
-
+    
+    @IBOutlet weak var formStackView: UIStackView!
     @IBOutlet weak var mainScrollView: UIScrollView!
     @IBOutlet weak var categorySegmentedControl: UISegmentedControl!
     @IBOutlet weak var vintageTextField: UITextField!
@@ -140,7 +141,13 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         self.activeText = textView
         return true
     }
-
+    ///
+    /// スクロールビューのZoom対象を戻す。
+    ///
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        // return a view that will be scaled. if delegate returns nil, nothing happens
+        return self.formStackView
+    }
     ///
     /// カテゴリーの作成
     ///

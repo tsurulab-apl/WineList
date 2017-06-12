@@ -246,7 +246,7 @@ class MasterViewController: UITableViewController {
     ///
     func setManageMode(){
         self.manageMode = true
-        navigationItem.setRightBarButtonItems([self.addButton, self.replyButton, self.editButton], animated: true)
+        self.navigationItem.setRightBarButtonItems([self.addButton, self.replyButton, self.editButton], animated: true)
 
         // WineList
         self.wineList.setManageMode()
@@ -295,7 +295,7 @@ class MasterViewController: UITableViewController {
     ///
     func setReferenceMode(){
         self.manageMode = false
-        navigationItem.setRightBarButtonItems(nil, animated: true)
+        self.navigationItem.setRightBarButtonItems(nil, animated: true)
         
         // WineList
         self.wineList.setReferenceMode()

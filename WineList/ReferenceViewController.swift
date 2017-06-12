@@ -8,9 +8,11 @@
 
 import UIKit
 
-class ReferenceViewController: UIViewController {
+class ReferenceViewController: UIViewController,UIScrollViewDelegate {
     var wine: Wine? = nil
 
+    @IBOutlet weak var mainScrollView: UIScrollView!
+    @IBOutlet weak var mainStackView: UIStackView!
     @IBOutlet weak var wineImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var aliasLabel: UILabel!
@@ -23,7 +25,8 @@ class ReferenceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("ReferenceViewController.viewDidLoad")
-        
+
+        self.mainScrollView.delegate = self
         self.title = "ワイン参照"
         // センタリング
 //        let x = self.view.center.x
@@ -70,6 +73,14 @@ class ReferenceViewController: UIViewController {
         let str = formatter.string(for: num)
         return str!
     }
+    ///
+    /// スクロールビューのZoom対象を戻す。
+    ///
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+     // return a view that will be scaled. if delegate returns nil, nothing happens
+        return self.mainStackView
+    }
+
     /*
     // MARK: - Navigation
 

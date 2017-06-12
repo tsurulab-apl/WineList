@@ -19,7 +19,9 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
     // サブビュー
     private var referenceViewController:ReferenceViewController? = nil
     private var registrationViewController:RegistrationViewController? = nil
-    
+    // ツールバーボタン
+    private var composeButton:UIBarButtonItem
+
 /*****
     @IBOutlet var detailView: UIView!
 *******/
@@ -43,13 +45,23 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
     @IBOutlet weak var categorySegmentedControl: UISegmentedControl!
 *********/
     ///
+    /// イニシャライザ
+    ///
+    required init?(coder aDecoder: NSCoder) {
+        // BarButton
+        self.composeButton = UIBarButtonItem(barButtonSystemItem: .compose, target: nil, action: nil)
+        
+        super.init(coder: aDecoder)
+    }
+    
+    ///
     /// viewDidLoad
     ///
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.title = "ワイン"
-        
+
         //画像を設定する。
 //        if(imageName != nil) {
 //            wineImageView.image = UIImage(named: imageName)
@@ -181,6 +193,8 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
     ///
     func setManageMode(){
         self.manageMode = true
+        self.navigationItem.setRightBarButtonItems([self.composeButton], animated: true)
+
         if let wine = self.wine {
             self.selectedCell(wine: wine)
         }
@@ -191,6 +205,8 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
     ///
     func setReferenceMode(){
         self.manageMode = false
+        self.navigationItem.setRightBarButtonItems(nil, animated: true)
+
         if let wine = self.wine {
             self.selectedCell(wine: wine)
         }
