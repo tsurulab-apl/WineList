@@ -23,7 +23,7 @@ protocol MasterViewControllerDelegate: class {
 ///
 /// MasterViewController
 ///
-class MasterViewController: UITableViewController {
+class MasterViewController: UITableViewController,SettingsDelegate {
     // 設定クラス
     private let settings = Settings.instance
 
@@ -69,18 +69,27 @@ class MasterViewController: UITableViewController {
 
         super.init(coder: aDecoder)
 
+        // ----------------------------
         // super.iniの後にselfを設定可能
+        // ----------------------------
+
+        // 設定変更時の通知先設定
+        self.settings.set(delegate: self)
+
+        // BarButtonの設定
         self.addButton.target = self
         self.addButton.action = #selector(addButtonAction(_:))
         self.replyButton.target = self
         self.replyButton.action = #selector(replyButtonAction(_:))
         self.editButton.target = self
         self.editButton.action = #selector(editButtonAction(_:))
+        
+        // 管理モード遷移用の長押し設定
         self.longPressGesture.addTarget(self, action: #selector(longTap(_:)))
         self.longPressGesture.minimumPressDuration = self.settings.longPressDuration // default:0.5秒
         self.longPressGesture.allowableMovement = 15  //default:10point
         //self.longPressGesture.numberOfTapsRequired = 2 // default:0
-
+        
         // WineListの並び順設定
         // 並び順が設定できなかった際にコメントを外して実行する。
         //self.wineList.initWineOrder()
@@ -105,7 +114,6 @@ class MasterViewController: UITableViewController {
         longGesture.allowableMovement = 15 // default:10point
         //longGesture.numberOfTapsRequired = 2    // default:0
 ************/
-        
         
         let titleView = UILabel()
         titleView.text = self.title
@@ -180,6 +188,14 @@ class MasterViewController: UITableViewController {
 *******/
     }
     ///
+    /// 設定変更の反映
+    ///
+    func changeSettings() {
+        /// 管理モードへの遷移用長押し秒数
+        let longPressDuration = self.settings.longPressDuration
+        self.longPressGesture.minimumPressDuration = longPressDuration
+    }
+    ///
     /// ワインリストの取得
     ///
     func getWineList() -> WineList{
@@ -224,9 +240,14 @@ class MasterViewController: UITableViewController {
                     for textField:UITextField in textFields! {
                         // isSecureTextEntryの状態で判定
                         if textField.isSecureTextEntry == true {
-                            // ラベルにパスワード表示
+                            // パスワード表示
                             print("password=" + textField.text!)
-                            self.setManageMode()
+                            if self.verify(password: textField.text) {
+                                self.setManageMode()
+                            } else {
+                                // 再表示
+                                self.passwordAlert()
+                            }
                         }
                     }
                 }
@@ -238,6 +259,17 @@ class MasterViewController: UITableViewController {
         })
         
         present(alert, animated: true, completion: nil)
+    }
+    ///
+    /// パスワードの確認
+    ///
+    func verify(password: String?) -> Bool{
+        if let password = password {
+            if password == self.settings.password {
+                return true
+            }
+        }
+        return false
     }
     ///
     /// 管理モード終了時のパスワード認証

@@ -21,12 +21,10 @@ public class Settings {
     
     // デフォルト値
     private static let DEFAULT_PASSWORD = "0000"
-    private static let DEFAULT_LONG_TAP_DURATION:Float = 1.0
     private static let DEFAULT_LONG_PRESS_DURATION:Double = 1.0
 
     // UserDefaultsのキー
     private static let KEY_PASSWORD = "password"
-    private static let KEY_LONG_TAP_DURATION = "longTapDuration"
     private static let KEY_LONG_PRESS_DURATION = "longPressDuration"
 
     // UserDefaults
@@ -69,42 +67,19 @@ public class Settings {
     ///
     private init() {
     }
-    
     ///
-    /// 管理モード用パスワードの設定
+    /// 変更通知先の登録
     ///
-    func set(password:String?) {
-        // nilは保存しないが、空文字はそのまま保存する。
-        if let password = password {
-            userDefaults.set(password, forKey: Settings.KEY_PASSWORD)
+    func set(delegate: SettingsDelegate){
+        self.delegate.append(delegate)
+    }
+
+    ///
+    /// 変更の通知
+    ///
+    func notice() {
+        for delegate in self.delegate {
+            delegate.changeSettings()
         }
     }
-    ///
-    /// 管理モード用パスワードの取得
-    ///
-    func getPassword() -> String {
-        if let password = userDefaults.string(forKey: Settings.KEY_PASSWORD) {
-            return password
-        }
-        return Settings.DEFAULT_PASSWORD
-    }
-    ///
-    /// 管理モードへの遷移用長押し秒数の設定
-    ///
-    func set(longTapDuration:Float?) {
-        if let longTapDuration = longTapDuration {
-            userDefaults.set(longTapDuration, forKey: Settings.KEY_LONG_TAP_DURATION)
-        }
-    }
-    ///
-    /// 管理モードへの遷移用長押し秒数
-    ///
-    func getLongTapDuration() -> Float {
-        let longTapDuration = userDefaults.float(forKey: Settings.KEY_LONG_TAP_DURATION)
-        if longTapDuration > 0.0 {
-            return longTapDuration
-        }
-        return Settings.DEFAULT_LONG_TAP_DURATION
-    }
-   
 }

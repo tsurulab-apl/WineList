@@ -69,6 +69,8 @@ class SettingViewController: UIViewController {
         print("saveButtonAction")
         self.savePassword()
         self.saveLongPressDuration()
+        // 変更を反映
+        self.settings.notice()
     }
     ///
     /// データの表示
