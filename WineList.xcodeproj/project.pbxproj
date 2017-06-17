@@ -27,6 +27,8 @@
 		EBA9C4831E9E603200311E3B /* test_evening_sample.png in Resources */ = {isa = PBXBuildFile; fileRef = EBA9C4801E9E603200311E3B /* test_evening_sample.png */; };
 		EBA9C4841E9E603200311E3B /* test_morning_sample.png in Resources */ = {isa = PBXBuildFile; fileRef = EBA9C4811E9E603200311E3B /* test_morning_sample.png */; };
 		EBA9C4851E9E603200311E3B /* test_night_sample.png in Resources */ = {isa = PBXBuildFile; fileRef = EBA9C4821E9E603200311E3B /* test_night_sample.png */; };
+		EBCDF5461EEFFD3B00033689 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDF5451EEFFD3B00033689 /* SettingViewController.swift */; };
+		EBF320621EF16AC100797BD6 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF320611EF16AC100797BD6 /* Settings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +75,8 @@
 		EBA9C4801E9E603200311E3B /* test_evening_sample.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_evening_sample.png; sourceTree = "<group>"; };
 		EBA9C4811E9E603200311E3B /* test_morning_sample.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_morning_sample.png; sourceTree = "<group>"; };
 		EBA9C4821E9E603200311E3B /* test_night_sample.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_night_sample.png; sourceTree = "<group>"; };
+		EBCDF5451EEFFD3B00033689 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		EBF320611EF16AC100797BD6 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,7 +142,9 @@
 				EB9CBE711EB9A0D200238D52 /* Enum.swift */,
 				EB28D33D1EBD594100E77397 /* RegistrationViewController.swift */,
 				EB64ABE91ECDDA630044151E /* WineList.swift */,
+				EBF320611EF16AC100797BD6 /* Settings.swift */,
 				EB64ABEB1ECFD8250044151E /* LinkedList.swift */,
+				EBCDF5451EEFFD3B00033689 /* SettingViewController.swift */,
 			);
 			path = WineList;
 			sourceTree = "<group>";
@@ -315,6 +321,8 @@
 				EBA9C47C1E9E5A9300311E3B /* MasterViewController.swift in Sources */,
 				EBA9C47E1E9E5B4D00311E3B /* DetailViewController.swift in Sources */,
 				EB9CBE6F1EB6CF8A00238D52 /* Wine+CoreDataClass.swift in Sources */,
+				EBCDF5461EEFFD3B00033689 /* SettingViewController.swift in Sources */,
+				EBF320621EF16AC100797BD6 /* Settings.swift in Sources */,
 				EBA9C4491E9E526400311E3B /* AppDelegate.swift in Sources */,
 				EB28D33E1EBD594100E77397 /* RegistrationViewController.swift in Sources */,
 				EBA9C4511E9E526400311E3B /* WineList.xcdatamodeld in Sources */,

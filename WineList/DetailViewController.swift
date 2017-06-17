@@ -19,8 +19,8 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
     // サブビュー
     private var referenceViewController:ReferenceViewController? = nil
     private var registrationViewController:RegistrationViewController? = nil
-    // ツールバーボタン
-    private var composeButton:UIBarButtonItem
+    // ナビゲーションバーボタン
+    private var settingButton:UIBarButtonItem
 
 /*****
     @IBOutlet var detailView: UIView!
@@ -49,11 +49,25 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
     ///
     required init?(coder aDecoder: NSCoder) {
         // BarButton
-        self.composeButton = UIBarButtonItem(barButtonSystemItem: .compose, target: nil, action: nil)
+        self.settingButton = UIBarButtonItem(barButtonSystemItem: .compose, target: nil, action: nil)
         
         super.init(coder: aDecoder)
+        // super.initの後にselfを設定可能
+        self.settingButton.target = self
+        self.settingButton.action = #selector(settingButtonAction(_:))
+
     }
-    
+    ///
+    /// ナビゲーションバーの設定ボタン
+    ///
+    func settingButtonAction(_ sender: Any){
+        print("settingButtonAction")
+//        let settingViewController = self.storyboard?.instantiateViewController(withIdentifier: "settingViewController") as! SettingViewController
+//        self.present(settingViewController, animated: true, completion: nil)
+        let settingNavigationController = self.storyboard?.instantiateViewController(withIdentifier: "settingNavigationController") as! UINavigationController
+        let settingViewController = settingNavigationController.topViewController as! SettingViewController
+        self.navigationController?.pushViewController(settingViewController, animated: true)
+    }
     ///
     /// viewDidLoad
     ///
@@ -193,7 +207,7 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
     ///
     func setManageMode(){
         self.manageMode = true
-        self.navigationItem.setRightBarButtonItems([self.composeButton], animated: true)
+        self.navigationItem.setRightBarButtonItems([self.settingButton], animated: true)
 
         if let wine = self.wine {
             self.selectedCell(wine: wine)

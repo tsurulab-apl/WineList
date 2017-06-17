@@ -516,6 +516,113 @@
             </objects>
             <point key="canvasLocation" x="621.09375" y="680.859375"/>
         </scene>
+        <!--Setting View Controller-->
+        <scene sceneID="RuL-X9-kuY">
+            <objects>
+                <viewController storyboardIdentifier="settingViewController" id="ZaU-Oz-wnc" customClass="SettingViewController" customModule="WineList" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="OUQ-z7-Qtb"/>
+                        <viewControllerLayoutGuide type="bottom" id="9Un-3Z-FBZ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pJh-7O-wF8">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" maximumZoomScale="4" translatesAutoresizingMaskIntoConstraints="NO" id="SgN-y5-BIL" userLabel="Main Scroll View">
+                                <rect key="frame" x="0.0" y="64" width="768" height="896"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="1El-5G-y9h" userLabel="Form Stack View">
+                                        <rect key="frame" x="84" y="408" width="600" height="80"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="hFf-cx-YJw" userLabel="Password Stack View">
+                                                <rect key="frame" x="0.0" y="0.0" width="600" height="40"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="パスワード" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EfZ-49-Qqo" userLabel="Password Label">
+                                                        <rect key="frame" x="0.0" y="10" width="120" height="20.5"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="120" id="6qT-Ae-6wC"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XnS-io-j6X">
+                                                        <rect key="frame" x="120" y="5" width="480" height="30"/>
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    </textField>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="iHj-aM-hFU"/>
+                                                </constraints>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="HWI-wU-j18" userLabel="LongPressDuration Stack View">
+                                                <rect key="frame" x="0.0" y="40" width="600" height="40"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="長押し時間" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O5K-bb-Kbv" userLabel="LongPressDuration Label">
+                                                        <rect key="frame" x="0.0" y="10" width="120" height="20.5"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="120" id="zNG-UG-guS"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.10000000000000001" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="MNi-gf-M32" userLabel="LongPressDuration Slider">
+                                                        <rect key="frame" x="118" y="5" width="404" height="31"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="400" id="aCv-Sg-evo"/>
+                                                        </constraints>
+                                                        <connections>
+                                                            <action selector="longPressDurationSliderValueChanged:" destination="ZaU-Oz-wnc" eventType="valueChanged" id="CA3-ex-4bb"/>
+                                                        </connections>
+                                                    </slider>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DhF-YL-qHa" userLabel="LongPressDurationSecond Label">
+                                                        <rect key="frame" x="520" y="10" width="80" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="kUz-1H-dS8"/>
+                                                </constraints>
+                                            </stackView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="600" id="1DW-M1-iq3"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="1El-5G-y9h" firstAttribute="centerX" secondItem="SgN-y5-BIL" secondAttribute="centerX" id="M4g-00-Lj2"/>
+                                    <constraint firstItem="1El-5G-y9h" firstAttribute="centerY" secondItem="SgN-y5-BIL" secondAttribute="centerY" id="WOC-w0-Bm4"/>
+                                    <constraint firstAttribute="trailing" secondItem="1El-5G-y9h" secondAttribute="trailing" id="aBO-Vp-TWk"/>
+                                    <constraint firstAttribute="bottom" secondItem="1El-5G-y9h" secondAttribute="bottom" id="jIP-u2-SXv"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="SgN-y5-BIL" secondAttribute="trailing" id="4JW-N4-QmA"/>
+                            <constraint firstItem="SgN-y5-BIL" firstAttribute="centerY" secondItem="pJh-7O-wF8" secondAttribute="centerY" id="Bcu-U6-1LH"/>
+                            <constraint firstItem="SgN-y5-BIL" firstAttribute="centerX" secondItem="pJh-7O-wF8" secondAttribute="centerX" id="cf5-9d-HoA"/>
+                            <constraint firstItem="SgN-y5-BIL" firstAttribute="top" secondItem="OUQ-z7-Qtb" secondAttribute="bottom" id="gYP-pj-hdR"/>
+                            <constraint firstItem="SgN-y5-BIL" firstAttribute="leading" secondItem="pJh-7O-wF8" secondAttribute="leading" id="vdp-AB-6v2"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Sg0-Zf-HbQ"/>
+                    <connections>
+                        <outlet property="longPressDurationLabel" destination="DhF-YL-qHa" id="hp1-pk-y7h"/>
+                        <outlet property="longPressDurationSlider" destination="MNi-gf-M32" id="wUc-DT-aRi"/>
+                        <outlet property="passwordTextField" destination="XnS-io-j6X" id="ezE-n2-CSD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XMg-Xg-jho" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1157.03125" y="1406.8359375"/>
+        </scene>
         <!--Root View Controller-->
         <scene sceneID="4sg-vJ-Kub">
             <objects>
@@ -594,6 +701,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rp7-OA-ze6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-144.53125" y="18.75"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="k32-3B-Rtm">
+            <objects>
+                <navigationController storyboardIdentifier="settingNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="leq-dI-rOs" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qWZ-RC-T0l">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="ZaU-Oz-wnc" kind="relationship" relationship="rootViewController" id="meB-7L-1e0"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dgM-5p-gh5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="391.40625" y="1406.8359375"/>
         </scene>
     </scenes>
 </document>

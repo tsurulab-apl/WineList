@@ -9,7 +9,9 @@
 import UIKit
 import CoreData
 
-//デリゲート
+///
+/// MasterViewControllerデリゲート
+///
 protocol MasterViewControllerDelegate: class {
     //func selectedCell(image: UIImage)
     func selectedCell(wine: Wine)
@@ -18,7 +20,14 @@ protocol MasterViewControllerDelegate: class {
     func setReferenceMode()
 }
 
+///
+/// MasterViewController
+///
 class MasterViewController: UITableViewController {
+    // 設定クラス
+    private let settings = Settings.instance
+
+    // 管理モード
     private var manageMode:Bool = false
     
     @IBOutlet var wineTableView: UITableView!
@@ -26,16 +35,21 @@ class MasterViewController: UITableViewController {
 
     var delegate: MasterViewControllerDelegate?
     //var wineList:Array<Wine> = []
+    // ワインリスト
     private var wineList:WineList
+
+    // TODO:削除
     var wineDictionary:Dictionary<Category, Array<Wine>> = [:]
     var wineLinkedList = LinkedList<Wine>()
 
-//    private var addButton:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonAction(_:)))
-//    private var replyButton:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .reply, target: self, action: #selector(replyButtonAction(_:)))
+    // ナビゲーションバーのボタン
     private var addButton:UIBarButtonItem
     private var replyButton:UIBarButtonItem
     private var editButton:UIBarButtonItem
 
+    // 管理モード遷移用の長押し設定
+    private var longPressGesture:UILongPressGestureRecognizer
+    
     ///
     /// イニシャライザ
     ///
@@ -50,6 +64,9 @@ class MasterViewController: UITableViewController {
         self.replyButton = UIBarButtonItem(barButtonSystemItem: .reply, target: nil, action: nil)
         self.editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: nil, action: nil)
 
+        // 管理モード遷移用の長押し設定
+        self.longPressGesture = UILongPressGestureRecognizer()
+
         super.init(coder: aDecoder)
 
         // super.iniの後にselfを設定可能
@@ -59,7 +76,11 @@ class MasterViewController: UITableViewController {
         self.replyButton.action = #selector(replyButtonAction(_:))
         self.editButton.target = self
         self.editButton.action = #selector(editButtonAction(_:))
-        
+        self.longPressGesture.addTarget(self, action: #selector(longTap(_:)))
+        self.longPressGesture.minimumPressDuration = self.settings.longPressDuration // default:0.5秒
+        self.longPressGesture.allowableMovement = 15  //default:10point
+        //self.longPressGesture.numberOfTapsRequired = 2 // default:0
+
         // WineListの並び順設定
         // 並び順が設定できなかった際にコメントを外して実行する。
         //self.wineList.initWineOrder()
@@ -71,18 +92,20 @@ class MasterViewController: UITableViewController {
         super.viewDidLoad()
         print("MasterViewController.viewDidLoad")
 
-        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        self.title = "リスト"
 
+        self.title = "リスト"
+/********
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap(_:)))
         longGesture.minimumPressDuration = 1.0  // default:0.5秒
         longGesture.allowableMovement = 15 // default:10point
         //longGesture.numberOfTapsRequired = 2    // default:0
+************/
+        
         
         let titleView = UILabel()
         titleView.text = self.title
@@ -90,14 +113,10 @@ class MasterViewController: UITableViewController {
         titleView.sizeToFit()
         //let width = titleView.sizeThatFits(CGSizeMake(CGFloat.max, CGFloat.max)).width
         //titleView.frame = CGRect(origin:CGPointZero, size:CGSizeMake(width, 500))
-        titleView.addGestureRecognizer(longGesture)
+        titleView.addGestureRecognizer(self.longPressGesture)
         titleView.isUserInteractionEnabled = true
         self.navigationItem.titleView = titleView
-/*****
-        self.addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonAction(_:)))
-        self.replyButton = UIBarButtonItem(barButtonSystemItem: .reply, target: self, action: #selector(replyButtonAction(_:)))
-        self.editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonAction(_:)))
-********/
+
         // ワインディクショナリーの初期化
         self.initWineDictionary()
 
