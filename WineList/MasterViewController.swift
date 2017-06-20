@@ -497,8 +497,21 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         //let wine = wineArray?[indexPath.row]
         //let wine = self.wineList[indexPath.row]
         let wine = self.wineList.getWine(category!, indexPath.row)
-        cell.textLabel?.text = wine.name
-        cell.detailTextLabel?.text = wine.note
+//        cell.textLabel?.text = wine.name
+//        cell.detailTextLabel?.text = NumberUtil.japanesePrice(price: Int(wine.price))
+        let imageView = cell.viewWithTag(1) as! UIImageView
+        let nameLabel = cell.viewWithTag(2) as! UILabel
+        let priceLabel = cell.viewWithTag(3) as! UILabel
+        nameLabel.text = wine.name
+        priceLabel.text = NumberUtil.japanesePrice(price: Int(wine.price))
+        if let image = wine.image {
+            imageView.image = UIImage(data: image)
+
+            //cell.imageView?.image = UIImage(data: image)
+            //let size = CGSize(width:30,height:30)
+            //cell.imageView?.image = UIImage(data: image)?.resize(size: size)
+            //cell.imageView?.contentMode = .scaleAspectFill
+        }
         if(!(wine.display)){
             //UIColor.blue2は、Extentionで作成したカスタムカラー
             //cell.backgroundColor = UIColor.blue2
