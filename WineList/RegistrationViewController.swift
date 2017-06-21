@@ -154,7 +154,7 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
     func initCategory(){
         self.categorySegmentedControl.removeAllSegments()
         var i = 0
-        for elem in Category.enumerate() {
+        for elem in CategoryEnum.enumerate() {
             let category = elem.element
             self.categorySegmentedControl.insertSegment(withTitle: category.description, at: i, animated: true)
             //self.categorySegmentedControl.setTitle(category.description, forSegmentAt: i)

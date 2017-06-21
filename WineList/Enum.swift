@@ -40,7 +40,7 @@ public extension EnumEnumerable where Case: Hashable {
 /**
  * カテゴリー
  */
-public enum Category: Int16, CustomStringConvertible,EnumEnumerable {
+public enum CategoryEnum: Int16, CustomStringConvertible,EnumEnumerable {
     case White = 0
     case Red = 1
     case Rose = 2

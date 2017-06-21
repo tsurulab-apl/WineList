@@ -21,6 +21,7 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
     private var registrationViewController:RegistrationViewController? = nil
     // ナビゲーションバーボタン
     private var settingButton:UIBarButtonItem
+    private var categoryButton:UIBarButtonItem
 
 /*****
     @IBOutlet var detailView: UIView!
@@ -49,13 +50,25 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
     ///
     required init?(coder aDecoder: NSCoder) {
         // BarButton
+        self.categoryButton = UIBarButtonItem(barButtonSystemItem: .organize, target: nil, action: nil)
         self.settingButton = UIBarButtonItem(barButtonSystemItem: .compose, target: nil, action: nil)
         
         super.init(coder: aDecoder)
         // super.initの後にselfを設定可能
+        self.categoryButton.target = self
+        self.categoryButton.action = #selector(categoryButtonAction(_:))
         self.settingButton.target = self
         self.settingButton.action = #selector(settingButtonAction(_:))
 
+    }
+    ///
+    /// ナビゲーションバーのカテゴリーボタン
+    ///
+    func categoryButtonAction(_ sender: Any){
+        print("categoryButtonAction")
+        let categoryStoryBoard:UIStoryboard = UIStoryboard(name: "Category", bundle: nil)
+        let categorySplitViewController:UIViewController = categoryStoryBoard.instantiateInitialViewController()!
+        self.present(categorySplitViewController, animated: true, completion: nil)
     }
     ///
     /// ナビゲーションバーの設定ボタン
@@ -207,7 +220,7 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
     ///
     func setManageMode(){
         self.manageMode = true
-        self.navigationItem.setRightBarButtonItems([self.settingButton], animated: true)
+        self.navigationItem.setRightBarButtonItems([self.settingButton, self.categoryButton], animated: true)
 
         if let wine = self.wine {
             self.selectedCell(wine: wine)

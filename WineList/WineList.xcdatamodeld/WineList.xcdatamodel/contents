@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16F73" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Category" representedClassName="Category" syncable="YES">
+        <attribute name="insertDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updateDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="next" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="previous" inverseEntity="Category" syncable="YES"/>
+        <relationship name="previous" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="next" inverseEntity="Category" syncable="YES"/>
+    </entity>
     <entity name="Wine" representedClassName="Wine" syncable="YES">
         <attribute name="alias" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="category" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -16,6 +23,7 @@
         <relationship name="previous" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Wine" inverseName="next" inverseEntity="Wine" syncable="YES"/>
     </entity>
     <elements>
+        <element name="Category" positionX="-234" positionY="36" width="128" height="120"/>
         <element name="Wine" positionX="-245" positionY="-78" width="128" height="240"/>
     </elements>
 </model>

@@ -30,6 +30,13 @@
 		EBCDF5461EEFFD3B00033689 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDF5451EEFFD3B00033689 /* SettingViewController.swift */; };
 		EBF320621EF16AC100797BD6 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF320611EF16AC100797BD6 /* Settings.swift */; };
 		EBF320641EF4CF6B00797BD6 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF320631EF4CF6B00797BD6 /* Utils.swift */; };
+		EBF3206C1EF8A0BE00797BD6 /* Category.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBF3206B1EF8A0BE00797BD6 /* Category.storyboard */; };
+		EBF3206E1EF8A14300797BD6 /* CategoryMasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF3206D1EF8A14300797BD6 /* CategoryMasterViewController.swift */; };
+		EBF320701EF8A16000797BD6 /* CategoryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF3206F1EF8A15F00797BD6 /* CategoryDetailViewController.swift */; };
+		EBF320721EF8A99300797BD6 /* CategoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF320711EF8A99300797BD6 /* CategoryList.swift */; };
+		EBF320791EF8B60300797BD6 /* Category+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF320771EF8B60300797BD6 /* Category+CoreDataClass.swift */; };
+		EBF3207A1EF8B60300797BD6 /* Category+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF320781EF8B60300797BD6 /* Category+CoreDataProperties.swift */; };
+		EBF3207C1EFA885B00797BD6 /* CategoryRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF3207B1EFA885B00797BD6 /* CategoryRegistrationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +86,13 @@
 		EBCDF5451EEFFD3B00033689 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		EBF320611EF16AC100797BD6 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		EBF320631EF4CF6B00797BD6 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		EBF3206B1EF8A0BE00797BD6 /* Category.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Category.storyboard; sourceTree = "<group>"; };
+		EBF3206D1EF8A14300797BD6 /* CategoryMasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryMasterViewController.swift; sourceTree = "<group>"; };
+		EBF3206F1EF8A15F00797BD6 /* CategoryDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryDetailViewController.swift; sourceTree = "<group>"; };
+		EBF320711EF8A99300797BD6 /* CategoryList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryList.swift; sourceTree = "<group>"; };
+		EBF320771EF8B60300797BD6 /* Category+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Category+CoreDataClass.swift"; path = "WineList/Category+CoreDataClass.swift"; sourceTree = "<group>"; };
+		EBF320781EF8B60300797BD6 /* Category+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Category+CoreDataProperties.swift"; path = "WineList/Category+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		EBF3207B1EFA885B00797BD6 /* CategoryRegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryRegistrationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +123,8 @@
 		EBA9C43C1E9E526400311E3B = {
 			isa = PBXGroup;
 			children = (
+				EBF320771EF8B60300797BD6 /* Category+CoreDataClass.swift */,
+				EBF320781EF8B60300797BD6 /* Category+CoreDataProperties.swift */,
 				EB9CBE6D1EB6CF8A00238D52 /* Wine+CoreDataClass.swift */,
 				EB9CBE6E1EB6CF8A00238D52 /* Wine+CoreDataProperties.swift */,
 				EBA9C4471E9E526400311E3B /* WineList */,
@@ -148,6 +164,11 @@
 				EB64ABEB1ECFD8250044151E /* LinkedList.swift */,
 				EBCDF5451EEFFD3B00033689 /* SettingViewController.swift */,
 				EBF320631EF4CF6B00797BD6 /* Utils.swift */,
+				EBF3206B1EF8A0BE00797BD6 /* Category.storyboard */,
+				EBF3207B1EFA885B00797BD6 /* CategoryRegistrationViewController.swift */,
+				EBF3206D1EF8A14300797BD6 /* CategoryMasterViewController.swift */,
+				EBF3206F1EF8A15F00797BD6 /* CategoryDetailViewController.swift */,
+				EBF320711EF8A99300797BD6 /* CategoryList.swift */,
 			);
 			path = WineList;
 			sourceTree = "<group>";
@@ -294,6 +315,7 @@
 				EBA9C4841E9E603200311E3B /* test_morning_sample.png in Resources */,
 				EB28D3401EC34FCA00E77397 /* UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png in Resources */,
 				EBA9C4851E9E603200311E3B /* test_night_sample.png in Resources */,
+				EBF3206C1EF8A0BE00797BD6 /* Category.storyboard in Resources */,
 				EBA9C4831E9E603200311E3B /* test_evening_sample.png in Resources */,
 				EBA9C4531E9E526400311E3B /* Assets.xcassets in Resources */,
 				EBA9C44E1E9E526400311E3B /* Main.storyboard in Resources */,
@@ -321,10 +343,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBF3207C1EFA885B00797BD6 /* CategoryRegistrationViewController.swift in Sources */,
 				EBA9C47C1E9E5A9300311E3B /* MasterViewController.swift in Sources */,
 				EBA9C47E1E9E5B4D00311E3B /* DetailViewController.swift in Sources */,
 				EB9CBE6F1EB6CF8A00238D52 /* Wine+CoreDataClass.swift in Sources */,
+				EBF320701EF8A16000797BD6 /* CategoryDetailViewController.swift in Sources */,
 				EBCDF5461EEFFD3B00033689 /* SettingViewController.swift in Sources */,
+				EBF320791EF8B60300797BD6 /* Category+CoreDataClass.swift in Sources */,
+				EBF320721EF8A99300797BD6 /* CategoryList.swift in Sources */,
+				EBF3207A1EF8B60300797BD6 /* Category+CoreDataProperties.swift in Sources */,
 				EBF320621EF16AC100797BD6 /* Settings.swift in Sources */,
 				EBF320641EF4CF6B00797BD6 /* Utils.swift in Sources */,
 				EBA9C4491E9E526400311E3B /* AppDelegate.swift in Sources */,
@@ -335,6 +362,7 @@
 				EB9CBE701EB6CF8A00238D52 /* Wine+CoreDataProperties.swift in Sources */,
 				EB28D33A1EBB655500E77397 /* ReferenceViewController.swift in Sources */,
 				EB9CBE721EB9A0D200238D52 /* Enum.swift in Sources */,
+				EBF3206E1EF8A14300797BD6 /* CategoryMasterViewController.swift in Sources */,
 				EB64ABEA1ECDDA630044151E /* WineList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

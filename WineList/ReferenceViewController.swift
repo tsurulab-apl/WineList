@@ -56,7 +56,7 @@ class ReferenceViewController: UIViewController,UIScrollViewDelegate {
         self.noteTextView.text = wine.note
         //self.noteTextView.sizeToFit()
         self.priceLabel.text = "¥" + self.separateComma(num: Int(wine.price))
-        let category = Category.init(raw: Int(wine.category))
+        let category = CategoryEnum.init(raw: Int(wine.category))
         self.categoryLabel.text = category?.description
         if let image = wine.image {
             self.wineImageView.image = UIImage(data: image)

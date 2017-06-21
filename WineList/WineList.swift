@@ -12,8 +12,8 @@ import CoreData
 public class WineList {
     private var manageMode:Bool = false
 
-    var firstWine:Dictionary<Category, Wine> = [:]
-    var wineDictionary:Dictionary<Category, Array<Wine>> = [:]
+    var firstWine:Dictionary<CategoryEnum, Wine> = [:]
+    var wineDictionary:Dictionary<CategoryEnum, Array<Wine>> = [:]
     var managedObjectContext:NSManagedObjectContext
     ///
     /// イニシャライザ
@@ -39,7 +39,7 @@ public class WineList {
     ///
     func initWineOrder(){
         self.getAllData()
-        for elem in Category.enumerate() {
+        for elem in CategoryEnum.enumerate() {
             let category = elem.element
             let wineArray = self.wineDictionary[category]
             self.initWineOrderFromArray(wineArray!)
@@ -66,7 +66,7 @@ public class WineList {
     ///
     func initFirstWine(){
         self.firstWine = [:]
-//        for elem in Category.enumerate() {
+//        for elem in CategoryEnum.enumerate() {
 //            let category = elem.element
 //            self.firstWine[category] = nil
 //        }
@@ -76,7 +76,7 @@ public class WineList {
     ///
     func initWineDictionary(){
         self.wineDictionary = [:]
-        for elem in Category.enumerate() {
+        for elem in CategoryEnum.enumerate() {
             let category = elem.element
             let wineArray:Array<Wine> = []
             self.wineDictionary[category] = wineArray
@@ -86,7 +86,7 @@ public class WineList {
     /// ワインディクショナリーへのワインの追加
     ///
     func appendWineDictionary(wine: Wine){
-        let category = Category.init(raw: Int(wine.category))
+        let category = CategoryEnum.init(raw: Int(wine.category))
         var wineArray = self.wineDictionary[category!]
         wineArray?.append(wine)
         self.wineDictionary.updateValue(wineArray!, forKey: category!)
@@ -95,7 +95,7 @@ public class WineList {
     /// ワインの取得
     ///
     func getData() {
-        for elem in Category.enumerate() {
+        for elem in CategoryEnum.enumerate() {
             let category = elem.element
             let firstWine = self.getFirstWine(category: category)
             if let firstWine = firstWine {
@@ -106,7 +106,7 @@ public class WineList {
     ///
     /// 最初のワインの取得
     ///
-    func getFirstWine(category:Category)->Wine?{
+    func getFirstWine(category:CategoryEnum)->Wine?{
         var firstWine:Wine? = nil
         let fetchRequest: NSFetchRequest<Wine> = Wine.fetchRequest()
         let predicates = [
@@ -146,7 +146,7 @@ public class WineList {
     ///
     /// 件数取得
     ///
-    func count(_ category:Category) -> Int{
+    func count(_ category:CategoryEnum) -> Int{
         var count:Int = 0
         if var wine = self.firstWine[category] {
             while true {
@@ -181,7 +181,7 @@ public class WineList {
     ///
     /// TODO:削除
     ///
-    func countDictionary(_ category:Category) -> Int{
+    func countDictionary(_ category:CategoryEnum) -> Int{
         let wineArray = self.wineDictionary[category]
         let count = wineArray?.count
         return count!
@@ -189,7 +189,7 @@ public class WineList {
     ///
     /// ワイン取得
     ///
-    func getWine(_ category:Category, _ row: Int) -> Wine{
+    func getWine(_ category:CategoryEnum, _ row: Int) -> Wine{
 //        var count:Int = 0
 //        var wine:Wine? = self.firstWine[category]!
 //        while wine != nil {
@@ -224,7 +224,7 @@ public class WineList {
     ///
     /// ワインの削除
     ///
-    func delete(_ category:Category, _ row: Int){
+    func delete(_ category:CategoryEnum, _ row: Int){
         let wine = self.getWine(category,row)
         
         self.leave(wine: wine)
@@ -245,7 +245,7 @@ public class WineList {
     ///
     /// TODO:削除
     ///
-    func getWineDictionary(_ category:Category, _ row: Int) -> Wine{
+    func getWineDictionary(_ category:CategoryEnum, _ row: Int) -> Wine{
         let wineArray = self.wineDictionary[category]
         let wine = wineArray?[row]
         return wine!
@@ -260,7 +260,7 @@ public class WineList {
     ///
     /// カテゴリー内の最後のワインを取得
     ///
-    func getLastWine(category:Category) -> Wine?{
+    func getLastWine(category:CategoryEnum) -> Wine?{
         var wine = self.firstWine[category]
         while true {
             if let next = wine?.next {
@@ -274,7 +274,7 @@ public class WineList {
     ///
     /// カテゴリー内のワインの存在判定
     ///
-    func isExists(category:Category) -> Bool{
+    func isExists(category:CategoryEnum) -> Bool{
         let wine = self.firstWine[category]
         let isExists = (wine != nil)
         return isExists
@@ -294,7 +294,7 @@ public class WineList {
     /// ワインの追加
     ///
     func insert(wine:Wine){
-        let category = Category.init(raw: Int(wine.category))
+        let category = CategoryEnum.init(raw: Int(wine.category))
         wine.previous = nil
         wine.next = nil
         if let last = self.getLastWine(category: category!) {
@@ -320,14 +320,14 @@ public class WineList {
     /// カテゴリーの先頭に設定
     ///
     func setFirst(wine:Wine){
-        let category = Category.init(raw: Int(wine.category))
+        let category = CategoryEnum.init(raw: Int(wine.category))
         self.firstWine[category!] = wine
     }
     ///
     /// カテゴリーの先頭をクリア
     ///
     func clearFirst(wine:Wine){
-        for elem in Category.enumerate() {
+        for elem in CategoryEnum.enumerate() {
             let category = elem.element
             let firstWine = self.firstWine[category]
             if let firstWine = firstWine {
@@ -354,7 +354,7 @@ public class WineList {
                 // カテゴリー内に別のワインが存在すれば、変更判定をtrueとする。
                 // 別のワインがない場合でもカテゴリーの変更はあり得るが、その場合はnext,previousの設定
                 // は不要なため、ここでは判定しない。
-                let category = Category.init(raw: Int(wine.category))
+                let category = CategoryEnum.init(raw: Int(wine.category))
                 let isExists = self.isExists(category: category!)
                 if isExists {
                     isChange = true
@@ -366,7 +366,7 @@ public class WineList {
     ///
     /// 並べ替え
     ///
-    func moveRow(wine:Wine, toCategory:Category, toRow:Int){
+    func moveRow(wine:Wine, toCategory:CategoryEnum, toRow:Int){
         // 元の位置の調整
         self.leave(wine: wine)
         // 新しい位置の調整
@@ -400,7 +400,7 @@ public class WineList {
     ///
     /// 新しい位置の調整
     ///
-    func arrive(wine:Wine, toCategory:Category, toRow:Int){
+    func arrive(wine:Wine, toCategory:CategoryEnum, toRow:Int){
         // 新しいカテゴリーを設定
         wine.category = toCategory.rawValue
 
@@ -420,7 +420,7 @@ public class WineList {
     ///
     /// ワイン取得(Nilを含む)
     ///
-    func getWineWithNil(category:Category, row: Int) -> Wine?{
+    func getWineWithNil(category:CategoryEnum, row: Int) -> Wine?{
         var index:Int = 0
         var wine:Wine? = self.firstWine[category]
         while wine != nil {
