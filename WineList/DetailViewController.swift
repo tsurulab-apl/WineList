@@ -67,8 +67,18 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
     func categoryButtonAction(_ sender: Any){
         print("categoryButtonAction")
         let categoryStoryBoard:UIStoryboard = UIStoryboard(name: "Category", bundle: nil)
-        let categorySplitViewController:UIViewController = categoryStoryBoard.instantiateInitialViewController()!
-        self.present(categorySplitViewController, animated: true, completion: nil)
+        let initialViewController = categoryStoryBoard.instantiateInitialViewController()!
+        self.present(initialViewController, animated: true, completion: nil)
+
+//        let categoryNavigationController = categoryStoryBoard.instantiateViewController(withIdentifier: "categoryNavigationController") as! UINavigationController
+//        let topViewController = categoryNavigationController.topViewController
+//        self.navigationController?.pushViewController(topViewController!, animated: true)
+        //let navigationController = UINavigationController(rootViewController: categorySplitViewController)
+        //self.present(categorySplitViewController, animated: true, completion: nil)
+        //self.navigationController?.pushViewController(initialViewController, animated: true)
+//        let categoryMasterNavigationController = categoryStoryBoard.instantiateViewController(withIdentifier: "categoryMasterNavigationController") as! UINavigationController
+//        let categoryMasterViewController = categoryMasterNavigationController.topViewController as! CategoryMasterViewController
+//        self.navigationController?.pushViewController(categoryMasterViewController, animated: true)
     }
     ///
     /// ナビゲーションバーの設定ボタン

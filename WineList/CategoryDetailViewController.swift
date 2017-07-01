@@ -23,6 +23,7 @@ class CategoryDetailViewController: UIViewController,CategoryMasterViewControlle
 
     @IBOutlet weak var insertDateLabel: UILabel!
     @IBOutlet weak var updateDateLabel: UILabel!
+
     // マスタービューコントローラー
     var categoryMasterViewController:CategoryMasterViewController {
         let masterNavController = self.splitViewController?.viewControllers.first as! UINavigationController
@@ -52,6 +53,12 @@ class CategoryDetailViewController: UIViewController,CategoryMasterViewControlle
         // Do any additional setup after loading the view.
         self.title = "カテゴリーの登録"
 
+        //ナビゲーションバーの左ボタンに画面モードの切り替えボタンを表示する。
+        self.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
+        
+        //戻るボタンの後ろに表示する。
+        self.navigationItem.leftItemsSupplementBackButton = true
+
         // ナビゲーションバーボタンの作成
         self.navigationItem.setRightBarButtonItems([self.doneButton], animated: true)
 
@@ -75,7 +82,11 @@ class CategoryDetailViewController: UIViewController,CategoryMasterViewControlle
     ///
     func doneButtonAction(_ sender: Any){
         print("doneButtonAction")
-        self.categoryRegistrationViewController?.save()
+        //self.categoryRegistrationViewController?.save()
+        self.dismiss(animated: true, completion: nil)
+//        let mainStoryBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//        let initialViewController:UIViewController = mainStoryBoard.instantiateInitialViewController()!
+//        self.present(initialViewController, animated: true, completion: nil)
     }
     ///
     /// テーブルビューのリロード
@@ -86,7 +97,7 @@ class CategoryDetailViewController: UIViewController,CategoryMasterViewControlle
     ///
     /// カテゴリーリストの取得
     ///
-    func getCategoryList() -> CategoryList {
+    func getCategoryList() -> DataList<Category> {
         let categoryList = self.categoryMasterViewController.getCategoryList()
         return categoryList
     }

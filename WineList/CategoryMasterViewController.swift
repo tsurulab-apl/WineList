@@ -19,7 +19,7 @@ protocol CategoryMasterViewControllerDelegate: class {
 ///
 ///
 ///
-class CategoryMasterViewController: UITableViewController {
+class CategoryMasterViewController: UITableViewController,UISplitViewControllerDelegate {
     private let categoryData = ["White", "Red", "Rose", "Sparkling"]
 
     // 設定クラス
@@ -32,8 +32,9 @@ class CategoryMasterViewController: UITableViewController {
     var delegate: CategoryMasterViewControllerDelegate?
 
     // カテゴリーリスト
-    private var categoryList:CategoryList
-    
+    //private var categoryList:CategoryList
+    private var categoryList:DataList<Category>
+
     // ナビゲーションバーのボタン
     private var addButton:UIBarButtonItem
     private var editButton:UIBarButtonItem
@@ -45,7 +46,8 @@ class CategoryMasterViewController: UITableViewController {
         // CategoryList
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let viewContext = appDelegate.persistentContainer.viewContext
-        self.categoryList = CategoryList(managedObjectContext: viewContext)
+        //self.categoryList = CategoryList(managedObjectContext: viewContext)
+        self.categoryList = DataList<Category>(managedObjectContext: viewContext)
         
         // BarButton
         self.addButton = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
@@ -79,6 +81,15 @@ class CategoryMasterViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         //self.navigationItem.rightBarButtonItem = self.editButtonItem()
 
+//        let btn_back = UIBarButtonItem()
+//        btn_back.title = "戻る"
+//        self.navigationItem.backBarButtonItem = btn_back
+
+        // スプリットビュー
+        if let split = self.splitViewController {
+            split.delegate = self // デリゲートのセット
+        }
+
         self.title = "カテゴリー"
 
         // delegateの設定
@@ -99,6 +110,13 @@ class CategoryMasterViewController: UITableViewController {
         self.navigationItem.setRightBarButtonItems([self.addButton, self.editButton], animated: true)
 
     }
+
+    ///
+    /// 初期表示をMasterにする。
+    ///
+//    public func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+//        return true
+//    }
 
     ///
     /// didReceiveMemoryWarning
@@ -122,7 +140,7 @@ class CategoryMasterViewController: UITableViewController {
     ///
     /// カテゴリーリストの取得
     ///
-    func getCategoryList() -> CategoryList {
+    func getCategoryList() -> DataList<Category> {
         return self.categoryList
     }
     ///
@@ -193,15 +211,20 @@ class CategoryMasterViewController: UITableViewController {
         }
     }
 
-    // Override to support conditional editing of the table view.
+    ///
+    /// editの有効化
+    ///
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
 
-    // Override to support editing the table view.
+    ///
+    /// 削除処理
+    ///
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            self.categoryList.delete(indexPath.row)
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
@@ -209,12 +232,17 @@ class CategoryMasterViewController: UITableViewController {
         }    
     }
 
-    // Override to support rearranging the table view.
+    ///
+    /// 並び替え
+    ///
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
+        let category = self.categoryList.get(fromIndexPath.row)
+        self.categoryList.moveRow(data: category, toRow: to.row)
     }
 
-    // Override to support conditional rearranging of the table view.
+    ///
+    /// 並び替えの有効化
+    ///
     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the item to be re-orderable.
         return true

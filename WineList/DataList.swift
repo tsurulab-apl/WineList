@@ -1,35 +1,64 @@
 //
-//  Category.swift
-//  WineList
+//  DataList.swift
+//  DataList
 //
 //  Created by 鶴澤幸治 on 2017/06/20.
 //  Copyright © 2017年 Koji Tsurusawa. All rights reserved.
 //
-/******************************************
+
 import Foundation
 import CoreData
 
-public class CategoryList {
+//public protocol LinkedData {
+//    
+//    var next:LinkedData? { get set }
+//    var previous:LinkedData? { get set }
+//    //func fetchRequest() -> NSFetchRequest<NSManagedObject>
+//}
+public class LinkedData: NSManagedObject {
+//    var _entityName = "LinkedData"
+//    var entityName: String {
+//        get {
+//            return self._entityName
+//        }
+//    }
+    @NSManaged public var next: LinkedData?
+    @NSManaged public var previous: LinkedData?
+    func fetchRequest() -> NSFetchRequest<LinkedData> {
+        let entityName = NSStringFromClass(type(of: self))
+        print("##### entityName=\(entityName)")
+        return NSFetchRequest<LinkedData>(entityName: entityName)
+    }
+}
+///
+///
+///
+public class DataList<T: LinkedData> {
     // カテゴリーの先頭
-    var first:Category?
+    var first:T?
 
     // カテゴリーの最後
-    var last:Category? {
-        var category = self.first
+    var last:T? {
+        var data:T? = self.first
         while true {
-            if let next = category?.next {
-                category = next
+            if let next = data?.next as? T {
+                data = next
             } else {
                 break
             }
         }
-        return category
+        return data
     }
     //
     var managedObjectContext:NSManagedObjectContext
+
     ///
     /// イニシャライザ
     ///
+//    init(entityName:String, managedObjectContext:NSManagedObjectContext) {
+//        self._entityName = entityName
+//        self.managedObjectContext = managedObjectContext
+//    }
     init(managedObjectContext:NSManagedObjectContext) {
         self.managedObjectContext = managedObjectContext
     }
@@ -37,15 +66,15 @@ public class CategoryList {
     /// カテゴリーの取得
     ///
     func getData() {
-        let category:Category? = self.getFirst()
-        self.first = category
+        let data:T? = self.getFirst()
+        self.first = data
     }
     ///
     /// 最初のカテゴリーの取得
     ///
-    func getFirst() -> Category? {
-        var firstCategory:Category? = nil
-        let fetchRequest: NSFetchRequest<Category> = Category.fetchRequest()
+    func getFirst() -> T? {
+        var firstData:T? = nil
+        let fetchRequest = T.fetchRequest()
         let predicates = [
             //NSPredicate(format: "category = %d", category.rawValue),
             NSPredicate(format: "previous == nil")
@@ -55,25 +84,25 @@ public class CategoryList {
         fetchRequest.predicate = compoundedPredicate
         do {
             let fetchData = try self.managedObjectContext.fetch(fetchRequest)
-            for category in fetchData {
-                firstCategory = category
+            for data in fetchData {
+                firstData = data as? T
                 break
             }
         } catch {
             print("Fetching Failed.")
         }
-        return firstCategory
+        return firstData
     }
     ///
     /// 件数取得
     ///
     func count() -> Int {
         var count:Int = 0
-        if var category = self.first {
+        if var data = self.first {
             while true {
                 count += 1
-                if let next = category.next {
-                    category = next
+                if let next = data.next {
+                    data = next as! T
                 } else {
                     break
                 }
@@ -82,86 +111,86 @@ public class CategoryList {
         return count
     }
     ///
-    /// カテゴリー取得
+    /// データ取得
     ///
-    func get(_ row: Int) -> Category {
+    func get(_ row: Int) -> T {
         var index:Int = -1
-        var category:Category = self.first!
+        var data:T = self.first!
         while true {
             index += 1
             if ( index == row ){
                 break
             }
-            if let next = category.next {
-                category = next
+            if let next = data.next {
+                data = next as! T
             } else {
                 break
             }
         }
-        return category
+        return data
     }
 
     ///
-    /// カテゴリー取得(Nilを含む)
+    /// データ取得(Nilを含む)
     ///
-    func getWithNil(row: Int) -> Category? {
+    func getWithNil(row: Int) -> T? {
         var index:Int = 0
-        var category:Category? = self.first
-        while category != nil {
+        var data:T? = self.first
+        while data != nil {
             if ( index == row ){
                 break
             }
-            category = category?.next
+            data = data?.next as? T
             index += 1
         }
-        return category
+        return data
     }
     
     ///
-    /// 新しいカテゴリーの作成
+    /// 新しいデータの作成
     ///
-    func new() -> Category {
-        let category = Category(context: managedObjectContext)
-        return category
+    func new() -> T {
+        let data = T(context: managedObjectContext)
+        return data
     }
     
     ///
     /// カテゴリーの削除
     ///
     func delete(_ row: Int){
-        let category = self.get(row)
+        let data = self.get(row)
         
-        self.leave(category: category)
+        self.leave(data: data)
         
-        self.managedObjectContext.delete(category)
+        self.managedObjectContext.delete(data)
         self.save()
     }
     ///
     /// 並べ替え
     ///
-    func moveRow(category:Category, toRow:Int){
+    func moveRow(data:T, toRow:Int){
         // 元の位置の調整
-        self.leave(category: category)
+        self.leave(data: data)
         // 新しい位置の調整
-        self.arrive(category: category, toRow: toRow)
+        self.arrive(data: data, toRow: toRow)
         // 保存
         self.save()
     }
     ///
     /// 元の位置の調整
     ///
-    func leave(category:Category){
-        if let next = category.next {
-            if let previous = category.previous {
+    func leave(data:T){
+        if let next = data.next {
+            if let previous = data.previous {
                 // 前後とも存在する場合は、前後を連結
                 previous.next = next
             } else {
                 // 後のみ存在する場合は、後ろを先頭に設定
                 next.previous = nil
-                self.setFirst(category: next)
+                self.setFirst(data: next as! T)
             }
         } else {
-            if let previous = category.previous {
+            if let previous = data.previous {
                 // 前のみ存在する場合は、前のnextをクリア
                 previous.next = nil
             } else {
@@ -174,23 +203,23 @@ public class CategoryList {
     ///
     /// 新しい位置の調整
     ///
-    func arrive(category:Category, toRow:Int){
-        // 新しい位置のカテゴリーを検索
-        if let position:Category = self.getWithNil(row:toRow) {
-            category.previous = position.previous
-            category.next = position
-            if category.previous == nil {
+    func arrive(data:T, toRow:Int){
+        // 新しい位置のデータを検索
+        if let position:T = self.getWithNil(row:toRow) {
+            data.previous = position.previous
+            data.next = position
+            if data.previous == nil {
                 // 先頭に設定
-                self.setFirst(category: category)
+                self.setFirst(data: data)
             }
         } else {
-            // カテゴリーがない場合
-            self.insert(category:category)
+            // データがない場合
+            self.insert(data:data)
         }
     }
 
     ///
-    /// カテゴリーの保存
+    /// データの保存
     ///
     func save(){
         do {
@@ -200,40 +229,40 @@ public class CategoryList {
         }
     }
     ///
-    /// カテゴリーの保存
+    /// データの保存
     ///
-    func save(category:Category){
-        if (category.isInserted) {
-            self.insert(category: category)
-        } else if (category.isUpdated) {
-            self.update(category: category)
+    func save(data:T){
+        if (data.isInserted) {
+            self.insert(data: data)
+        } else if (data.isUpdated) {
+            self.update(data: data)
         }
         self.save()
     }
     ///
-    /// カテゴリーの追加
+    /// データの追加
     ///
-    func insert(category:Category){
-        category.previous = nil
-        category.next = nil
+    func insert(data:T){
+        data.previous = nil
+        data.next = nil
         if let last = self.last {
-            last.next = category
+            last.next = data
         } else {
             // 自身を先頭に設定
-            self.setFirst(category: category)
+            self.setFirst(data: data)
         }
     }
     ///
-    /// カテゴリーの更新
+    /// データの更新
     ///
-    func update(category:Category){
+    func update(data:T){
         // 何もしない
     }
     ///
     /// 先頭に設定
     ///
-    func setFirst(category:Category){
-        self.first = category
+    func setFirst(data:T){
+        self.first = data
     }
     ///
     /// 先頭をクリア
@@ -243,4 +272,3 @@ public class CategoryList {
     }
 
 }
-*************************/

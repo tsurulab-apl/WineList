@@ -56,7 +56,7 @@ class CategoryRegistrationViewController: UIViewController {
             category.insertDate = now
         }
         category.updateDate = now
-        categoryList.save(category: category)
+        categoryList.save(data: category)
 
         let categoryDetailViewController = self.parent as! CategoryDetailViewController
         categoryDetailViewController.selectedCell(category: category)
@@ -75,7 +75,7 @@ class CategoryRegistrationViewController: UIViewController {
     ///
     /// カテゴリーリストの取得
     ///
-    func getCategoryList() -> CategoryList {
+    func getCategoryList() -> DataList<Category> {
         let categoryDetailViewController = self.parent as! CategoryDetailViewController
         let categoryList = categoryDetailViewController.getCategoryList()
         return categoryList
@@ -106,8 +106,26 @@ class CategoryRegistrationViewController: UIViewController {
     func addCategory() {
         self.category = nil
         self.nameTextField.text = nil
+        self.insertDateLabel.text = nil
+        self.updateDateLabel.text = nil
     }
-
+    ///
+    /// 保存ボタン
+    ///
+    @IBAction func saveButtonTouchUpInside(_ sender: Any) {
+        self.save()
+    }
+    ///
+    /// リセットボタン
+    ///
+    @IBAction func resetButtonTouchUpInside(_ sender: Any) {
+        if self.category != nil {
+            self.selectedCell(category: self.category!)
+        }
+        else{
+            self.addCategory()
+        }
+    }
     /*
     // MARK: - Navigation
 

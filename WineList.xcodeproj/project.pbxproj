@@ -37,6 +37,7 @@
 		EBF320791EF8B60300797BD6 /* Category+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF320771EF8B60300797BD6 /* Category+CoreDataClass.swift */; };
 		EBF3207A1EF8B60300797BD6 /* Category+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF320781EF8B60300797BD6 /* Category+CoreDataProperties.swift */; };
 		EBF3207C1EFA885B00797BD6 /* CategoryRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF3207B1EFA885B00797BD6 /* CategoryRegistrationViewController.swift */; };
+		EBF3207E1F00DF5A00797BD6 /* DataList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF3207D1F00DF5A00797BD6 /* DataList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,7 @@
 		EBF320771EF8B60300797BD6 /* Category+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Category+CoreDataClass.swift"; path = "WineList/Category+CoreDataClass.swift"; sourceTree = "<group>"; };
 		EBF320781EF8B60300797BD6 /* Category+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Category+CoreDataProperties.swift"; path = "WineList/Category+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		EBF3207B1EFA885B00797BD6 /* CategoryRegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryRegistrationViewController.swift; sourceTree = "<group>"; };
+		EBF3207D1F00DF5A00797BD6 /* DataList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +164,7 @@
 				EB64ABE91ECDDA630044151E /* WineList.swift */,
 				EBF320611EF16AC100797BD6 /* Settings.swift */,
 				EB64ABEB1ECFD8250044151E /* LinkedList.swift */,
+				EBF3207D1F00DF5A00797BD6 /* DataList.swift */,
 				EBCDF5451EEFFD3B00033689 /* SettingViewController.swift */,
 				EBF320631EF4CF6B00797BD6 /* Utils.swift */,
 				EBF3206B1EF8A0BE00797BD6 /* Category.storyboard */,
@@ -354,6 +357,7 @@
 				EBF3207A1EF8B60300797BD6 /* Category+CoreDataProperties.swift in Sources */,
 				EBF320621EF16AC100797BD6 /* Settings.swift in Sources */,
 				EBF320641EF4CF6B00797BD6 /* Utils.swift in Sources */,
+				EBF3207E1F00DF5A00797BD6 /* DataList.swift in Sources */,
 				EBA9C4491E9E526400311E3B /* AppDelegate.swift in Sources */,
 				EB28D33E1EBD594100E77397 /* RegistrationViewController.swift in Sources */,
 				EBA9C4511E9E526400311E3B /* WineList.xcdatamodeld in Sources */,
