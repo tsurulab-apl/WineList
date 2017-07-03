@@ -10,6 +10,10 @@ import Foundation
 import CoreData
 
 @objc(Wine)
-public class Wine: NSManagedObject {
-
+public class Wine: LinkedData {
+    override class var entityName: String {
+        get {
+            return "Wine"
+        }
+    }
 }

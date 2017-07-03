@@ -11,5 +11,13 @@ import CoreData
 
 @objc(Category)
 public class Category: LinkedData {
+    override class var entityName: String {
+        get {
+            return "Category"
+        }
+    }
 
+//    override class func entityName() -> String {
+//        return "Category"
+//    }
 }

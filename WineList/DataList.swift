@@ -15,7 +15,20 @@ import CoreData
 //    var previous:LinkedData? { get set }
 //    //func fetchRequest() -> NSFetchRequest<NSManagedObject>
 //}
+//protocol EntityWithName {
+//    static func entityName() -> String
+//}
 public class LinkedData: NSManagedObject {
+//    class func entityName() -> String {
+//        fatalError("have to override")
+//    }
+
+    class var entityName: String {
+        get{
+            fatalError("have to override")
+        }
+    }
+
 //    var _entityName = "LinkedData"
 //    var entityName: String {
 //        get {
@@ -24,10 +37,12 @@ public class LinkedData: NSManagedObject {
 //    }
     @NSManaged public var next: LinkedData?
     @NSManaged public var previous: LinkedData?
-    func fetchRequest() -> NSFetchRequest<LinkedData> {
-        let entityName = NSStringFromClass(type(of: self))
-        print("##### entityName=\(entityName)")
-        return NSFetchRequest<LinkedData>(entityName: entityName)
+
+    override public class func fetchRequest() -> NSFetchRequest<NSFetchRequestResult> {
+        //let entityName = NSStringFromClass(type(of: self))
+        //let entityName = self.entityName
+        print("##### entityName=\(self.entityName)")
+        return NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName)
     }
 }
 ///

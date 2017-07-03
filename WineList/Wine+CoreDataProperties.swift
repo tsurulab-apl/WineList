@@ -12,9 +12,9 @@ import CoreData
 
 extension Wine {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Wine> {
-        return NSFetchRequest<Wine>(entityName: "Wine")
-    }
+//    @nonobjc public class func fetchRequest() -> NSFetchRequest<Wine> {
+//        return NSFetchRequest<Wine>(entityName: "Wine")
+//    }
 
     @NSManaged public var category: Int16
     @NSManaged public var color: String?
@@ -30,7 +30,7 @@ extension Wine {
     //NSDateをDateに変更
     @NSManaged public var updateDate: Date?
     @NSManaged public var vintage: Int16
-    @NSManaged public var next: Wine?
-    @NSManaged public var previous: Wine?
+    //@NSManaged public var next: Wine?
+    //@NSManaged public var previous: Wine?
 
 }
