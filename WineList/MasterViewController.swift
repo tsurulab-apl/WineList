@@ -374,7 +374,9 @@ class MasterViewController: UITableViewController,SettingsDelegate {
     override func viewWillAppear(_ animated: Bool) {
         // CoreDataからデータをfetchしてくる
         //self.getData()
+/*********
         self.wineList.getData()
+ ***********/
         // 並び順を初期化
         //self.wineList?.initWineOrder()
         // TableViewを再読み込みする
@@ -385,7 +387,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
     ///
     func reloadWineTableView(){
         //self.getData()
-        self.wineList.getData()
+        //self.wineList.getData()
         self.wineTableView.reloadData()
     }
     ///
@@ -459,6 +461,22 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         }
     }
 ***********/
+    ///
+    /// カテゴリーリストの取得
+    ///
+    func getCategoryList() -> DataList<Category> {
+        let wineList = self.getWineList()
+        let categoryList = wineList.categoryList
+        return categoryList
+    }
+    ///
+    /// カテゴリーの取得
+    ///
+    func getCategory(_ row: Int) -> Category {
+        let categoryList = self.getCategoryList()
+        let category = categoryList.get(row)
+        return category
+    }
     
     // MARK: - Table view data source
 
@@ -467,38 +485,45 @@ class MasterViewController: UITableViewController,SettingsDelegate {
     ///
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return CategoryEnum.count
+        let categoryList = self.getCategoryList()
+        let count = categoryList.count()
+        return count
+        //return CategoryEnum.count
     }
     ///
     /// テーブルビューのセクションデータ
     ///
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let category = CategoryEnum.init(raw: section)
-        return category?.description
+//        let category = CategoryEnum.init(raw: section)
+//        return category?.description
+        let category = self.getCategory(section)
+        return category.name
     }
     ///
     /// テーブルビューのデータの個数を返すメソッド
     ///
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //return self.wineList.count
-        let category = CategoryEnum.init(raw: section)
+        //let category = CategoryEnum.init(raw: section)
+        let category = self.getCategory(section)
         //let wineArray = self.wineDictionary[category!]
         //let count = wineArray?.count
-        let count = self.wineList.count(category!)
+        let count = self.wineList.count(category)
         return count
     }
     ///
     /// データを返すメソッド
     ///
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let category = CategoryEnum.init(raw: indexPath.section)
+        //let category = CategoryEnum.init(raw: indexPath.section)
+        let category = self.getCategory(indexPath.section)
         //let wineArray = self.wineDictionary[category!]
         
         //セルを取得し、テキストを設定して返す。
         let cell = tableView.dequeueReusableCell(withIdentifier: "WineCell", for: indexPath)
         //let wine = wineArray?[indexPath.row]
         //let wine = self.wineList[indexPath.row]
-        let wine = self.wineList.getWine(category!, indexPath.row)
+        let wine = self.wineList.getWine(category, indexPath.row)
 //        cell.textLabel?.text = wine.name
 //        cell.detailTextLabel?.text = NumberUtil.japanesePrice(price: Int(wine.price))
         let imageView = cell.viewWithTag(1) as! UIImageView
@@ -545,10 +570,11 @@ class MasterViewController: UITableViewController,SettingsDelegate {
     /// データ選択後の呼び出しメソッド
     ///
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let category = CategoryEnum.init(raw: indexPath.section)
+        //let category = CategoryEnum.init(raw: indexPath.section)
+        let category = self.getCategory(indexPath.section)
         //let wineArray = self.wineDictionary[category!]
         //let wine = wineArray?[indexPath.row]
-        let wine = self.wineList.getWine(category!, indexPath.row)
+        let wine = self.wineList.getWine(category, indexPath.row)
         self.delegate?.selectedCell(wine: wine)
         //todo
 //        if let selectedRowIndexPath = tableView.indexPathForSelectedRow {
@@ -578,10 +604,11 @@ class MasterViewController: UITableViewController,SettingsDelegate {
             print("editingStyle=delete")
             // Delete the row from the data source
             //tableView.deleteRows(at: [indexPath], with: .fade)
-            let category = CategoryEnum.init(raw: indexPath.section)
+            //let category = CategoryEnum.init(raw: indexPath.section)
+            let category = self.getCategory(indexPath.section)
 //            var wineArray = self.wineDictionary[category!]
 //            wineArray?.remove(at: indexPath.row)
-            self.wineList.delete(category!, indexPath.row)
+            self.wineList.delete(category, indexPath.row)
             tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.fade)
             //tableView.reloadData()
         } else if editingStyle == .insert {
@@ -595,12 +622,14 @@ class MasterViewController: UITableViewController,SettingsDelegate {
     ///
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
         print("moveRowAt")
-        let fromCategory = CategoryEnum.init(raw: fromIndexPath.section)
-        let wine = self.wineList.getWine(fromCategory!, fromIndexPath.row)
-        print("from category=" + (fromCategory?.description)! + " name=" + (wine.name)!)
+        //let fromCategory = CategoryEnum.init(raw: fromIndexPath.section)
+        let fromCategory = self.getCategory(fromIndexPath.section)
+        let wine = self.wineList.getWine(fromCategory, fromIndexPath.row)
+        //print("from category=" + (fromCategory?.description)! + " name=" + (wine.name)!)
 
-        let toCategory = CategoryEnum.init(raw: to.section)
-        self.wineList.moveRow(wine: wine, toCategory: toCategory!, toRow: to.row)
+        //let toCategory = CategoryEnum.init(raw: to.section)
+        let toCategory = self.getCategory(to.section)
+        self.wineList.moveRow(wine: wine, toCategory: toCategory, toRow: to.row)
     }
 
     ///

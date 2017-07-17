@@ -8,7 +8,8 @@
 
 import UIKit
 
-class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate,UIScrollViewDelegate {
+//class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate,UIScrollViewDelegate {
+class RegistrationViewController: AbstractRegistrationViewController,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate {
     
     @IBOutlet weak var formStackView: UIStackView!
     @IBOutlet weak var mainScrollView: UIScrollView!
@@ -30,11 +31,13 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
     let newImageName = "test_morning_sample"
 
     var wine: Wine? = nil
-    
+
+/**********:
     // キーボード表示時にテキストフィールドやテキストビューが隠れないようにスクロールする対応用
     var activeText:UIView?
     let scrollMargin:Float = 8.0
-
+*************/
+    
     ///
     /// viewDidLoad
     ///
@@ -55,7 +58,8 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         // noteの枠線
         self.noteTextView.layer.borderWidth = 0.5
         self.noteTextView.layer.borderColor = UIColor.lightGray.cgColor
-        
+
+/********
         // スクロールビューのdelegate設定
         self.mainScrollView.delegate = self
 
@@ -64,7 +68,27 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         self.aliasTextField.delegate = self
         self.priceTextField.delegate = self
         self.noteTextView.delegate = self
+***********/
     }
+    ///
+    /// スクロールビューを戻す。
+    ///
+    override func getScrollView() -> UIScrollView {
+        return self.mainScrollView
+    }
+    ///
+    /// delegate設定するUITextFiledの配列を戻す。
+    ///
+    override func getUITextFields() -> [UITextField] {
+        return [self.nameTextField, self.aliasTextField, self.priceTextField]
+    }
+    ///
+    /// delegate設定するUITextViewの配列を戻す。
+    ///
+    override func getUITextViews() -> [UITextView] {
+        return [self.noteTextView]
+    }
+    
     ///
     /// didReceiveMemoryWarning
     ///
@@ -77,15 +101,17 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
     ///
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+/******
         // キーボード表示時のスクロール対応
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(RegistrationViewController.keyboardWillShowNotification(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         notificationCenter.addObserver(self, selector: #selector(RegistrationViewController.keyboardWillHideNotification(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+*********/
     }
     ///
     /// キーボードを表示する際にテキストフィールドやテキストビューと重複しないようスクロールを調整する。
     ///
+/***************
     func keyboardWillShowNotification(_ notification: Notification) {
         if let activeText = self.activeText {
             if let userInfo = notification.userInfo {
@@ -110,37 +136,45 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
             self.activeText = nil
         }
     }
-    
+*************/
     ///
     /// キーボードの表示を終了する際にスクロールを元に戻す。
     ///
+/*************
     func keyboardWillHideNotification(_ notification: Notification) {
         self.mainScrollView.contentOffset.y = 0
     }
+***************/
     ///
     /// 改行(Enter)時にキーボードを閉じる
     /// 名前、価格
     ///
+/*****************
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
+*******************/
     ///
     /// UITextFieldの編集を開始した際
     /// activeTextに自身を保存し、キーボードのスクロールを制御する。
     ///
+/***************
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         self.activeText = textField
         return true
     }
+*******************/
     ///
     /// UITextViewの編集を開始した際
     /// activeTextに自身を保存し、キーボードのスクロールを制御する。
     ///
+/**********************
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         self.activeText = textView
         return true
     }
+******************/
     ///
     /// スクロールビューのZoom対象を戻す。
     ///
@@ -154,16 +188,29 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
     func initCategory(){
         self.categorySegmentedControl.removeAllSegments()
         var i = 0
-        for elem in CategoryEnum.enumerate() {
-            let category = elem.element
-            self.categorySegmentedControl.insertSegment(withTitle: category.description, at: i, animated: true)
-            //self.categorySegmentedControl.setTitle(category.description, forSegmentAt: i)
+        let wineList = self.getWineList()
+        let categoryList = wineList.categoryList
+        for category in categoryList {
+            self.categorySegmentedControl.insertSegment(withTitle: category.name, at: i, animated: true)
             i += 1
-            //print(category)  // White, Red, Rose, Sparkling
         }
         self.categorySegmentedControl.sizeToFit()
     }
-    // ヴィンテージピッカービューの作成
+//    func initCategory(){
+//        self.categorySegmentedControl.removeAllSegments()
+//        var i = 0
+//        for elem in CategoryEnum.enumerate() {
+//            let category = elem.element
+//            self.categorySegmentedControl.insertSegment(withTitle: category.description, at: i, animated: true)
+//            //self.categorySegmentedControl.setTitle(category.description, forSegmentAt: i)
+//            i += 1
+//            //print(category)  // White, Red, Rose, Sparkling
+//        }
+//        self.categorySegmentedControl.sizeToFit()
+//    }
+    ///
+    /// ヴィンテージピッカービューの作成
+    ///
     func initVintagePickerView(){
         self.initVintageList()
         pickerView.delegate = self
@@ -178,7 +225,9 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         self.vintageTextField.inputView = pickerView
         self.vintageTextField.inputAccessoryView = toolbar
     }
-    // ヴィンテージリストの作成
+    ///
+    /// ヴィンテージリストの作成
+    ///
     func initVintageList(){
         let now = Date()
         // システムのカレンダーを取得
@@ -192,27 +241,39 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
             self.vintageList.append(String(year))
         }
     }
-    // PickerViewの列数
+    ///
+    /// PickerViewの列数
+    ///
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
-    // PickerViewの行数
+    ///
+    /// PickerViewの行数
+    ///
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return vintageList.count
     }
-    // PickerViewの要素
+    ///
+    /// PickerViewの要素
+    ///
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return vintageList[row]
     }
-    // PickerView選択時
+    ///
+    /// PickerView選択時
+    ///
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.vintageTextField.text = vintageList[row]
     }
-    // PickerViewのdoneボタン
+    ///
+    /// PickerViewのdoneボタン
+    ///
     func done() {
         self.vintageTextField.endEditing(true)
     }
-    // PickerViewのcancelボタン
+    ///
+    /// PickerViewのcancelボタン
+    ///
     func cancel() {
         self.vintageTextField.text = ""
         self.vintageTextField.endEditing(true)
@@ -238,7 +299,9 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
             self.priceTextField.endEditing(true)
         }
     }
-    // 写真ボタン
+    ///
+    /// 写真ボタン
+    ///
     @IBAction func imageSelectTouchUpInside(_ sender: Any) {
         print("imageSelectTouchUpInside")
         let alert = UIAlertController(title:"ワイン画像", message: "画像を選択してください。", preferredStyle: UIAlertControllerStyle.alert)
@@ -267,7 +330,9 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         self.present(alert, animated: true, completion: nil)
         
     }
-    // Photo Libraryから選択
+    ///
+    /// Photo Libraryから選択
+    ///
     func pickImageFromLibrary(){
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary){
             let imagePickerController = UIImagePickerController()
@@ -277,7 +342,9 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
             present(imagePickerController, animated: true, completion: nil)
         }
     }
-    // 写真を撮ってそれを選択
+    ///
+    /// 写真を撮ってそれを選択
+    ///
     func pickImageFromCamera() {
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
             let imagePickerController = UIImagePickerController()
@@ -287,7 +354,9 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
             present(imagePickerController, animated: true, completion: nil)
         }
     }
-    // 写真選択時の処理
+    ///
+    /// 写真選択時の処理
+    ///
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]){
         
         if info[UIImagePickerControllerOriginalImage] != nil {
@@ -350,7 +419,9 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         // ④ Alertを表示
         present(alert, animated: true, completion: nil)
     }
-    // リセットボタン
+    ///
+    /// リセットボタン
+    ///
     @IBAction func resetTouchUpInside(_ sender: Any) {
         print("resetTouchUpInside")
         if self.wine != nil {
@@ -360,7 +431,9 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
             self.addWine()
         }
     }
-    // マスターテーブルで選択されたワインの更新
+    ///
+    /// マスターテーブルで選択されたワインの更新
+    ///
     func selectedCell(wine: Wine) {
         self.title = "ワインの更新"
         
@@ -369,7 +442,8 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         self.aliasTextField.text = wine.alias
         self.noteTextView.text = wine.note
         self.vintageTextField.text = String(wine.vintage)
-        self.categorySegmentedControl.selectedSegmentIndex = Int(wine.category)
+        //self.categorySegmentedControl.selectedSegmentIndex = Int(wine.category)
+        self.setCategorySegmentedControl(wine: wine)
         self.priceTextField.text = String(wine.price)
         self.displaySwitch.isOn = wine.display
         if let image = wine.image {
@@ -388,6 +462,15 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         if let updateDate = wine.updateDate {
             self.updateDateLabel.text = formatter.string(from: updateDate)
         }
+    }
+    ///
+    /// カテゴリーを選択
+    ///
+    func setCategorySegmentedControl(wine: Wine){
+        let wineList = self.getWineList()
+        let categoryList = wineList.categoryList
+        let index = categoryList.index(data: wine.category!)
+        self.categorySegmentedControl.selectedSegmentIndex = index
     }
     ///
     /// ワインの追加(空画面の生成)
@@ -441,7 +524,11 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         let vintage = self.textFieldToInt16(textField: self.vintageTextField)
         wine.vintage = vintage
 
-        wine.category = Int16(self.categorySegmentedControl.selectedSegmentIndex)
+        //wine.category = Int16(self.categorySegmentedControl.selectedSegmentIndex)
+        let categoryList = wineList.categoryList
+        let category = categoryList.get(self.categorySegmentedControl.selectedSegmentIndex)
+        //wine.category = category
+        wine.changeCategory(category)
 
         let price = self.textFieldToInt32(textField: self.priceTextField)
         wine.price = price
@@ -471,19 +558,25 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
 
         self.reloadWineTableView()
     }
-    // テキストフィールドの値をInt16で取得
+    ///
+    /// テキストフィールドの値をInt16で取得
+    ///
     func textFieldToInt16(textField: UITextField) -> Int16 {
         let str:String = textField.text!
         let num :Int16 = Int16(str)!
         return num
     }
-    // テキストフィールドの値をInt32で取得
+    ///
+    /// テキストフィールドの値をInt32で取得
+    ///
     func textFieldToInt32(textField: UITextField) -> Int32 {
         let str:String = textField.text!
         let num :Int32 = Int32(str)!
         return num
     }
-    // マスターテーブルのリロード
+    ///
+    /// マスターテーブルのリロード
+    ///
     func reloadWineTableView(){
         let detailViewController = self.parent as! DetailViewController
         detailViewController.reloadWineTableView()

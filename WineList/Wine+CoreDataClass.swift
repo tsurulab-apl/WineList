@@ -11,6 +11,7 @@ import CoreData
 
 @objc(Wine)
 public class Wine: LinkedData {
+    var oldCategory:Category?
     override class var entityName: String {
         get {
             return "Wine"

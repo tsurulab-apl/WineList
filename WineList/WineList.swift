@@ -8,20 +8,33 @@
 
 import Foundation
 import CoreData
-///
-///
-///
-public class WineList {
+
+public class WineDataList:DataList<Wine> {
     private var manageMode:Bool = false
-    
-    var firstWine:Dictionary<CategoryEnum, Wine> = [:]
-    var wineDictionary:Dictionary<CategoryEnum, Array<Wine>> = [:]
-    var managedObjectContext:NSManagedObjectContext
+    private var category:Category
+
     ///
     /// イニシャライザ
     ///
-    init(managedObjectContext:NSManagedObjectContext) {
-        self.managedObjectContext = managedObjectContext
+    init(managedObjectContext:NSManagedObjectContext,category:Category) {
+        self.category = category
+        super.init(managedObjectContext: managedObjectContext)
+    }
+    ///
+    /// 最初のワインの取得
+    ///
+    override func getFirst() -> Wine? {
+        var first:Wine? = nil
+        if let wines = self.category.wines {
+            for wineAny in wines {
+                let wine = wineAny as! Wine
+                if wine.previous == nil {
+                    first = wine
+                    break
+                }
+            }
+        }
+        return first
     }
     ///
     /// 管理モードへの変更
@@ -36,9 +49,76 @@ public class WineList {
         self.manageMode = false
     }
     ///
+    /// 管理モード判定
+    ///
+    func isMangeMode() -> Bool{
+        return self.manageMode
+    }
+    ///
+    /// 参照モード判定
+    ///
+    func isReferenceMode() -> Bool{
+        return !self.manageMode
+    }
+    ///
+    /// 対象判定
+    ///
+    override func isTarget(_ data:Wine) -> Bool {
+        var isTarget:Bool = true
+        if self.isReferenceMode() {
+            if !data.display {
+                isTarget = false
+            }
+        }
+        return isTarget
+    }
+}
+///
+///
+///
+public class WineList {
+    private var manageMode:Bool = false
+    var categoryList:DataList<Category>
+    
+    //var firstWine:Dictionary<CategoryEnum, Wine> = [:]
+    var wineDataList:Dictionary<Category, WineDataList> = [:]
+    var firstWine:Dictionary<Category, Wine> = [:]
+    //var wineDictionary:Dictionary<CategoryEnum, Array<Wine>> = [:]
+    var managedObjectContext:NSManagedObjectContext
+    ///
+    /// イニシャライザ
+    ///
+    init(managedObjectContext:NSManagedObjectContext) {
+        self.managedObjectContext = managedObjectContext
+        self.categoryList = DataList<Category>(managedObjectContext:managedObjectContext)
+        self.getData()
+        //self.categoryList.getData()
+    }
+    ///
+    /// 管理モードへの変更
+    ///
+    func setManageMode(){
+        self.manageMode = true
+        for dict in self.wineDataList {
+            let dataList = dict.value as WineDataList
+            dataList.setManageMode()
+        }
+    }
+    ///
+    /// 参照モードへの変更
+    ///
+    func setReferenceMode(){
+        self.manageMode = false
+        for dict in self.wineDataList {
+            let dataList = dict.value as WineDataList
+            dataList.setReferenceMode()
+        }
+    }
+    ///
     /// ワインの並び順の初期化
     /// 読み込んだ順序でリンクリスト化する。
     ///
+/**********
     func initWineOrder(){
         self.getAllData()
         for elem in CategoryEnum.enumerate() {
@@ -49,9 +129,11 @@ public class WineList {
         // CoreDataを保存
         self.save()
     }
+***********/
     ///
     /// カテゴリーごとの配列の順に順序を付与する。
     ///
+/**********
     func initWineOrderFromArray(_ wineArray:Array<Wine>) {
         var previousWine:Wine? = nil
         for wine in wineArray {
@@ -62,10 +144,12 @@ public class WineList {
             lastWine.next = nil
         }
     }
+************/
     ///
     /// 最初のワインの初期化
     /// TODO:削除
     ///
+/**********
     func initFirstWine(){
         self.firstWine = [:]
         //        for elem in CategoryEnum.enumerate() {
@@ -73,9 +157,11 @@ public class WineList {
         //            self.firstWine[category] = nil
         //        }
     }
+**********/
     ///
     /// ワインディクショナリーの初期化
     ///
+/************
     func initWineDictionary(){
         self.wineDictionary = [:]
         for elem in CategoryEnum.enumerate() {
@@ -84,18 +170,30 @@ public class WineList {
             self.wineDictionary[category] = wineArray
         }
     }
+**********/
     ///
     /// ワインディクショナリーへのワインの追加
     ///
+/********
     func appendWineDictionary(wine: Wine){
         let category = CategoryEnum.init(raw: Int(wine.category))
         var wineArray = self.wineDictionary[category!]
         wineArray?.append(wine)
         self.wineDictionary.updateValue(wineArray!, forKey: category!)
     }
+*********/
     ///
     /// ワインの取得
     ///
+    func getData() {
+        self.categoryList.getData()
+        for category in categoryList {
+            let dataList = WineDataList(managedObjectContext: self.managedObjectContext, category: category)
+            dataList.getData()
+            self.wineDataList[category] = dataList
+        }
+    }
+/*********
     func getData() {
         for elem in CategoryEnum.enumerate() {
             let category = elem.element
@@ -105,9 +203,26 @@ public class WineList {
             }
         }
     }
+**********/
     ///
     /// 最初のワインの取得
     ///
+/******
+    func getFirstWine(category:Category)->Wine?{
+        var first:Wine? = nil
+        if let wines = category.wines {
+            for wineAny in wines {
+                let wine = wineAny as! Wine
+                if wine.previous == nil {
+                    first = wine
+                    break
+                }
+            }
+        }
+        return first
+    }
+**********/
+/*******
     func getFirstWine(category:CategoryEnum)->Wine?{
         var firstWine:Wine? = nil
         let fetchRequest = Wine.fetchRequest()
@@ -128,9 +243,11 @@ public class WineList {
         }
         return firstWine
     }
+**********/
     ///
     /// データ取得
     ///
+/************
     func getAllData() {
         self.initWineDictionary()
         
@@ -145,9 +262,18 @@ public class WineList {
             print("Fetching Failed.")
         }
     }
+**************/
     ///
     /// 件数取得
     ///
+    func count(_ category:Category) -> Int{
+        var count:Int = 0
+        if let dataList = self.wineDataList[category] {
+            count = dataList.count()
+        }
+        return count
+    }
+/*********
     func count(_ category:CategoryEnum) -> Int{
         var count:Int = 0
         if var wine = self.firstWine[category] {
@@ -168,29 +294,39 @@ public class WineList {
         }
         return count
     }
+**************/
     ///
     /// 管理モード判定
     ///
-    func isMangeMode() -> Bool{
+    func isMangeMode() -> Bool {
         return self.manageMode
     }
     ///
     /// 参照モード判定
     ///
-    func isReferenceMode() -> Bool{
+    func isReferenceMode() -> Bool {
         return !self.manageMode
     }
     ///
     /// TODO:削除
     ///
+/*************
     func countDictionary(_ category:CategoryEnum) -> Int{
         let wineArray = self.wineDictionary[category]
         let count = wineArray?.count
         return count!
     }
+**************/
     ///
     /// ワイン取得
     ///
+    func getWine(_ category:Category, _ row: Int) -> Wine {
+        let dataList = self.wineDataList[category]
+        let wine = dataList?.get(row)
+        return wine!
+    }
+
+/******
     func getWine(_ category:CategoryEnum, _ row: Int) -> Wine{
         //        var count:Int = 0
         //        var wine:Wine? = self.firstWine[category]!
@@ -223,9 +359,19 @@ public class WineList {
         }
         return wine!
     }
+*********/
     ///
     /// ワインの削除
     ///
+    func delete(_ category:Category, _ row: Int){
+        let wine = self.getWine(category,row)
+        
+        self.leave(wine: wine)
+        
+        self.managedObjectContext.delete(wine)
+        self.save()
+    }
+/*******
     func delete(_ category:CategoryEnum, _ row: Int){
         let wine = self.getWine(category,row)
         
@@ -234,6 +380,7 @@ public class WineList {
         self.managedObjectContext.delete(wine)
         self.save()
     }
+*********/
     ///
     /// ワインリストの保存
     ///
@@ -247,11 +394,13 @@ public class WineList {
     ///
     /// TODO:削除
     ///
+/*********
     func getWineDictionary(_ category:CategoryEnum, _ row: Int) -> Wine{
         let wineArray = self.wineDictionary[category]
         let wine = wineArray?[row]
         return wine!
     }
+************/
     ///
     /// 新しいワインの作成
     ///
@@ -262,6 +411,7 @@ public class WineList {
     ///
     /// カテゴリー内の最後のワインを取得
     ///
+/*******
     func getLastWine(category:CategoryEnum) -> Wine?{
         var wine = self.firstWine[category]
         while true {
@@ -273,14 +423,24 @@ public class WineList {
         }
         return wine
     }
+**********/
     ///
     /// カテゴリー内のワインの存在判定
     ///
+    func isExists(category:Category) -> Bool {
+        var isExists:Bool = false
+        if let dataList = self.wineDataList[category] {
+            isExists = dataList.isExists()
+        }
+        return isExists
+    }
+/********
     func isExists(category:CategoryEnum) -> Bool{
         let wine = self.firstWine[category]
         let isExists = (wine != nil)
         return isExists
     }
+*********/
     ///
     /// ワインの保存
     ///
@@ -296,6 +456,13 @@ public class WineList {
     /// ワインの追加
     ///
     func insert(wine:Wine){
+        let category = wine.category
+        if let dataList = self.wineDataList[category!] {
+            dataList.insert(data: wine)
+        }
+    }
+/***********
+    func insert(wine:Wine){
         let category = CategoryEnum.init(raw: Int(wine.category))
         wine.previous = nil
         wine.next = nil
@@ -306,6 +473,7 @@ public class WineList {
             self.setFirst(wine: wine)
         }
     }
+**************/
     ///
     /// ワインの更新
     ///
@@ -322,12 +490,30 @@ public class WineList {
     /// カテゴリーの先頭に設定
     ///
     func setFirst(wine:Wine){
+        let category = wine.category
+        if let dataList = self.wineDataList[category!] {
+            dataList.setFirst(data: wine)
+        }
+    }
+/*******
+    func setFirst(wine:Wine){
         let category = CategoryEnum.init(raw: Int(wine.category))
         self.firstWine[category!] = wine
     }
+*********/
     ///
     /// カテゴリーの先頭をクリア
     ///
+    func clearFirst(wine:Wine){
+        for (_, dataList) in self.wineDataList {
+            // ===で参照が同じかを確認
+            if wine === dataList.first {
+                dataList.clearFirst()
+                break
+            }
+        }
+    }
+/****
     func clearFirst(wine:Wine){
         for elem in CategoryEnum.enumerate() {
             let category = elem.element
@@ -341,9 +527,37 @@ public class WineList {
             }
         }
     }
+***********/
     ///
     /// カテゴリーの変更判定
     ///
+    func isChangeCategory(wine:Wine) -> Bool {
+        let isChange = wine.isChangeCategory()
+        return isChange
+/******
+        var isChange:Bool = false
+        if let next = wine.next {
+            isChange = ((next as! Wine).category != wine.category)
+        } else {
+            if let previous = wine.previous {
+                isChange = ((previous as! Wine).category != wine.category)
+            } else {
+                // next/previousともにnilの場合
+                // カテゴリー内に別のワインが存在すれば、変更判定をtrueとする。
+                // 別のワインがない場合でもカテゴリーの変更はあり得るが、その場合はnext,previousの設定
+                // は不要なため、ここでは判定しない。
+                //let category = CategoryEnum.init(raw: Int(wine.category))
+                let category = wine.category!
+                let isExists = self.isExists(category: category)
+                if isExists {
+                    isChange = true
+                }
+            }
+        }
+        return isChange
+*********/
+    }
+/*******
     func isChangeCategory(wine:Wine)->Bool {
         var isChange:Bool = false
         if let next = wine.next {
@@ -365,9 +579,19 @@ public class WineList {
         }
         return isChange
     }
+***********/
     ///
     /// 並べ替え
     ///
+    func moveRow(wine:Wine, toCategory:Category, toRow:Int){
+        // 元の位置の調整
+        self.leave(wine: wine)
+        // 新しい位置の調整
+        self.arrive(wine: wine, toCategory: toCategory, toRow: toRow)
+        // 保存
+        self.save()
+    }
+/*******
     func moveRow(wine:Wine, toCategory:CategoryEnum, toRow:Int){
         // 元の位置の調整
         self.leave(wine: wine)
@@ -376,6 +600,7 @@ public class WineList {
         // 保存
         self.save()
     }
+*********/
     ///
     /// 元の位置の調整
     ///
@@ -387,7 +612,7 @@ public class WineList {
             } else {
                 // 後のみ存在する場合は、後ろを先頭に設定
                 next.previous = nil
-                setFirst(wine: next as! Wine)
+                self.setFirst(wine: next as! Wine)
             }
         } else {
             if let previous = wine.previous {
@@ -402,6 +627,13 @@ public class WineList {
     ///
     /// 新しい位置の調整
     ///
+    func arrive(wine:Wine, toCategory:Category, toRow:Int){
+        // 新しいカテゴリーを設定
+        wine.category = toCategory
+        let dataList = self.wineDataList[toCategory]
+        dataList?.arrive(data: wine, toRow: toRow)
+    }
+/***********
     func arrive(wine:Wine, toCategory:CategoryEnum, toRow:Int){
         // 新しいカテゴリーを設定
         wine.category = toCategory.rawValue
@@ -419,9 +651,11 @@ public class WineList {
             self.insert(wine:wine)
         }
     }
+****************/
     ///
     /// ワイン取得(Nilを含む)
     ///
+/*********
     func getWineWithNil(category:CategoryEnum, row: Int) -> Wine?{
         var index:Int = 0
         var wine:Wine? = self.firstWine[category]
@@ -434,8 +668,12 @@ public class WineList {
         }
         return wine
     }
+*************/
 }
-
+///
+///
+///
+/********************************************************
 public class WineList2 {
     private var manageMode:Bool = false
 
@@ -860,30 +1098,4 @@ public class WineList2 {
         return wine
     }
 }
-/********
- import Foundation
- import CoreData
- 
- 
- extension Wine {
- 
- @nonobjc public class func fetchRequest() -> NSFetchRequest<Wine> {
- return NSFetchRequest<Wine>(entityName: "Wine")
- }
- 
- @NSManaged public var category: Int16
- @NSManaged public var color: String?
- //NSDataをDataに変更
- @NSManaged public var image: Data?
- @NSManaged public var name: String?
- @NSManaged public var note: String?
- @NSManaged public var vintage: Int16
- @NSManaged public var price: Int32
- @NSManaged public var display: Bool
- //NSDateをDateに変更
- @NSManaged public var insertDate: Date?
- @NSManaged public var updateDate: Date?
- 
- }
-
- *********/
+********************************************************************/

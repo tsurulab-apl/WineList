@@ -244,3 +244,42 @@ public class CategoryList {
 
 }
 *************************/
+/*****
+ import Foundation
+ import CoreData
+ 
+ @objc(Category)
+ public class Category: LinkedData {
+ override class var entityName: String {
+ get {
+ return "Category"
+ }
+ }
+ 
+ //    override class func entityName() -> String {
+ //        return "Category"
+ //    }
+ }
+ import Foundation
+ import CoreData
+ 
+ 
+ extension Category {
+ 
+ //    @nonobjc public class func fetchRequest() -> NSFetchRequest<Category> {
+ //        return NSFetchRequest<Category>(entityName: "Category")
+ //    }
+ //    override convenience init(context:NSManagedObjectContext) {
+ //        self.init(context: context)
+ //        self._entityName = "Category"
+ //    }
+ 
+ @NSManaged public var insertDate: Date?
+ @NSManaged public var name: String?
+ @NSManaged public var updateDate: Date?
+ //@NSManaged public var next: Category?
+ //@NSManaged public var previous: Category?
+ 
+ }
+
+ *****/

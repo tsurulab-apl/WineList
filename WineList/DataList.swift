@@ -78,14 +78,14 @@ public class DataList<T: LinkedData> {
         self.managedObjectContext = managedObjectContext
     }
     ///
-    /// カテゴリーの取得
+    /// データの取得
     ///
     func getData() {
         let data:T? = self.getFirst()
         self.first = data
     }
     ///
-    /// 最初のカテゴリーの取得
+    /// 最初のデータの取得
     ///
     func getFirst() -> T? {
         var firstData:T? = nil
@@ -115,7 +115,9 @@ public class DataList<T: LinkedData> {
         var count:Int = 0
         if var data = self.first {
             while true {
-                count += 1
+                if self.isTarget(data) {
+                    count += 1
+                }
                 if let next = data.next {
                     data = next as! T
                 } else {
@@ -126,13 +128,28 @@ public class DataList<T: LinkedData> {
         return count
     }
     ///
+    /// 存在判定
+    ///
+    func isExists() -> Bool {
+        let isExists = (self.first != nil)
+        return isExists
+    }
+    ///
+    /// 対象判定
+    ///
+    func isTarget(_ data:T) -> Bool {
+        return true
+    }
+    ///
     /// データ取得
     ///
     func get(_ row: Int) -> T {
         var index:Int = -1
         var data:T = self.first!
         while true {
-            index += 1
+            if self.isTarget(data) {
+                index += 1
+            }
             if ( index == row ){
                 break
             }
@@ -143,6 +160,28 @@ public class DataList<T: LinkedData> {
             }
         }
         return data
+    }
+
+    ///
+    /// インデックス取得
+    ///
+    func index(data: T) -> Int {
+        var index:Int = -1
+        var listData:T = self.first!
+        while true {
+            if self.isTarget(listData) {
+                index += 1
+            }
+            if ( data === listData ){
+                break
+            }
+            if let next = listData.next {
+                listData = next as! T
+            } else {
+                break
+            }
+        }
+        return index
     }
 
     ///
@@ -286,4 +325,33 @@ public class DataList<T: LinkedData> {
         self.first = nil
     }
 
+}
+///
+///
+///
+public struct DataListIterator<T: LinkedData>: IteratorProtocol {
+    
+    /// The current node in the iteration
+    private var current: T?
+    
+    public init(_ first: T?) {
+        self.current = first
+    }
+    public mutating func next() -> T? {
+        let node = self.current
+        current = self.current?.next as? T
+        
+        return node
+    }
+}
+///
+///
+///
+extension DataList: Sequence {
+    public typealias Iterator = DataListIterator<T>
+    
+    public func makeIterator() -> DataList.Iterator {
+        let dataListIterator = DataListIterator<T>(self.first)
+        return dataListIterator
+    }
 }
