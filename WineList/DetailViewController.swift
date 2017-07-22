@@ -20,8 +20,9 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
     private var referenceViewController:ReferenceViewController? = nil
     private var registrationViewController:RegistrationViewController? = nil
     // ナビゲーションバーボタン
-    private var settingButton:UIBarButtonItem
-    private var categoryButton:UIBarButtonItem
+    //private var settingButton:UIBarButtonItem
+    //private var categoryButton:UIBarButtonItem
+    private var selectButton:UIBarButtonItem
 
 /*****
     @IBOutlet var detailView: UIView!
@@ -50,21 +51,60 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
     ///
     required init?(coder aDecoder: NSCoder) {
         // BarButton
-        self.categoryButton = UIBarButtonItem(barButtonSystemItem: .organize, target: nil, action: nil)
-        self.settingButton = UIBarButtonItem(barButtonSystemItem: .compose, target: nil, action: nil)
+        //self.categoryButton = UIBarButtonItem(barButtonSystemItem: .organize, target: nil, action: nil)
+        self.selectButton = UIBarButtonItem(barButtonSystemItem: .organize, target: nil, action: nil)
+        //self.settingButton = UIBarButtonItem(barButtonSystemItem: .compose, target: nil, action: nil)
         
         super.init(coder: aDecoder)
         // super.initの後にselfを設定可能
-        self.categoryButton.target = self
-        self.categoryButton.action = #selector(categoryButtonAction(_:))
-        self.settingButton.target = self
-        self.settingButton.action = #selector(settingButtonAction(_:))
+        //self.categoryButton.target = self
+        //self.categoryButton.action = #selector(categoryButtonAction(_:))
+        self.selectButton.target = self
+        self.selectButton.action = #selector(selectButtonAction(_:))
+        //self.settingButton.target = self
+        //self.settingButton.action = #selector(settingButtonAction(_:))
 
+    }
+    ///
+    /// ナビゲーションバーの選択ボタン
+    ///
+    func selectButtonAction(_ sender: Any) {
+        let alert = UIAlertController(title:"管理メニュー", message: "処理を選択してください。", preferredStyle: UIAlertControllerStyle.alert)
+        
+        let action1 = UIAlertAction(title: "カテゴリーの登録", style: UIAlertActionStyle.default, handler: {
+            (action: UIAlertAction!) in
+            print("カテゴリーの登録")
+            self.categoryButtonAction()
+        })
+        
+        let action2 = UIAlertAction(title: "資料の登録", style: UIAlertActionStyle.default, handler: {
+            (action: UIAlertAction!) in
+            print("資料の登録")
+        })
+
+        let action3 = UIAlertAction(title: "設定", style: UIAlertActionStyle.default, handler: {
+            (action: UIAlertAction!) in
+            print("設定")
+            self.settingButtonAction()
+        })
+        
+        let cancel = UIAlertAction(title: "キャンセル", style: UIAlertActionStyle.cancel, handler: {
+            (action: UIAlertAction!) in
+            print("キャンセル")
+        })
+        
+        alert.addAction(action1)
+        alert.addAction(action2)
+        alert.addAction(action3)
+        alert.addAction(cancel)
+        
+        self.present(alert, animated: true, completion: nil)
     }
     ///
     /// ナビゲーションバーのカテゴリーボタン
     ///
-    func categoryButtonAction(_ sender: Any){
+//    func categoryButtonAction(_ sender: Any){
+    func categoryButtonAction(){
         print("categoryButtonAction")
         let categoryStoryBoard:UIStoryboard = UIStoryboard(name: "Category", bundle: nil)
         let initialViewController = categoryStoryBoard.instantiateInitialViewController()!
@@ -83,7 +123,8 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
     ///
     /// ナビゲーションバーの設定ボタン
     ///
-    func settingButtonAction(_ sender: Any){
+    //func settingButtonAction(_ sender: Any){
+    func settingButtonAction(){
         print("settingButtonAction")
 //        let settingViewController = self.storyboard?.instantiateViewController(withIdentifier: "settingViewController") as! SettingViewController
 //        self.present(settingViewController, animated: true, completion: nil)
@@ -230,7 +271,8 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
     ///
     func setManageMode(){
         self.manageMode = true
-        self.navigationItem.setRightBarButtonItems([self.settingButton, self.categoryButton], animated: true)
+//        self.navigationItem.setRightBarButtonItems([self.settingButton, self.categoryButton], animated: true)
+        self.navigationItem.setRightBarButtonItems([self.selectButton], animated: true)
 
         if let wine = self.wine {
             self.selectedCell(wine: wine)

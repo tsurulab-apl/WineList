@@ -8,13 +8,13 @@
 
 import UIKit
 
-class CategoryRegistrationViewController: UIViewController {
-    //
+class CategoryRegistrationViewController: AbstractRegistrationViewController {
+    // カテゴリー
     private var category:Category?
 
-    //
+    // コントロール
+    @IBOutlet weak var mainScrollView: UIScrollView!
     @IBOutlet weak var nameTextField: UITextField!
-
     @IBOutlet weak var insertDateLabel: UILabel!
     @IBOutlet weak var updateDateLabel: UILabel!
 
@@ -28,6 +28,20 @@ class CategoryRegistrationViewController: UIViewController {
     }
 
     ///
+    /// スクロールビューを戻す。
+    ///
+    override func getScrollView() -> UIScrollView {
+        return self.mainScrollView
+    }
+    
+    ///
+    /// delegate設定するUITextFiledの配列を戻す。
+    ///
+    override func getUITextFields() -> [UITextField] {
+        return [self.nameTextField]
+    }
+    
+    ///
     /// didReceiveMemoryWarning
     ///
     override func didReceiveMemoryWarning() {
@@ -35,6 +49,12 @@ class CategoryRegistrationViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    ///
+    /// viewWillAppear
+    ///
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
     ///
     /// CoreDataへのカテゴリーデータ保存
     ///
@@ -113,7 +133,34 @@ class CategoryRegistrationViewController: UIViewController {
     /// 保存ボタン
     ///
     @IBAction func saveButtonTouchUpInside(_ sender: Any) {
-        self.save()
+        // ① UIAlertControllerクラスのインスタンスを生成
+        // タイトル, メッセージ, Alertのスタイルを指定する
+        // 第3引数のpreferredStyleでアラートの表示スタイルを指定する
+        let alert: UIAlertController = UIAlertController(title: "保存", message: "保存します。よろしいですか？", preferredStyle:  UIAlertControllerStyle.alert)
+        
+        // ② Actionの設定
+        // Action初期化時にタイトル, スタイル, 押された時に実行されるハンドラを指定する
+        // 第3引数のUIAlertActionStyleでボタンのスタイルを指定する
+        // OKボタン
+        let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler:{
+            // ボタンが押された時の処理を書く（クロージャ実装）
+            (action: UIAlertAction!) -> Void in
+            print("OK")
+            self.save()
+        })
+        // キャンセルボタン
+        let cancelAction: UIAlertAction = UIAlertAction(title: "キャンセル", style: UIAlertActionStyle.cancel, handler:{
+            // ボタンが押された時の処理を書く（クロージャ実装）
+            (action: UIAlertAction!) -> Void in
+            print("Cancel")
+        })
+        
+        // ③ UIAlertControllerにActionを追加
+        alert.addAction(cancelAction)
+        alert.addAction(defaultAction)
+        
+        // ④ Alertを表示
+        present(alert, animated: true, completion: nil)
     }
     ///
     /// リセットボタン

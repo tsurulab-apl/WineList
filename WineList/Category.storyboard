@@ -192,6 +192,7 @@
                     </view>
                     <connections>
                         <outlet property="insertDateLabel" destination="DY4-Tk-zDD" id="u6v-If-WOv"/>
+                        <outlet property="mainScrollView" destination="wKU-7J-PnM" id="qV0-wU-Rwz"/>
                         <outlet property="nameTextField" destination="MS8-12-v72" id="ABe-nR-KpO"/>
                         <outlet property="updateDateLabel" destination="Xlw-UI-mBb" id="Z87-3V-UgC"/>
                     </connections>
@@ -248,35 +249,6 @@
             </objects>
             <point key="canvasLocation" x="644.53125" y="-585.3515625"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="4Zv-2B-OAh">
-            <objects>
-                <viewController id="uDg-ll-tX2" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="iLU-N4-ucA"/>
-                        <viewControllerLayoutGuide type="bottom" id="clw-Ig-rJz"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Jq7-Mx-bFe">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SAe-es-zUy">
-                                <rect key="frame" x="361" y="497" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="SAe-es-zUy" firstAttribute="centerX" secondItem="Jq7-Mx-bFe" secondAttribute="centerX" id="SCZ-9g-yVx"/>
-                            <constraint firstItem="SAe-es-zUy" firstAttribute="centerY" secondItem="Jq7-Mx-bFe" secondAttribute="centerY" id="lTe-VU-Dtd"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="0SN-nx-gzX"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3Gd-bX-HAF" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1014.84375" y="-244.33593749999997"/>
-        </scene>
         <!--Split View Controller-->
         <scene sceneID="KsD-HE-lkg">
             <objects>
@@ -307,24 +279,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kKf-tm-VsX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="642.96875" y="69.140625"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="wuW-ZD-oRO">
-            <objects>
-                <navigationController storyboardIdentifier="categoryNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="YR8-uH-7MD" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6Fg-N9-d98">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="uDg-ll-tX2" kind="relationship" relationship="rootViewController" id="ZLr-Vl-mUa"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="wHS-zK-EK0" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1780.46875" y="-244.33593749999997"/>
         </scene>
     </scenes>
 </document>

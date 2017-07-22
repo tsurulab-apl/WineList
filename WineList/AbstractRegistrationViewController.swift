@@ -14,6 +14,9 @@ class AbstractRegistrationViewController: UIViewController,UINavigationControlle
     var activeText:UIView?
     let scrollMargin:Float = 8.0
 
+    ///
+    /// viewDidLoad
+    ///
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -32,6 +35,7 @@ class AbstractRegistrationViewController: UIViewController,UINavigationControlle
             
         }
     }
+
     ///
     /// スクロールビューを戻す。
     /// 継承先でoverrideする。
@@ -39,6 +43,7 @@ class AbstractRegistrationViewController: UIViewController,UINavigationControlle
     func getScrollView() -> UIScrollView {
         fatalError("override this method")
     }
+    
     ///
     /// delegate設定するUITextFiledの配列を戻す。
     /// 継承先でoverrideする。
@@ -46,6 +51,7 @@ class AbstractRegistrationViewController: UIViewController,UINavigationControlle
     func getUITextFields() -> [UITextField] {
             return []
     }
+    
     ///
     /// delegate設定するUITextViewの配列を戻す。
     /// 継承先でoverrideする。
@@ -73,6 +79,7 @@ class AbstractRegistrationViewController: UIViewController,UINavigationControlle
         notificationCenter.addObserver(self, selector: #selector(AbstractRegistrationViewController.keyboardWillShowNotification(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         notificationCenter.addObserver(self, selector: #selector(AbstractRegistrationViewController.keyboardWillHideNotification(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
+    
     ///
     /// キーボードを表示する際にテキストフィールドやテキストビューと重複しないようスクロールを調整する。
     ///

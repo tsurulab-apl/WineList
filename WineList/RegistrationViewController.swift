@@ -80,7 +80,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
     /// delegate設定するUITextFiledの配列を戻す。
     ///
     override func getUITextFields() -> [UITextField] {
-        return [self.nameTextField, self.aliasTextField, self.priceTextField]
+        return [self.nameTextField, self.aliasTextField, self.vintageTextField, self.priceTextField]
     }
     ///
     /// delegate設定するUITextViewの配列を戻す。
@@ -281,6 +281,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
     ///
     /// PickerViewやキーボードを閉じる
     ///
+/******
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         //print("touchesBegan vintageTextField.isEditing=" + String(self.vintageTextField.isEditing))
         if (self.nameTextField.isEditing){
@@ -299,6 +300,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
             self.priceTextField.endEditing(true)
         }
     }
+**********/
     ///
     /// 写真ボタン
     ///
@@ -393,7 +395,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         // ① UIAlertControllerクラスのインスタンスを生成
         // タイトル, メッセージ, Alertのスタイルを指定する
         // 第3引数のpreferredStyleでアラートの表示スタイルを指定する
-        let alert: UIAlertController = UIAlertController(title: "保存", message: "保存してもいいですか？", preferredStyle:  UIAlertControllerStyle.alert)
+        let alert: UIAlertController = UIAlertController(title: "保存", message: "保存します。よろしいですか？", preferredStyle:  UIAlertControllerStyle.alert)
         
         // ② Actionの設定
         // Action初期化時にタイトル, スタイル, 押された時に実行されるハンドラを指定する

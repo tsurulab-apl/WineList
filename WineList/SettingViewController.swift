@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingViewController: UIViewController {
+class SettingViewController: AbstractRegistrationViewController {
     // 設定クラス
     private let settings = Settings.instance
     
@@ -16,6 +16,7 @@ class SettingViewController: UIViewController {
     private var saveButton:UIBarButtonItem
 
     // コントロール
+    @IBOutlet weak var mainScrollView: UIScrollView!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var longPressDurationLabel: UILabel!
     @IBOutlet weak var longPressDurationSlider: UISlider!
@@ -47,10 +48,25 @@ class SettingViewController: UIViewController {
     }
 
     ///
+    /// スクロールビューを戻す。
+    ///
+    override func getScrollView() -> UIScrollView {
+        return self.mainScrollView
+    }
+
+    ///
+    /// delegate設定するUITextFiledの配列を戻す。
+    ///
+    override func getUITextFields() -> [UITextField] {
+        return [self.passwordTextField]
+    }
+
+    ///
     /// viewWillAppear
     ///
     override func viewWillAppear(_ animated: Bool) {
-        print("SettingViewController#viewWillAppear")
+        //print("SettingViewController#viewWillAppear")
+        super.viewWillAppear(animated)
         self.showData()
     }
 
