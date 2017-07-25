@@ -10,6 +10,8 @@
 		EB28D33A1EBB655500E77397 /* ReferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB28D3391EBB655500E77397 /* ReferenceViewController.swift */; };
 		EB28D33E1EBD594100E77397 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB28D33D1EBD594100E77397 /* RegistrationViewController.swift */; };
 		EB28D3401EC34FCA00E77397 /* UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png in Resources */ = {isa = PBXBuildFile; fileRef = EB28D33F1EC34FCA00E77397 /* UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png */; };
+		EB58B1B01F22F1FF004BDE28 /* Material+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB58B1AE1F22F1FF004BDE28 /* Material+CoreDataClass.swift */; };
+		EB58B1B11F22F1FF004BDE28 /* Material+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB58B1AF1F22F1FF004BDE28 /* Material+CoreDataProperties.swift */; };
 		EB64ABEA1ECDDA630044151E /* WineList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB64ABE91ECDDA630044151E /* WineList.swift */; };
 		EB64ABEC1ECFD8250044151E /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB64ABEB1ECFD8250044151E /* LinkedList.swift */; };
 		EB9CBE201EAAFFB400238D52 /* Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9CBE1F1EAAFFB400238D52 /* Extention.swift */; };
@@ -39,6 +41,10 @@
 		EBF3207A1EF8B60300797BD6 /* Category+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF320781EF8B60300797BD6 /* Category+CoreDataProperties.swift */; };
 		EBF3207C1EFA885B00797BD6 /* CategoryRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF3207B1EFA885B00797BD6 /* CategoryRegistrationViewController.swift */; };
 		EBF3207E1F00DF5A00797BD6 /* DataList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF3207D1F00DF5A00797BD6 /* DataList.swift */; };
+		EBFAB4741F24394500E7F95A /* Material.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBFAB4731F24394500E7F95A /* Material.storyboard */; };
+		EBFAB4761F243E8F00E7F95A /* MaterialDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFAB4751F243E8F00E7F95A /* MaterialDetailViewController.swift */; };
+		EBFAB4781F243EE600E7F95A /* MaterialMasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFAB4771F243EE600E7F95A /* MaterialMasterViewController.swift */; };
+		EBFAB47A1F243F7600E7F95A /* MaterialRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFAB4791F243F7600E7F95A /* MaterialRegistrationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +68,8 @@
 		EB28D3391EBB655500E77397 /* ReferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferenceViewController.swift; sourceTree = "<group>"; };
 		EB28D33D1EBD594100E77397 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		EB28D33F1EC34FCA00E77397 /* UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png"; sourceTree = "<group>"; };
+		EB58B1AE1F22F1FF004BDE28 /* Material+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Material+CoreDataClass.swift"; path = "WineList/Material+CoreDataClass.swift"; sourceTree = "<group>"; };
+		EB58B1AF1F22F1FF004BDE28 /* Material+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Material+CoreDataProperties.swift"; path = "WineList/Material+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		EB64ABE91ECDDA630044151E /* WineList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WineList.swift; sourceTree = "<group>"; };
 		EB64ABEB1ECFD8250044151E /* LinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
 		EB9CBE1F1EAAFFB400238D52 /* Extention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extention.swift; sourceTree = "<group>"; };
@@ -97,6 +105,10 @@
 		EBF320781EF8B60300797BD6 /* Category+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Category+CoreDataProperties.swift"; path = "WineList/Category+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		EBF3207B1EFA885B00797BD6 /* CategoryRegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryRegistrationViewController.swift; sourceTree = "<group>"; };
 		EBF3207D1F00DF5A00797BD6 /* DataList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataList.swift; sourceTree = "<group>"; };
+		EBFAB4731F24394500E7F95A /* Material.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Material.storyboard; sourceTree = "<group>"; };
+		EBFAB4751F243E8F00E7F95A /* MaterialDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialDetailViewController.swift; sourceTree = "<group>"; };
+		EBFAB4771F243EE600E7F95A /* MaterialMasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialMasterViewController.swift; sourceTree = "<group>"; };
+		EBFAB4791F243F7600E7F95A /* MaterialRegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialRegistrationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +139,8 @@
 		EBA9C43C1E9E526400311E3B = {
 			isa = PBXGroup;
 			children = (
+				EB58B1AE1F22F1FF004BDE28 /* Material+CoreDataClass.swift */,
+				EB58B1AF1F22F1FF004BDE28 /* Material+CoreDataProperties.swift */,
 				EBF320771EF8B60300797BD6 /* Category+CoreDataClass.swift */,
 				EBF320781EF8B60300797BD6 /* Category+CoreDataProperties.swift */,
 				EB9CBE6D1EB6CF8A00238D52 /* Wine+CoreDataClass.swift */,
@@ -171,6 +185,10 @@
 				EBCDF5451EEFFD3B00033689 /* SettingViewController.swift */,
 				EBF320631EF4CF6B00797BD6 /* Utils.swift */,
 				EBF3206B1EF8A0BE00797BD6 /* Category.storyboard */,
+				EBFAB4731F24394500E7F95A /* Material.storyboard */,
+				EBFAB4791F243F7600E7F95A /* MaterialRegistrationViewController.swift */,
+				EBFAB4771F243EE600E7F95A /* MaterialMasterViewController.swift */,
+				EBFAB4751F243E8F00E7F95A /* MaterialDetailViewController.swift */,
 				EBF3207B1EFA885B00797BD6 /* CategoryRegistrationViewController.swift */,
 				EBF3206D1EF8A14300797BD6 /* CategoryMasterViewController.swift */,
 				EBF3206F1EF8A15F00797BD6 /* CategoryDetailViewController.swift */,
@@ -319,6 +337,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EBA9C4841E9E603200311E3B /* test_morning_sample.png in Resources */,
+				EBFAB4741F24394500E7F95A /* Material.storyboard in Resources */,
 				EB28D3401EC34FCA00E77397 /* UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png in Resources */,
 				EBA9C4851E9E603200311E3B /* test_night_sample.png in Resources */,
 				EBF3206C1EF8A0BE00797BD6 /* Category.storyboard in Resources */,
@@ -351,13 +370,17 @@
 			files = (
 				EBF3207C1EFA885B00797BD6 /* CategoryRegistrationViewController.swift in Sources */,
 				EBA9C47C1E9E5A9300311E3B /* MasterViewController.swift in Sources */,
+				EB58B1B01F22F1FF004BDE28 /* Material+CoreDataClass.swift in Sources */,
 				EBA9C47E1E9E5B4D00311E3B /* DetailViewController.swift in Sources */,
+				EBFAB4761F243E8F00E7F95A /* MaterialDetailViewController.swift in Sources */,
 				EB9CBE6F1EB6CF8A00238D52 /* Wine+CoreDataClass.swift in Sources */,
 				EBF320701EF8A16000797BD6 /* CategoryDetailViewController.swift in Sources */,
 				EBCDF5461EEFFD3B00033689 /* SettingViewController.swift in Sources */,
+				EBFAB47A1F243F7600E7F95A /* MaterialRegistrationViewController.swift in Sources */,
 				EBF320791EF8B60300797BD6 /* Category+CoreDataClass.swift in Sources */,
 				EBF320721EF8A99300797BD6 /* CategoryList.swift in Sources */,
 				EBF3207A1EF8B60300797BD6 /* Category+CoreDataProperties.swift in Sources */,
+				EB58B1B11F22F1FF004BDE28 /* Material+CoreDataProperties.swift in Sources */,
 				EBF320621EF16AC100797BD6 /* Settings.swift in Sources */,
 				EBF320641EF4CF6B00797BD6 /* Utils.swift in Sources */,
 				EBF3207E1F00DF5A00797BD6 /* DataList.swift in Sources */,
@@ -365,6 +388,7 @@
 				EBA9C4491E9E526400311E3B /* AppDelegate.swift in Sources */,
 				EB28D33E1EBD594100E77397 /* RegistrationViewController.swift in Sources */,
 				EBA9C4511E9E526400311E3B /* WineList.xcdatamodeld in Sources */,
+				EBFAB4781F243EE600E7F95A /* MaterialMasterViewController.swift in Sources */,
 				EB64ABEC1ECFD8250044151E /* LinkedList.swift in Sources */,
 				EB9CBE201EAAFFB400238D52 /* Extention.swift in Sources */,
 				EB9CBE701EB6CF8A00238D52 /* Wine+CoreDataProperties.swift in Sources */,

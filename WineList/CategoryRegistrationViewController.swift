@@ -14,6 +14,7 @@ class CategoryRegistrationViewController: AbstractRegistrationViewController {
 
     // コントロール
     @IBOutlet weak var mainScrollView: UIScrollView!
+    @IBOutlet weak var formStackView: UIStackView!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var insertDateLabel: UILabel!
     @IBOutlet weak var updateDateLabel: UILabel!
@@ -34,6 +35,13 @@ class CategoryRegistrationViewController: AbstractRegistrationViewController {
         return self.mainScrollView
     }
     
+    ///
+    /// スクロールビューでズームするビューを戻す。
+    ///
+    override func getZoomView() -> UIView? {
+        return self.formStackView
+    }
+
     ///
     /// delegate設定するUITextFiledの配列を戻す。
     ///
@@ -129,6 +137,7 @@ class CategoryRegistrationViewController: AbstractRegistrationViewController {
         self.insertDateLabel.text = nil
         self.updateDateLabel.text = nil
     }
+
     ///
     /// 保存ボタン
     ///
@@ -162,6 +171,7 @@ class CategoryRegistrationViewController: AbstractRegistrationViewController {
         // ④ Alertを表示
         present(alert, animated: true, completion: nil)
     }
+
     ///
     /// リセットボタン
     ///

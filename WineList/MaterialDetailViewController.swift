@@ -1,36 +1,30 @@
 //
-//  CategoryDetailViewController.swift
+//  MaterialDetailViewController.swift
 //  WineList
 //
-//  Created by 鶴澤幸治 on 2017/06/20.
+//  Created by 鶴澤幸治 on 2017/07/23.
 //  Copyright © 2017年 Koji Tsurusawa. All rights reserved.
 //
 
 import UIKit
 
-class CategoryDetailViewController: UIViewController,CategoryMasterViewControllerDelegate {
-    // カテゴリー
-    private var category:Category?
-
+class MaterialDetailViewController: UIViewController,MaterialMasterViewControllerDelegate {
+    // 資料
+    private var material:Material?
+    
     // サブビュー
-    private var categoryRegistrationViewController:CategoryRegistrationViewController? = nil
-
+    private var materialRegistrationViewController:MaterialRegistrationViewController? = nil
+    
     // ナビゲーションバーボタン
     private var doneButton:UIBarButtonItem
 
-    //
-    @IBOutlet weak var nameTextField: UITextField!
-
-    @IBOutlet weak var insertDateLabel: UILabel!
-    @IBOutlet weak var updateDateLabel: UILabel!
-
     // マスタービューコントローラー
-    var categoryMasterViewController:CategoryMasterViewController {
+    var materialMasterViewController:MaterialMasterViewController {
         let masterNavController = self.splitViewController?.viewControllers.first as! UINavigationController
-        let categoryMasterViewController = masterNavController.topViewController as! CategoryMasterViewController
-        return categoryMasterViewController
+        let materialMasterViewController = masterNavController.topViewController as! MaterialMasterViewController
+        return materialMasterViewController
     }
-
+    
     ///
     /// イニシャライザ
     ///
@@ -51,22 +45,22 @@ class CategoryDetailViewController: UIViewController,CategoryMasterViewControlle
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.title = "カテゴリーの登録"
-
+        self.title = "資料の登録"
+        
         //ナビゲーションバーの左ボタンに画面モードの切り替えボタンを表示する。
         self.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
         
         //戻るボタンの後ろに表示する。
         self.navigationItem.leftItemsSupplementBackButton = true
-
+        
         // ナビゲーションバーボタンの作成
         self.navigationItem.setRightBarButtonItems([self.doneButton], animated: true)
-
+        
         //サブビュー
-        self.categoryRegistrationViewController = self.storyboard?.instantiateViewController(withIdentifier: "categoryRegistrationViewController") as? CategoryRegistrationViewController
-        self.addChildViewController(self.categoryRegistrationViewController!)
-        self.view.addSubview((self.categoryRegistrationViewController?.view)!)
-        self.categoryRegistrationViewController?.view.isHidden = true
+        self.materialRegistrationViewController = self.storyboard?.instantiateViewController(withIdentifier: "materialRegistrationViewController") as? MaterialRegistrationViewController
+        self.addChildViewController(self.materialRegistrationViewController!)
+        self.view.addSubview((self.materialRegistrationViewController?.view)!)
+        self.materialRegistrationViewController?.view.isHidden = true
     }
 
     ///
@@ -76,59 +70,57 @@ class CategoryDetailViewController: UIViewController,CategoryMasterViewControlle
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     ///
     /// ナビゲーションバーのDoneボタン
     ///
     func doneButtonAction(_ sender: Any){
         print("doneButtonAction")
-        //self.categoryRegistrationViewController?.save()
         self.dismiss(animated: true, completion: nil)
-//        let mainStoryBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//        let initialViewController:UIViewController = mainStoryBoard.instantiateInitialViewController()!
-//        self.present(initialViewController, animated: true, completion: nil)
-    }
-    ///
-    /// テーブルビューのリロード
-    ///
-    func reloadCategoryTableView(){
-        self.categoryMasterViewController.reloadCategoryTableView()
-    }
-    ///
-    /// カテゴリーリストの取得
-    ///
-    func getCategoryList() -> DataList<Category> {
-        let categoryList = self.categoryMasterViewController.getCategoryList()
-        return categoryList
     }
 
     ///
+    /// テーブルビューのリロード
+    ///
+    func reloadMaterialTableView(){
+        self.materialMasterViewController.reloadMaterialTableView()
+    }
+
+    ///
+    /// 資料リストの取得
+    ///
+    func getMaterialList() -> DataList<Material> {
+        let materialList = self.materialMasterViewController.getMaterialList()
+        return materialList
+    }
+    
+    ///
     /// セル選択時(delegate)
     ///
-    func selectedCell(category: Category) {
-        self.category = category
-        self.categoryRegistrationViewController?.selectedCell(category: category)
+    func selectedCell(material: Material) {
+        self.material = material
+        self.materialRegistrationViewController?.selectedCell(material: material)
         self.changeScreen()
     }
     
     ///
-    /// カテゴリーの追加(delegate)
+    /// 資料の追加(delegate)
     ///
-    func addCategory() {
-        self.categoryRegistrationViewController?.addCategory()
+    func addMaterial() {
+        self.materialRegistrationViewController?.addMaterial()
         
         // 画面が出ていない場合(カテゴリーを選択していない状態)もあるため、画面の切り替えを実施する。
-        self.categoryRegistrationViewController?.view.isHidden = false
+        self.materialRegistrationViewController?.view.isHidden = false
     }
-
+    
     ///
     /// 画面の切り替え
     ///
     func changeScreen(){
-        if self.category != nil {
-            self.categoryRegistrationViewController?.view.isHidden = false
+        if self.material != nil {
+            self.materialRegistrationViewController?.view.isHidden = false
         } else {
-            self.categoryRegistrationViewController?.view.isHidden = true
+            self.materialRegistrationViewController?.view.isHidden = true
         }
     }
 

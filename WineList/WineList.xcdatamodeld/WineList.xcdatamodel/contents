@@ -8,6 +8,17 @@
         <relationship name="previous" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="next" inverseEntity="Category" syncable="YES"/>
         <relationship name="wines" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Wine" inverseName="category" inverseEntity="Wine" syncable="YES"/>
     </entity>
+    <entity name="Material" representedClassName="Material" syncable="YES">
+        <attribute name="data" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="insertDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="note" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="updateDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="next" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Material" inverseName="previous" inverseEntity="Material" syncable="YES"/>
+        <relationship name="previous" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Material" inverseName="next" inverseEntity="Material" syncable="YES"/>
+        <relationship name="wines" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Wine" inverseName="materials" inverseEntity="Wine" syncable="YES"/>
+    </entity>
     <entity name="Wine" representedClassName="Wine" syncable="YES">
         <attribute name="alias" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="color" optional="YES" attributeType="String" syncable="YES"/>
@@ -20,11 +31,13 @@
         <attribute name="updateDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="vintage" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="wines" inverseEntity="Category" syncable="YES"/>
+        <relationship name="materials" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Material" inverseName="wines" inverseEntity="Material" syncable="YES"/>
         <relationship name="next" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Wine" inverseName="previous" inverseEntity="Wine" syncable="YES"/>
         <relationship name="previous" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Wine" inverseName="next" inverseEntity="Wine" syncable="YES"/>
     </entity>
     <elements>
         <element name="Category" positionX="-234" positionY="36" width="128" height="135"/>
-        <element name="Wine" positionX="-245" positionY="-78" width="128" height="240"/>
+        <element name="Material" positionX="-234" positionY="36" width="128" height="180"/>
+        <element name="Wine" positionX="-245" positionY="-78" width="128" height="30"/>
     </elements>
 </model>

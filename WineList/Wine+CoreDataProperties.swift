@@ -2,7 +2,7 @@
 //  Wine+CoreDataProperties.swift
 //  WineList
 //
-//  Created by 鶴澤幸治 on 2017/07/05.
+//  Created by 鶴澤幸治 on 2017/07/22.
 //  Copyright © 2017年 Koji Tsurusawa. All rights reserved.
 //
 
@@ -28,9 +28,10 @@ extension Wine {
     @NSManaged public var insertDate: Date?
     @NSManaged public var updateDate: Date?
     @NSManaged public var vintage: Int16
+    @NSManaged public var category: Category?
 //    @NSManaged public var next: Wine?
 //    @NSManaged public var previous: Wine?
-    @NSManaged public var category: Category?
+    @NSManaged public var materials: NSSet?
 
     ///
     /// カテゴリーの変更
@@ -49,4 +50,21 @@ extension Wine {
         }
         return isChange
     }
+}
+
+// MARK: Generated accessors for materials
+extension Wine {
+
+    @objc(addMaterialsObject:)
+    @NSManaged public func addToMaterials(_ value: Material)
+
+    @objc(removeMaterialsObject:)
+    @NSManaged public func removeFromMaterials(_ value: Material)
+
+    @objc(addMaterials:)
+    @NSManaged public func addToMaterials(_ values: NSSet)
+
+    @objc(removeMaterials:)
+    @NSManaged public func removeFromMaterials(_ values: NSSet)
+
 }

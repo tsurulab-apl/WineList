@@ -490,6 +490,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         return count
         //return CategoryEnum.count
     }
+
     ///
     /// テーブルビューのセクションデータ
     ///
@@ -499,6 +500,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         let category = self.getCategory(section)
         return category.name
     }
+
     ///
     /// テーブルビューのデータの個数を返すメソッド
     ///
@@ -511,6 +513,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         let count = self.wineList.count(category)
         return count
     }
+
     ///
     /// データを返すメソッド
     ///

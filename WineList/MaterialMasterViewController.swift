@@ -1,53 +1,48 @@
 //
-//  CategoryMasterViewController.swift
+//  MaterialMasterViewController.swift
 //  WineList
 //
-//  Created by 鶴澤幸治 on 2017/06/20.
+//  Created by 鶴澤幸治 on 2017/07/23.
 //  Copyright © 2017年 Koji Tsurusawa. All rights reserved.
 //
 
 import UIKit
-import CoreData
-
 ///
-/// CategoryMasterViewControllerデリゲート
+/// MaterialMasterViewControllerデリゲート
 ///
-protocol CategoryMasterViewControllerDelegate: class {
-    func selectedCell(category: Category)
-    func addCategory()
+protocol MaterialMasterViewControllerDelegate: class {
+    func selectedCell(material: Material)
+    func addMaterial()
 }
 ///
 ///
 ///
-class CategoryMasterViewController: UITableViewController,UISplitViewControllerDelegate {
-    private let categoryData = ["White", "Red", "Rose", "Sparkling"]
-
+class MaterialMasterViewController: UITableViewController,UISplitViewControllerDelegate {
     // 設定クラス
     private let settings = Settings.instance
-
+    
     //
-    @IBOutlet var categoryTableView: UITableView!
-
+    @IBOutlet var materialTableView: UITableView!
+    ///@IBOutlet var categoryTableView: UITableView!
+    
     //
-    var delegate: CategoryMasterViewControllerDelegate?
+    var delegate: MaterialMasterViewControllerDelegate?
 
-    // カテゴリーリスト
-    //private var categoryList:CategoryList
-    private var categoryList:DataList<Category>
+    // 資料リスト
+    private var materialList:DataList<Material>
 
     // ナビゲーションバーのボタン
     private var addButton:UIBarButtonItem
     private var editButton:UIBarButtonItem
-    
+
     ///
     /// イニシャライザ
     ///
     required init?(coder aDecoder: NSCoder) {
-        // CategoryList
+        // MaterialList
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let viewContext = appDelegate.persistentContainer.viewContext
-        //self.categoryList = CategoryList(managedObjectContext: viewContext)
-        self.categoryList = DataList<Category>(managedObjectContext: viewContext)
+        self.materialList = DataList<Material>(managedObjectContext: viewContext)
         
         // BarButton
         self.addButton = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
@@ -79,44 +74,31 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        //self.navigationItem.rightBarButtonItem = self.editButtonItem()
-
-//        let btn_back = UIBarButtonItem()
-//        btn_back.title = "戻る"
-//        self.navigationItem.backBarButtonItem = btn_back
-
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         // スプリットビュー
         if let split = self.splitViewController {
             split.delegate = self // デリゲートのセット
         }
-
-        self.title = "カテゴリー"
-
+        
+        self.title = "資料"
+        
         // delegateの設定
         let detailNavController = self.splitViewController?.viewControllers.last as! UINavigationController
-        let categoryDetailViewController = detailNavController.topViewController as! CategoryDetailViewController
-        self.delegate = categoryDetailViewController
+        let materialDetailViewController = detailNavController.topViewController as! MaterialDetailViewController
+        self.delegate = materialDetailViewController
         
         // 編集時にセル選択を許可
-        self.categoryTableView.allowsSelectionDuringEditing = true
-
+        self.materialTableView.allowsSelectionDuringEditing = true
+        
         //ナビゲーションバーの左ボタンに画面モードの切り替えボタンを表示する。
         self.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
         
         //戻るボタンの後ろに表示する。
         self.navigationItem.leftItemsSupplementBackButton = true
-
+        
         // ナビゲーションボタンの追加
         self.navigationItem.setRightBarButtonItems([self.addButton, self.editButton], animated: true)
-
     }
-
-    ///
-    /// 初期表示をMasterにする。
-    ///
-//    public func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
-//        return true
-//    }
 
     ///
     /// didReceiveMemoryWarning
@@ -131,90 +113,90 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
     ///
     override func viewWillAppear(_ animated: Bool) {
         // CoreDataからデータをfetchしてくる
-        self.categoryList.getData()
-
+        self.materialList.getData()
+        
         // TableViewを再読み込みする
-        self.categoryTableView.reloadData()
+        self.materialTableView.reloadData()
     }
 
     ///
-    /// カテゴリーリストの取得
+    /// 資料リストの取得
     ///
-    func getCategoryList() -> DataList<Category> {
-        return self.categoryList
+    func getMaterialList() -> DataList<Material> {
+        return self.materialList
     }
     
     ///
     /// テーブルのリロード
     ///
-    func reloadCategoryTableView(){
-        self.categoryList.getData()
-        self.categoryTableView.reloadData()
+    func reloadMaterialTableView(){
+        self.materialList.getData()
+        self.materialTableView.reloadData()
     }
-
+    
     ///
     /// ナビゲーションバーの追加ボタン
     ///
     func addButtonAction(_ sender: Any){
         print("addButtonAction")
-        self.addCategory()
+        self.addMaterial()
     }
     ///
     /// ナビゲーションバーのeditボタン
     ///
     func editButtonAction(_ sender: Any){
         print("editButtonAction")
-        if (self.categoryTableView.isEditing){
-            self.categoryTableView.setEditing(false, animated: true)
+        if (self.materialTableView.isEditing){
+            self.materialTableView.setEditing(false, animated: true)
         } else {
-            self.categoryTableView.setEditing(true, animated: true)
+            self.materialTableView.setEditing(true, animated: true)
         }
     }
     ///
     /// カテゴリーの追加
     ///
-    func addCategory() {
+    func addMaterial() {
         //ディテール部を表示する。
-        self.delegate?.addCategory()
+        self.delegate?.addMaterial()
     }
 
     // MARK: - Table view data source
-/***
+/*******
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 0
     }
-***/
+*******/
     ///
     /// テーブルビューのデータの個数を返すメソッド
     ///
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return self.categoryList.count()
+        return self.materialList.count()
     }
 
     ///
     /// データを返すメソッド
     ///
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath)
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "materialCell", for: indexPath)
+        
         // Configure the cell...
-        let category = self.categoryList.get(indexPath.row)
-        cell.textLabel?.text = category.name
+        let material = self.materialList.get(indexPath.row)
+        cell.textLabel?.text = material.name
         return cell
     }
-    
+
     ///
     /// データ選択後の呼び出しメソッド
     ///
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let category = self.categoryList.get(indexPath.row)
-        self.delegate?.selectedCell(category: category)
+        let material = self.materialList.get(indexPath.row)
+        self.delegate?.selectedCell(material: material)
         
-        if let categoryDetailViewController = self.delegate as? CategoryDetailViewController {
+        if let materialDetailViewController = self.delegate as? MaterialDetailViewController {
             //ディテール部を表示する。
-            self.splitViewController?.showDetailViewController(categoryDetailViewController.navigationController!, sender: nil)
+            self.splitViewController?.showDetailViewController(materialDetailViewController.navigationController!, sender: nil)
         }
     }
 
@@ -225,28 +207,28 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
         // Return false if you do not want the specified item to be editable.
         return true
     }
-
+    
     ///
     /// 削除処理
     ///
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            self.categoryList.delete(indexPath.row)
+            self.materialList.delete(indexPath.row)
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
     }
-
+    
     ///
     /// 並び替え
     ///
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-        let category = self.categoryList.get(fromIndexPath.row)
-        self.categoryList.moveRow(data: category, toRow: to.row)
+        let material = self.materialList.get(fromIndexPath.row)
+        self.materialList.moveRow(data: material, toRow: to.row)
     }
-
+    
     ///
     /// 並び替えの有効化
     ///

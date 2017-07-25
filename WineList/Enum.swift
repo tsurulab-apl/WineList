@@ -8,10 +8,16 @@
 
 import Foundation
 
+///
+///
+///
 public protocol EnumEnumerable {
     associatedtype Case = Self
 }
 
+///
+///
+///
 public extension EnumEnumerable where Case: Hashable {
     private static var iterator: AnyIterator<Case> {
         var n = 0
@@ -37,9 +43,10 @@ public extension EnumEnumerable where Case: Hashable {
         return self.cases.count
     }
 }
-/**
- * カテゴリー
- */
+
+///
+/// カテゴリー
+///
 public enum CategoryEnum: Int16, CustomStringConvertible,EnumEnumerable {
     case White = 0
     case Red = 1
@@ -56,6 +63,56 @@ public enum CategoryEnum: Int16, CustomStringConvertible,EnumEnumerable {
         case .Red   : return "Red"
         case .Rose  : return "Rose"
         case .Sparkling : return "Sparkling"
+        }
+    }
+}
+
+///
+/// 資料タイプ
+///
+public enum MaterialType: Int16, CustomStringConvertible,EnumEnumerable {
+    case vineyard = 100
+    case image = 200
+    case other = 9999
+
+    ///
+    /// raw値によるイニシャライザ
+    ///
+    init?(raw: Int16) {
+        self.init(rawValue: raw)
+    }
+
+    ///
+    /// index値によるイニシャライザ
+    ///
+    init?(index: Int) {
+        switch index {
+        case 0: self = .vineyard
+        case 1: self = .image
+        case 2: self = .other
+        default: return nil
+        }
+    }
+
+    ///
+    /// description
+    ///
+    public var description: String {
+        switch self {
+        case .vineyard: return "Vineyard"
+        case .image   : return "Image"
+        case .other : return "Other"
+        }
+    }
+
+    ///
+    /// index
+    ///
+    public var index: Int {
+        switch self {
+        case .vineyard: return 0
+        case .image   : return 1
+        case .other : return 2
         }
     }
 }

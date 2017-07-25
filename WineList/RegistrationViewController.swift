@@ -76,12 +76,21 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
     override func getScrollView() -> UIScrollView {
         return self.mainScrollView
     }
+    
+    ///
+    /// スクロールビューでズームするビューを戻す。
+    ///
+    override func getZoomView() -> UIView? {
+        return self.formStackView
+    }
+
     ///
     /// delegate設定するUITextFiledの配列を戻す。
     ///
     override func getUITextFields() -> [UITextField] {
         return [self.nameTextField, self.aliasTextField, self.vintageTextField, self.priceTextField]
     }
+
     ///
     /// delegate設定するUITextViewの配列を戻す。
     ///
@@ -178,10 +187,12 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
     ///
     /// スクロールビューのZoom対象を戻す。
     ///
+/**********
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         // return a view that will be scaled. if delegate returns nil, nothing happens
         return self.formStackView
     }
+************/
     ///
     /// カテゴリーの作成
     ///
@@ -301,6 +312,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         }
     }
 **********/
+    
     ///
     /// 写真ボタン
     ///
@@ -330,8 +342,8 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         alert.addAction(cancel)
         
         self.present(alert, animated: true, completion: nil)
-        
     }
+    
     ///
     /// Photo Libraryから選択
     ///
@@ -344,6 +356,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
             present(imagePickerController, animated: true, completion: nil)
         }
     }
+    
     ///
     /// 写真を撮ってそれを選択
     ///
@@ -356,6 +369,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
             present(imagePickerController, animated: true, completion: nil)
         }
     }
+    
     ///
     /// 写真選択時の処理
     ///
@@ -387,6 +401,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         // フォトライブラリの画像・写真選択画面を閉じる
         picker.dismiss(animated: true, completion: nil)
     }
+    
     ///
     /// 保存ボタン
     ///
@@ -421,6 +436,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         // ④ Alertを表示
         present(alert, animated: true, completion: nil)
     }
+
     ///
     /// リセットボタン
     ///
@@ -465,6 +481,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
             self.updateDateLabel.text = formatter.string(from: updateDate)
         }
     }
+
     ///
     /// カテゴリーを選択
     ///
@@ -474,6 +491,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         let index = categoryList.index(data: wine.category!)
         self.categorySegmentedControl.selectedSegmentIndex = index
     }
+
     ///
     /// ワインの追加(空画面の生成)
     ///
@@ -491,6 +509,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         self.insertDateLabel.text = nil
         self.updateDateLabel.text = nil
     }
+
     ///
     /// ワインリストの取得
     ///

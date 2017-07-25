@@ -17,6 +17,7 @@ class SettingViewController: AbstractRegistrationViewController {
 
     // コントロール
     @IBOutlet weak var mainScrollView: UIScrollView!
+    @IBOutlet weak var formStackView: UIStackView!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var longPressDurationLabel: UILabel!
     @IBOutlet weak var longPressDurationSlider: UISlider!
@@ -52,6 +53,13 @@ class SettingViewController: AbstractRegistrationViewController {
     ///
     override func getScrollView() -> UIScrollView {
         return self.mainScrollView
+    }
+
+    ///
+    /// スクロールビューでズームするビューを戻す。
+    ///
+    override func getZoomView() -> UIView? {
+        return self.formStackView
     }
 
     ///

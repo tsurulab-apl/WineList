@@ -43,6 +43,14 @@ class AbstractRegistrationViewController: UIViewController,UINavigationControlle
     func getScrollView() -> UIScrollView {
         fatalError("override this method")
     }
+
+    ///
+    /// スクロールビューでズームするビューを戻す。
+    /// 継承先でoverrideする。
+    ///
+    func getZoomView() -> UIView? {
+        return nil
+    }
     
     ///
     /// delegate設定するUITextFiledの配列を戻す。
@@ -78,6 +86,15 @@ class AbstractRegistrationViewController: UIViewController,UINavigationControlle
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(AbstractRegistrationViewController.keyboardWillShowNotification(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         notificationCenter.addObserver(self, selector: #selector(AbstractRegistrationViewController.keyboardWillHideNotification(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+
+    ///
+    /// スクロールビューのZoom対象を戻す。
+    ///
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        // return a view that will be scaled. if delegate returns nil, nothing happens
+        let zoomView = self.getZoomView()
+        return zoomView
     }
     
     ///

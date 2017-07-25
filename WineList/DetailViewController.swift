@@ -80,6 +80,7 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
         let action2 = UIAlertAction(title: "資料の登録", style: UIAlertActionStyle.default, handler: {
             (action: UIAlertAction!) in
             print("資料の登録")
+            self.materialButtonAction()
         })
 
         let action3 = UIAlertAction(title: "設定", style: UIAlertActionStyle.default, handler: {
@@ -100,6 +101,7 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
         
         self.present(alert, animated: true, completion: nil)
     }
+
     ///
     /// ナビゲーションバーのカテゴリーボタン
     ///
@@ -120,6 +122,16 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
 //        let categoryMasterViewController = categoryMasterNavigationController.topViewController as! CategoryMasterViewController
 //        self.navigationController?.pushViewController(categoryMasterViewController, animated: true)
     }
+
+    ///
+    /// 資料の登録
+    ///
+    func materialButtonAction(){
+        let materialStoryBoard:UIStoryboard = UIStoryboard(name: "Material", bundle: nil)
+        let initialViewController = materialStoryBoard.instantiateInitialViewController()!
+        self.present(initialViewController, animated: true, completion: nil)
+    }
+    
     ///
     /// ナビゲーションバーの設定ボタン
     ///

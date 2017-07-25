@@ -614,6 +614,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Sg0-Zf-HbQ"/>
                     <connections>
+                        <outlet property="formStackView" destination="1El-5G-y9h" id="bdg-Kj-xdS"/>
                         <outlet property="longPressDurationLabel" destination="DhF-YL-qHa" id="hp1-pk-y7h"/>
                         <outlet property="longPressDurationSlider" destination="MNi-gf-M32" id="wUc-DT-aRi"/>
                         <outlet property="mainScrollView" destination="SgN-y5-BIL" id="uBF-xH-cbu"/>

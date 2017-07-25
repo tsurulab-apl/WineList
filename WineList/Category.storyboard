@@ -48,7 +48,7 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="RrP-El-UxF" secondAttribute="trailing" id="JiI-Zk-dZO"/>
                             <constraint firstItem="RrP-El-UxF" firstAttribute="width" secondItem="6JI-ms-SLs" secondAttribute="width" id="MTJ-6O-6zw"/>
-                            <constraint firstItem="fAZ-DI-pl9" firstAttribute="top" secondItem="RrP-El-UxF" secondAttribute="bottom" id="TJf-PP-yXG"/>
+                            <constraint firstItem="fAZ-DI-pl9" firstAttribute="top" secondItem="RrP-El-UxF" secondAttribute="bottom" id="Mg4-QV-0LJ"/>
                             <constraint firstItem="RrP-El-UxF" firstAttribute="leading" secondItem="6JI-ms-SLs" secondAttribute="leading" id="a5K-68-9Gr"/>
                             <constraint firstItem="RrP-El-UxF" firstAttribute="centerY" secondItem="6JI-ms-SLs" secondAttribute="centerY" id="bJK-Yy-SUB"/>
                             <constraint firstItem="RrP-El-UxF" firstAttribute="height" secondItem="6JI-ms-SLs" secondAttribute="height" id="egf-7O-YJB"/>
@@ -73,7 +73,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wKU-7J-PnM" userLabel="Main Scroll View">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" maximumZoomScale="4" translatesAutoresizingMaskIntoConstraints="NO" id="wKU-7J-PnM" userLabel="Main Scroll View">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ewd-7n-eNX" userLabel="Form Stack View">
@@ -191,6 +191,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="formStackView" destination="ewd-7n-eNX" id="adT-88-s3i"/>
                         <outlet property="insertDateLabel" destination="DY4-Tk-zDD" id="u6v-If-WOv"/>
                         <outlet property="mainScrollView" destination="wKU-7J-PnM" id="qV0-wU-Rwz"/>
                         <outlet property="nameTextField" destination="MS8-12-v72" id="ABe-nR-KpO"/>
