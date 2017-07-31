@@ -8,6 +8,9 @@
 
 import Foundation
 
+///
+/// 設定変更時の通知先設定用Delegate
+///
 protocol SettingsDelegate: class {
     func changeSettings()
 }
@@ -47,6 +50,7 @@ public class Settings {
             userDefaults.set(newValue, forKey: Settings.KEY_PASSWORD)
         }
     }
+
     ///
     /// 管理モードへの遷移用長押し秒数
     ///
@@ -62,11 +66,13 @@ public class Settings {
             userDefaults.set(newValue, forKey: Settings.KEY_LONG_PRESS_DURATION)
         }
     }
+
     ///
     /// イニシャライザ(シングルトン)
     ///
     private init() {
     }
+
     ///
     /// 変更通知先の登録
     ///

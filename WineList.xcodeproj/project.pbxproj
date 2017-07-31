@@ -45,6 +45,9 @@
 		EBFAB4761F243E8F00E7F95A /* MaterialDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFAB4751F243E8F00E7F95A /* MaterialDetailViewController.swift */; };
 		EBFAB4781F243EE600E7F95A /* MaterialMasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFAB4771F243EE600E7F95A /* MaterialMasterViewController.swift */; };
 		EBFAB47A1F243F7600E7F95A /* MaterialRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFAB4791F243F7600E7F95A /* MaterialRegistrationViewController.swift */; };
+		EBFAB47C1F26F89500E7F95A /* PopupMaterialSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFAB47B1F26F89500E7F95A /* PopupMaterialSelectViewController.swift */; };
+		EBFAB47E1F2C20BE00E7F95A /* ApplicationContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFAB47D1F2C20BE00E7F95A /* ApplicationContext.swift */; };
+		EBFAB4801F2C30B000E7F95A /* MaterialSelectCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFAB47F1F2C30B000E7F95A /* MaterialSelectCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +112,9 @@
 		EBFAB4751F243E8F00E7F95A /* MaterialDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialDetailViewController.swift; sourceTree = "<group>"; };
 		EBFAB4771F243EE600E7F95A /* MaterialMasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialMasterViewController.swift; sourceTree = "<group>"; };
 		EBFAB4791F243F7600E7F95A /* MaterialRegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialRegistrationViewController.swift; sourceTree = "<group>"; };
+		EBFAB47B1F26F89500E7F95A /* PopupMaterialSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupMaterialSelectViewController.swift; sourceTree = "<group>"; };
+		EBFAB47D1F2C20BE00E7F95A /* ApplicationContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationContext.swift; sourceTree = "<group>"; };
+		EBFAB47F1F2C30B000E7F95A /* MaterialSelectCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialSelectCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +174,8 @@
 				EBA9C47F1E9E601100311E3B /* images */,
 				EBA9C4481E9E526400311E3B /* AppDelegate.swift */,
 				EBA9C44C1E9E526400311E3B /* Main.storyboard */,
+				EBFAB47B1F26F89500E7F95A /* PopupMaterialSelectViewController.swift */,
+				EBFAB47F1F2C30B000E7F95A /* MaterialSelectCollectionViewCell.swift */,
 				EBA9C4521E9E526400311E3B /* Assets.xcassets */,
 				EBA9C4571E9E526400311E3B /* Info.plist */,
 				EBA9C44F1E9E526400311E3B /* WineList.xcdatamodeld */,
@@ -180,6 +188,7 @@
 				EBE305621F1C58CB00DF56D7 /* AbstractRegistrationViewController.swift */,
 				EB64ABE91ECDDA630044151E /* WineList.swift */,
 				EBF320611EF16AC100797BD6 /* Settings.swift */,
+				EBFAB47D1F2C20BE00E7F95A /* ApplicationContext.swift */,
 				EB64ABEB1ECFD8250044151E /* LinkedList.swift */,
 				EBF3207D1F00DF5A00797BD6 /* DataList.swift */,
 				EBCDF5451EEFFD3B00033689 /* SettingViewController.swift */,
@@ -380,9 +389,11 @@
 				EBF320791EF8B60300797BD6 /* Category+CoreDataClass.swift in Sources */,
 				EBF320721EF8A99300797BD6 /* CategoryList.swift in Sources */,
 				EBF3207A1EF8B60300797BD6 /* Category+CoreDataProperties.swift in Sources */,
+				EBFAB47C1F26F89500E7F95A /* PopupMaterialSelectViewController.swift in Sources */,
 				EB58B1B11F22F1FF004BDE28 /* Material+CoreDataProperties.swift in Sources */,
 				EBF320621EF16AC100797BD6 /* Settings.swift in Sources */,
 				EBF320641EF4CF6B00797BD6 /* Utils.swift in Sources */,
+				EBFAB47E1F2C20BE00E7F95A /* ApplicationContext.swift in Sources */,
 				EBF3207E1F00DF5A00797BD6 /* DataList.swift in Sources */,
 				EBE305631F1C58CB00DF56D7 /* AbstractRegistrationViewController.swift in Sources */,
 				EBA9C4491E9E526400311E3B /* AppDelegate.swift in Sources */,
@@ -393,6 +404,7 @@
 				EB9CBE201EAAFFB400238D52 /* Extention.swift in Sources */,
 				EB9CBE701EB6CF8A00238D52 /* Wine+CoreDataProperties.swift in Sources */,
 				EB28D33A1EBB655500E77397 /* ReferenceViewController.swift in Sources */,
+				EBFAB4801F2C30B000E7F95A /* MaterialSelectCollectionViewCell.swift in Sources */,
 				EB9CBE721EB9A0D200238D52 /* Enum.swift in Sources */,
 				EBF3206E1EF8A14300797BD6 /* CategoryMasterViewController.swift in Sources */,
 				EB64ABEA1ECDDA630044151E /* WineList.swift in Sources */,

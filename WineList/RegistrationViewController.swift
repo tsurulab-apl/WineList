@@ -30,8 +30,12 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
     let newPrice = 5000
     let newImageName = "test_morning_sample"
 
+    // 処理中のワイン
     var wine: Wine? = nil
 
+    // 資料選択のワーク
+    var materials: [Material] = []
+    
 /**********:
     // キーボード表示時にテキストフィールドやテキストビューが隠れないようにスクロールする対応用
     var activeText:UIView?
@@ -470,6 +474,13 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         else{
             self.wineImageView.image = nil
         }
+        self.materials.removeAll()
+        if let materials = wine.materials {
+            for material in materials {
+                self.materials.append(material as! Material)
+            }
+        }
+        
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy/MM/dd' 'HH:mm:ss"
         self.insertDateLabel.text = nil
@@ -498,6 +509,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
     func addWine() {
         self.title = "ワインの追加"
         self.wine = nil
+        self.materials.removeAll()
         self.nameTextField.text = nil
         self.aliasTextField.text = nil
         self.noteTextView.text = nil
@@ -542,22 +554,34 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         wine.alias = self.aliasTextField.text
         wine.note = self.noteTextView.text
 
+        // ヴィンテージ
         let vintage = self.textFieldToInt16(textField: self.vintageTextField)
         wine.vintage = vintage
 
+        // カテゴリー
         //wine.category = Int16(self.categorySegmentedControl.selectedSegmentIndex)
         let categoryList = wineList.categoryList
         let category = categoryList.get(self.categorySegmentedControl.selectedSegmentIndex)
         //wine.category = category
         wine.changeCategory(category)
 
+        // 価格
         let price = self.textFieldToInt32(textField: self.priceTextField)
         wine.price = price
 
+        // 表示
         wine.display = self.displaySwitch.isOn
-        
+
+        // 画像
         wine.image = self.wineImageView.image?.jpegData
 
+        // 資料
+        wine.materials = nil
+        for material in self.materials {
+            wine.addToMaterials(material)
+        }
+
+        // 登録日時、更新日時
         let now = Date()
         if wine.insertDate == nil {
             wine.insertDate = now
@@ -614,9 +638,19 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     */
+    ///
+    /// セグエによる遷移時
+    ///
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+
+        // 資料選択ポップアップ
+        if segue.identifier == "PopupMaterialSelect" {
+            let popupMaterialSelectViewController = segue.destination as! PopupMaterialSelectViewController
+            popupMaterialSelectViewController.registrationViewController = self
+            //popupMaterialSelectViewController.materials = self.materials
+        }
     }
-    */
 }

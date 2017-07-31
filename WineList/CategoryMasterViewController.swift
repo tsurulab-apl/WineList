@@ -44,10 +44,13 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
     ///
     required init?(coder aDecoder: NSCoder) {
         // CategoryList
+        /*****
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let viewContext = appDelegate.persistentContainer.viewContext
         //self.categoryList = CategoryList(managedObjectContext: viewContext)
         self.categoryList = DataList<Category>(managedObjectContext: viewContext)
+        *****/
+        self.categoryList = ApplicationContext.instance.wineList.categoryList
         
         // BarButton
         self.addButton = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)

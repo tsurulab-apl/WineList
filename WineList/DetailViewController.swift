@@ -403,7 +403,7 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
     ///
     /// ワインリストの取得
     ///
-    func getWineList() -> WineList{
+    func getWineList() -> WineList {
         let masterNavController = self.splitViewController?.viewControllers.first as! UINavigationController
         let masterViewController = masterNavController.topViewController as! MasterViewController
         let wineList = masterViewController.getWineList()

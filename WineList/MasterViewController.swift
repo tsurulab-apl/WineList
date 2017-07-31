@@ -55,9 +55,12 @@ class MasterViewController: UITableViewController,SettingsDelegate {
     ///
     required init?(coder aDecoder: NSCoder) {
         // WineList
+        /*******
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let viewContext = appDelegate.persistentContainer.viewContext
         self.wineList = WineList(managedObjectContext: viewContext)
+        ******/
+        self.wineList = ApplicationContext.instance.wineList
 
         // BarButton
         self.addButton = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)

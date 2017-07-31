@@ -9,6 +9,11 @@
 import Foundation
 import CoreData
 
+///
+/// ワインのデータリスト
+/// あるカテゴリーのワインリストを保持する。
+/// ワインリストクラス内でDictionaryに格納して利用する。
+///
 public class WineDataList:DataList<Wine> {
     private var manageMode:Bool = false
     private var category:Category
@@ -73,27 +78,35 @@ public class WineDataList:DataList<Wine> {
         return isTarget
     }
 }
+
 ///
-///
+/// ワインリスト
 ///
 public class WineList {
+    /// 管理モード
     private var manageMode:Bool = false
+    /// カテゴリーリスト
     var categoryList:DataList<Category>
+    /// 資料リスト
+    var materialList:DataList<Material>
     
     //var firstWine:Dictionary<CategoryEnum, Wine> = [:]
     var wineDataList:Dictionary<Category, WineDataList> = [:]
     var firstWine:Dictionary<Category, Wine> = [:]
     //var wineDictionary:Dictionary<CategoryEnum, Array<Wine>> = [:]
     var managedObjectContext:NSManagedObjectContext
+
     ///
     /// イニシャライザ
     ///
     init(managedObjectContext:NSManagedObjectContext) {
         self.managedObjectContext = managedObjectContext
         self.categoryList = DataList<Category>(managedObjectContext:managedObjectContext)
+        self.materialList = DataList<Material>(managedObjectContext:managedObjectContext)
         self.getData()
         //self.categoryList.getData()
     }
+
     ///
     /// 管理モードへの変更
     ///
@@ -104,6 +117,7 @@ public class WineList {
             dataList.setManageMode()
         }
     }
+
     ///
     /// 参照モードへの変更
     ///
@@ -114,6 +128,7 @@ public class WineList {
             dataList.setReferenceMode()
         }
     }
+
     ///
     /// ワインの並び順の初期化
     /// 読み込んだ順序でリンクリスト化する。
@@ -182,16 +197,23 @@ public class WineList {
         self.wineDictionary.updateValue(wineArray!, forKey: category!)
     }
 *********/
+
     ///
-    /// ワインの取得
+    /// データ読み込み
+    /// ワイン、カテゴリー、資料のデータをCoreDataから読み込む
+    /// イニシャライザからのみ呼び出す。
     ///
-    func getData() {
+    private func getData() {
+        // カテゴリー
         self.categoryList.getData()
+        // カテゴリー毎にワインを読み込む
         for category in categoryList {
             let dataList = WineDataList(managedObjectContext: self.managedObjectContext, category: category)
             dataList.getData()
             self.wineDataList[category] = dataList
         }
+        // 資料
+        self.materialList.getData()
     }
 /*********
     func getData() {
@@ -263,6 +285,7 @@ public class WineList {
         }
     }
 **************/
+
     ///
     /// 件数取得
     ///
@@ -295,18 +318,21 @@ public class WineList {
         return count
     }
 **************/
+
     ///
     /// 管理モード判定
     ///
     func isMangeMode() -> Bool {
         return self.manageMode
     }
+
     ///
     /// 参照モード判定
     ///
     func isReferenceMode() -> Bool {
         return !self.manageMode
     }
+
     ///
     /// TODO:削除
     ///
@@ -317,6 +343,7 @@ public class WineList {
         return count!
     }
 **************/
+
     ///
     /// ワイン取得
     ///
@@ -360,6 +387,7 @@ public class WineList {
         return wine!
     }
 *********/
+
     ///
     /// ワインの削除
     ///
@@ -381,6 +409,7 @@ public class WineList {
         self.save()
     }
 *********/
+
     ///
     /// ワインリストの保存
     ///
@@ -391,6 +420,7 @@ public class WineList {
             print("Save Failed.")
         }
     }
+
     ///
     /// TODO:削除
     ///
@@ -401,6 +431,7 @@ public class WineList {
         return wine!
     }
 ************/
+
     ///
     /// 新しいワインの作成
     ///
@@ -408,6 +439,7 @@ public class WineList {
         let wine = Wine(context: managedObjectContext)
         return wine
     }
+
     ///
     /// カテゴリー内の最後のワインを取得
     ///
@@ -424,6 +456,7 @@ public class WineList {
         return wine
     }
 **********/
+
     ///
     /// カテゴリー内のワインの存在判定
     ///
@@ -441,6 +474,7 @@ public class WineList {
         return isExists
     }
 *********/
+
     ///
     /// ワインの保存
     ///
@@ -452,6 +486,7 @@ public class WineList {
         }
         self.save()
     }
+
     ///
     /// ワインの追加
     ///
@@ -474,6 +509,7 @@ public class WineList {
         }
     }
 **************/
+
     ///
     /// ワインの更新
     ///
@@ -486,6 +522,7 @@ public class WineList {
             self.insert(wine: wine)
         }
     }
+
     ///
     /// カテゴリーの先頭に設定
     ///
@@ -501,6 +538,7 @@ public class WineList {
         self.firstWine[category!] = wine
     }
 *********/
+
     ///
     /// カテゴリーの先頭をクリア
     ///
@@ -528,6 +566,7 @@ public class WineList {
         }
     }
 ***********/
+
     ///
     /// カテゴリーの変更判定
     ///
@@ -580,6 +619,7 @@ public class WineList {
         return isChange
     }
 ***********/
+
     ///
     /// 並べ替え
     ///
@@ -601,6 +641,7 @@ public class WineList {
         self.save()
     }
 *********/
+
     ///
     /// 元の位置の調整
     ///
@@ -624,6 +665,7 @@ public class WineList {
             }
         }
     }
+
     ///
     /// 新しい位置の調整
     ///

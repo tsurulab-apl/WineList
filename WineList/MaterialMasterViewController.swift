@@ -40,9 +40,12 @@ class MaterialMasterViewController: UITableViewController,UISplitViewControllerD
     ///
     required init?(coder aDecoder: NSCoder) {
         // MaterialList
+        /*********
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let viewContext = appDelegate.persistentContainer.viewContext
         self.materialList = DataList<Material>(managedObjectContext: viewContext)
+        ********/
+        self.materialList = ApplicationContext.instance.wineList.materialList
         
         // BarButton
         self.addButton = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
