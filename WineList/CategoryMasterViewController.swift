@@ -15,9 +15,11 @@ import CoreData
 protocol CategoryMasterViewControllerDelegate: class {
     func selectedCell(category: Category)
     func addCategory()
+    func delete(category: Category)
 }
+
 ///
-///
+/// CategoryMasterViewController
 ///
 class CategoryMasterViewController: UITableViewController,UISplitViewControllerDelegate {
     private let categoryData = ["White", "Red", "Rose", "Sparkling"]
@@ -93,6 +95,10 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
             split.delegate = self // デリゲートのセット
         }
 
+        // カテゴリー変更時のdelegate設定
+        // マスターテーブルは直接リロードするため、ここでは設定しない。
+        //self.categoryList.set(delegate: self)
+
         self.title = "カテゴリー"
 
         // delegateの設定
@@ -134,7 +140,7 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
     ///
     override func viewWillAppear(_ animated: Bool) {
         // CoreDataからデータをfetchしてくる
-        self.categoryList.getData()
+        //self.categoryList.getData()
 
         // TableViewを再読み込みする
         self.categoryTableView.reloadData()
@@ -146,15 +152,25 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
     func getCategoryList() -> DataList<Category> {
         return self.categoryList
     }
-    
+
+    ///
+    /// カテゴリーの変更時処理
+    ///
+/*********
+    func changeDataList(type: LinkedData.Type) {
+        if type is Category.Type {
+            self.categoryTableView.reloadData()
+        }
+    }
+***********/
+
     ///
     /// テーブルのリロード
     ///
     func reloadCategoryTableView(){
-        self.categoryList.getData()
+        //self.categoryList.getData()
         self.categoryTableView.reloadData()
     }
-
     ///
     /// ナビゲーションバーの追加ボタン
     ///
@@ -234,9 +250,12 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
     ///
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            let category = self.categoryList.get(indexPath.row)
             self.categoryList.delete(indexPath.row)
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
+            // 登録画面に削除を通知する。
+            self.delegate?.delete(category: category)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    

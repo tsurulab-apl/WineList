@@ -18,6 +18,7 @@ protocol MasterViewControllerDelegate: class {
     func addWine()
     func setManageMode()
     func setReferenceMode()
+    func delete(wine: Wine)
 }
 
 ///
@@ -190,6 +191,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         self.navigationItem.titleView = titleView
 *******/
     }
+
     ///
     /// 設定変更の反映
     ///
@@ -198,12 +200,14 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         let longPressDuration = self.settings.longPressDuration
         self.longPressGesture.minimumPressDuration = longPressDuration
     }
+    
     ///
     /// ワインリストの取得
     ///
     func getWineList() -> WineList{
         return self.wineList
     }
+    
     ///
     /// タイトル長押し時
     ///
@@ -223,6 +227,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
             //Do Whatever You want on End of Gesture
         }
     }
+    
     ///
     /// 管理モード移行時のパスワード認証
     ///
@@ -263,6 +268,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         
         present(alert, animated: true, completion: nil)
     }
+    
     ///
     /// パスワードの確認
     ///
@@ -274,6 +280,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         }
         return false
     }
+    
     ///
     /// 管理モード終了時のパスワード認証
     ///
@@ -311,6 +318,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         // DetailViewを管理モードに変更
         self.delegate?.setManageMode()
     }
+    
     ///
     /// ナビゲーションバーの追加ボタン
     ///
@@ -318,6 +326,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         print("addButtonAction")
         self.addWine()
     }
+    
     ///
     /// ナビゲーションバーのreplyボタン(管理モードの終了)
     ///
@@ -325,6 +334,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         print("replyButtonAction")
         self.endManageModeAlert()
     }
+    
     ///
     /// ナビゲーションバーのeditボタン
     ///
@@ -336,6 +346,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
             self.wineTableView.setEditing(true, animated: true)
         }
     }
+    
     ///
     /// ワインの追加
     ///
@@ -344,6 +355,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         self.delegate?.addWine()
         //self.splitViewController?.preferredDisplayMode = UISplitViewControllerDisplayMode.primaryHidden
     }
+    
     ///
     /// 参照モードへの変更
     ///
@@ -371,6 +383,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     ///
     /// viewWillAppear
     ///
@@ -385,6 +398,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         // TableViewを再読み込みする
         self.wineTableView.reloadData()
     }
+    
     ///
     /// テーブルのリロード
     ///
@@ -393,6 +407,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         //self.wineList.getData()
         self.wineTableView.reloadData()
     }
+    
     ///
     /// ワインディクショナリーの初期化
     /// todo:メソッド削除
@@ -464,6 +479,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         }
     }
 ***********/
+    
     ///
     /// カテゴリーリストの取得
     ///
@@ -472,6 +488,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         let categoryList = wineList.categoryList
         return categoryList
     }
+    
     ///
     /// カテゴリーの取得
     ///
@@ -521,57 +538,44 @@ class MasterViewController: UITableViewController,SettingsDelegate {
     /// データを返すメソッド
     ///
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //let category = CategoryEnum.init(raw: indexPath.section)
         let category = self.getCategory(indexPath.section)
-        //let wineArray = self.wineDictionary[category!]
         
         //セルを取得し、テキストを設定して返す。
-        let cell = tableView.dequeueReusableCell(withIdentifier: "WineCell", for: indexPath)
-        //let wine = wineArray?[indexPath.row]
-        //let wine = self.wineList[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "WineCell", for: indexPath) as! WineTableViewCell
         let wine = self.wineList.getWine(category, indexPath.row)
-//        cell.textLabel?.text = wine.name
-//        cell.detailTextLabel?.text = NumberUtil.japanesePrice(price: Int(wine.price))
-        let imageView = cell.viewWithTag(1) as! UIImageView
-        let nameLabel = cell.viewWithTag(2) as! UILabel
-        let priceLabel = cell.viewWithTag(3) as! UILabel
-        nameLabel.text = wine.name
-        priceLabel.text = NumberUtil.japanesePrice(price: Int(wine.price))
+        
+        cell.nameLabel.text = wine.name
+        cell.priceLabel.text = NumberUtil.japanesePrice(price: Int(wine.price))
         if let image = wine.image {
-            imageView.image = UIImage(data: image)
-
-            //cell.imageView?.image = UIImage(data: image)
-            //let size = CGSize(width:30,height:30)
-            //cell.imageView?.image = UIImage(data: image)?.resize(size: size)
-            //cell.imageView?.contentMode = .scaleAspectFill
+            cell.wineImageView.image = UIImage(data: image)
+        } else {
+            cell.wineImageView.image = self.settings.defaultImage
         }
         if(!(wine.display)){
             //UIColor.blue2は、Extentionで作成したカスタムカラー
-            //cell.backgroundColor = UIColor.blue2
-            cell.textLabel?.textColor = UIColor.blue2
-            //if(self.isReferenceMode()){
-                // hiddenにするだけだと、高さが詰まらない。
-                //cell.isHidden = true
-                //cell.frame.size = CGSize(width:0, height:0)
-                //cell.sizeToFit()
-            //}
+            cell.nameLabel.textColor = UIColor.blue2
+            cell.priceLabel.textColor = UIColor.blue2
         } else {
-            cell.textLabel?.textColor = nil
+            cell.nameLabel.textColor = nil
+            cell.priceLabel.textColor = nil
         }
         return cell
     }
+    
     ///
     /// 管理モード判定
     ///
     func isManageMode() -> Bool{
         return self.manageMode
     }
+    
     ///
     /// 参照モード判定
     ///
     func isReferenceMode() -> Bool{
         return !self.manageMode
     }
+    
     ///
     /// データ選択後の呼び出しメソッド
     ///
@@ -612,11 +616,13 @@ class MasterViewController: UITableViewController,SettingsDelegate {
             //tableView.deleteRows(at: [indexPath], with: .fade)
             //let category = CategoryEnum.init(raw: indexPath.section)
             let category = self.getCategory(indexPath.section)
+            let wine = self.wineList.getWine(category, indexPath.row)
 //            var wineArray = self.wineDictionary[category!]
 //            wineArray?.remove(at: indexPath.row)
             self.wineList.delete(category, indexPath.row)
             tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.fade)
             //tableView.reloadData()
+            self.delegate?.delete(wine: wine)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
             print("editingStyle=insert")

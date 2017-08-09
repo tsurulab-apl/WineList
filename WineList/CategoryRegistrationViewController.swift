@@ -89,6 +89,9 @@ class CategoryRegistrationViewController: AbstractRegistrationViewController {
         let categoryDetailViewController = self.parent as! CategoryDetailViewController
         categoryDetailViewController.selectedCell(category: category)
         
+        // DataListの通知機能でマスターテーブルなど必要なビューを更新することもできるが、
+        // マスターテーブル内での順序変更や削除時にはマスターテーブルの更新は必要ないため、
+        // ここでリロードする。
         self.reloadCategoryTableView()
     }
 

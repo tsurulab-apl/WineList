@@ -88,12 +88,14 @@ class CategoryDetailViewController: UIViewController,CategoryMasterViewControlle
 //        let initialViewController:UIViewController = mainStoryBoard.instantiateInitialViewController()!
 //        self.present(initialViewController, animated: true, completion: nil)
     }
+    
     ///
     /// テーブルビューのリロード
     ///
     func reloadCategoryTableView(){
         self.categoryMasterViewController.reloadCategoryTableView()
     }
+
     ///
     /// カテゴリーリストの取得
     ///
@@ -121,6 +123,16 @@ class CategoryDetailViewController: UIViewController,CategoryMasterViewControlle
         self.categoryRegistrationViewController?.view.isHidden = false
     }
 
+    ///
+    /// カテゴリー削除通知(delegate)
+    ///
+    func delete(category: Category) {
+        if self.category === category {
+            self.category = nil
+        }
+        self.changeScreen()
+    }
+    
     ///
     /// 画面の切り替え
     ///

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 ///
 /// 設定変更時の通知先設定用Delegate
@@ -25,14 +26,19 @@ public class Settings {
     // デフォルト値
     private static let DEFAULT_PASSWORD = "0000"
     private static let DEFAULT_LONG_PRESS_DURATION:Double = 1.0
+    private static let DEFAULT_IMAGE_NAME = "two-types-of-wine-1761613_640.jpg"
 
     // UserDefaultsのキー
     private static let KEY_PASSWORD = "password"
     private static let KEY_LONG_PRESS_DURATION = "longPressDuration"
+    private static let KEY_DEFAULT_IMAGE = "defaultImage"
 
     // UserDefaults
     private var userDefaults = UserDefaults.standard
 
+    // デフォルト画像のデフォルト
+    var defaultDefaultImage:UIImage
+    
     /// シングルトンインスタンス
     static let instance = Settings()
 
@@ -68,9 +74,33 @@ public class Settings {
     }
 
     ///
+    /// デフォルト画像
+    ///
+    var defaultImage:UIImage {
+        get {
+            if let data = userDefaults.data(forKey: Settings.KEY_DEFAULT_IMAGE) {
+                let defaultImage = UIImage(data: data)!
+                return defaultImage
+            }
+            return self.defaultDefaultImage
+        }
+        set {
+            userDefaults.set(newValue.jpegData, forKey: Settings.KEY_DEFAULT_IMAGE)
+        }
+    }
+
+    ///
+    /// デフォルト画像のクリア
+    ///
+    func clearDefaultImage() {
+        userDefaults.removeObject(forKey: Settings.KEY_DEFAULT_IMAGE)
+    }
+    
+    ///
     /// イニシャライザ(シングルトン)
     ///
     private init() {
+        self.defaultDefaultImage = UIImage(named: Settings.DEFAULT_IMAGE_NAME)!
     }
 
     ///

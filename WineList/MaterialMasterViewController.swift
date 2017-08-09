@@ -7,15 +7,18 @@
 //
 
 import UIKit
+
 ///
 /// MaterialMasterViewControllerデリゲート
 ///
 protocol MaterialMasterViewControllerDelegate: class {
     func selectedCell(material: Material)
     func addMaterial()
+    func delete(material: Material)
 }
+
 ///
-///
+/// MaterialMasterViewController
 ///
 class MaterialMasterViewController: UITableViewController,UISplitViewControllerDelegate {
     // 設定クラス
@@ -116,7 +119,7 @@ class MaterialMasterViewController: UITableViewController,UISplitViewControllerD
     ///
     override func viewWillAppear(_ animated: Bool) {
         // CoreDataからデータをfetchしてくる
-        self.materialList.getData()
+        //self.materialList.getData()
         
         // TableViewを再読み込みする
         self.materialTableView.reloadData()
@@ -133,7 +136,7 @@ class MaterialMasterViewController: UITableViewController,UISplitViewControllerD
     /// テーブルのリロード
     ///
     func reloadMaterialTableView(){
-        self.materialList.getData()
+        //self.materialList.getData()
         self.materialTableView.reloadData()
     }
     
@@ -141,14 +144,14 @@ class MaterialMasterViewController: UITableViewController,UISplitViewControllerD
     /// ナビゲーションバーの追加ボタン
     ///
     func addButtonAction(_ sender: Any){
-        print("addButtonAction")
+        //print("addButtonAction")
         self.addMaterial()
     }
     ///
     /// ナビゲーションバーのeditボタン
     ///
     func editButtonAction(_ sender: Any){
-        print("editButtonAction")
+        //print("editButtonAction")
         if (self.materialTableView.isEditing){
             self.materialTableView.setEditing(false, animated: true)
         } else {
@@ -216,9 +219,12 @@ class MaterialMasterViewController: UITableViewController,UISplitViewControllerD
     ///
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            let material = self.materialList.get(indexPath.row)
             self.materialList.delete(indexPath.row)
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
+            // 登録画面に削除を通知する。
+            self.delegate?.delete(material: material)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }

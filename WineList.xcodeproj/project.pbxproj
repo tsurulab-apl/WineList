@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EB26A02F1F320C700040F42F /* PopupMaterialReferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB26A02E1F320C700040F42F /* PopupMaterialReferenceViewController.swift */; };
+		EB26A0391F35573F0040F42F /* grape_r175g51b51_32.png in Resources */ = {isa = PBXBuildFile; fileRef = EB26A0381F35573F0040F42F /* grape_r175g51b51_32.png */; };
+		EB26A03B1F3557C30040F42F /* grape_r66g134b244_32.png in Resources */ = {isa = PBXBuildFile; fileRef = EB26A03A1F3557C30040F42F /* grape_r66g134b244_32.png */; };
+		EB26A03D1F39EEBA0040F42F /* grape_r66g134b244_128.png in Resources */ = {isa = PBXBuildFile; fileRef = EB26A03C1F39EEBA0040F42F /* grape_r66g134b244_128.png */; };
+		EB26A03F1F39FA100040F42F /* two-types-of-wine-1761613_640.jpg in Resources */ = {isa = PBXBuildFile; fileRef = EB26A03E1F39FA100040F42F /* two-types-of-wine-1761613_640.jpg */; };
+		EB26A0411F3B4E0B0040F42F /* WineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB26A0401F3B4E0B0040F42F /* WineTableViewCell.swift */; };
 		EB28D33A1EBB655500E77397 /* ReferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB28D3391EBB655500E77397 /* ReferenceViewController.swift */; };
 		EB28D33E1EBD594100E77397 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB28D33D1EBD594100E77397 /* RegistrationViewController.swift */; };
 		EB28D3401EC34FCA00E77397 /* UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png in Resources */ = {isa = PBXBuildFile; fileRef = EB28D33F1EC34FCA00E77397 /* UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png */; };
@@ -68,6 +74,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EB26A02E1F320C700040F42F /* PopupMaterialReferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupMaterialReferenceViewController.swift; sourceTree = "<group>"; };
+		EB26A0381F35573F0040F42F /* grape_r175g51b51_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grape_r175g51b51_32.png; sourceTree = "<group>"; };
+		EB26A03A1F3557C30040F42F /* grape_r66g134b244_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grape_r66g134b244_32.png; sourceTree = "<group>"; };
+		EB26A03C1F39EEBA0040F42F /* grape_r66g134b244_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grape_r66g134b244_128.png; sourceTree = "<group>"; };
+		EB26A03E1F39FA100040F42F /* two-types-of-wine-1761613_640.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "two-types-of-wine-1761613_640.jpg"; sourceTree = "<group>"; };
+		EB26A0401F3B4E0B0040F42F /* WineTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WineTableViewCell.swift; sourceTree = "<group>"; };
 		EB28D3391EBB655500E77397 /* ReferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferenceViewController.swift; sourceTree = "<group>"; };
 		EB28D33D1EBD594100E77397 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		EB28D33F1EC34FCA00E77397 /* UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png"; sourceTree = "<group>"; };
@@ -175,7 +187,9 @@
 				EBA9C4481E9E526400311E3B /* AppDelegate.swift */,
 				EBA9C44C1E9E526400311E3B /* Main.storyboard */,
 				EBFAB47B1F26F89500E7F95A /* PopupMaterialSelectViewController.swift */,
+				EB26A02E1F320C700040F42F /* PopupMaterialReferenceViewController.swift */,
 				EBFAB47F1F2C30B000E7F95A /* MaterialSelectCollectionViewCell.swift */,
+				EB26A0401F3B4E0B0040F42F /* WineTableViewCell.swift */,
 				EBA9C4521E9E526400311E3B /* Assets.xcassets */,
 				EBA9C4571E9E526400311E3B /* Info.plist */,
 				EBA9C44F1E9E526400311E3B /* WineList.xcdatamodeld */,
@@ -227,6 +241,10 @@
 		EBA9C47F1E9E601100311E3B /* images */ = {
 			isa = PBXGroup;
 			children = (
+				EB26A03E1F39FA100040F42F /* two-types-of-wine-1761613_640.jpg */,
+				EB26A03C1F39EEBA0040F42F /* grape_r66g134b244_128.png */,
+				EB26A03A1F3557C30040F42F /* grape_r66g134b244_32.png */,
+				EB26A0381F35573F0040F42F /* grape_r175g51b51_32.png */,
 				EB28D33F1EC34FCA00E77397 /* UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png */,
 				EBA9C4801E9E603200311E3B /* test_evening_sample.png */,
 				EBA9C4811E9E603200311E3B /* test_morning_sample.png */,
@@ -351,8 +369,12 @@
 				EBA9C4851E9E603200311E3B /* test_night_sample.png in Resources */,
 				EBF3206C1EF8A0BE00797BD6 /* Category.storyboard in Resources */,
 				EBA9C4831E9E603200311E3B /* test_evening_sample.png in Resources */,
+				EB26A03B1F3557C30040F42F /* grape_r66g134b244_32.png in Resources */,
 				EBA9C4531E9E526400311E3B /* Assets.xcassets in Resources */,
+				EB26A03D1F39EEBA0040F42F /* grape_r66g134b244_128.png in Resources */,
+				EB26A0391F35573F0040F42F /* grape_r175g51b51_32.png in Resources */,
 				EBA9C44E1E9E526400311E3B /* Main.storyboard in Resources */,
+				EB26A03F1F39FA100040F42F /* two-types-of-wine-1761613_640.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,11 +421,13 @@
 				EBA9C4491E9E526400311E3B /* AppDelegate.swift in Sources */,
 				EB28D33E1EBD594100E77397 /* RegistrationViewController.swift in Sources */,
 				EBA9C4511E9E526400311E3B /* WineList.xcdatamodeld in Sources */,
+				EB26A02F1F320C700040F42F /* PopupMaterialReferenceViewController.swift in Sources */,
 				EBFAB4781F243EE600E7F95A /* MaterialMasterViewController.swift in Sources */,
 				EB64ABEC1ECFD8250044151E /* LinkedList.swift in Sources */,
 				EB9CBE201EAAFFB400238D52 /* Extention.swift in Sources */,
 				EB9CBE701EB6CF8A00238D52 /* Wine+CoreDataProperties.swift in Sources */,
 				EB28D33A1EBB655500E77397 /* ReferenceViewController.swift in Sources */,
+				EB26A0411F3B4E0B0040F42F /* WineTableViewCell.swift in Sources */,
 				EBFAB4801F2C30B000E7F95A /* MaterialSelectCollectionViewCell.swift in Sources */,
 				EB9CBE721EB9A0D200238D52 /* Enum.swift in Sources */,
 				EBF3206E1EF8A14300797BD6 /* CategoryMasterViewController.swift in Sources */,

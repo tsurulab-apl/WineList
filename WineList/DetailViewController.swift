@@ -12,6 +12,9 @@ import CoreData
 import CoreImage
 class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
 *******/
+///
+/// DetailViewController
+///
 class DetailViewController: UIViewController,MasterViewControllerDelegate {
 
     // 管理モード
@@ -65,6 +68,7 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
         //self.settingButton.action = #selector(settingButtonAction(_:))
 
     }
+    
     ///
     /// ナビゲーションバーの選択ボタン
     ///
@@ -142,8 +146,10 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
 //        self.present(settingViewController, animated: true, completion: nil)
         let settingNavigationController = self.storyboard?.instantiateViewController(withIdentifier: "settingNavigationController") as! UINavigationController
         let settingViewController = settingNavigationController.topViewController as! SettingViewController
+        settingViewController.dataShowed = false
         self.navigationController?.pushViewController(settingViewController, animated: true)
     }
+
     ///
     /// viewDidLoad
     ///
@@ -186,6 +192,7 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
         self.view.addSubview((self.registrationViewController?.view)!)
         self.registrationViewController?.view.isHidden = true
     }
+    
     ///
     /// viewWillAppear
     ///
@@ -268,6 +275,7 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
         }
         self.changeScreen()
     }
+
     ///
     /// ワインの追加(delegate)
     ///
@@ -278,6 +286,7 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
         self.referenceViewController?.view.isHidden = true
         self.registrationViewController?.view.isHidden = false
     }
+    
     ///
     /// 管理モード設定(delegate)
     ///
@@ -291,6 +300,7 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
         }
         self.changeScreen()
     }
+    
     ///
     /// 参照モード設定(delegate)
     ///
@@ -303,6 +313,17 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
         }
         self.changeScreen()
     }
+
+    ///
+    /// ワイン削除通知(delegate)
+    ///
+    func delete(wine: Wine) {
+        if self.wine === wine {
+            self.wine = nil
+        }
+        self.changeScreen()
+    }
+    
     ///
     /// 画面の切り替え
     ///
@@ -315,6 +336,7 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
             self.registrationViewController?.view.isHidden = true
         }
     }
+    
     ///
     /// didReceiveMemoryWarning
     ///
@@ -400,6 +422,7 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
         let masterViewController = masterNavController.topViewController as! MasterViewController
         masterViewController.reloadWineTableView()
     }
+    
     ///
     /// ワインリストの取得
     ///

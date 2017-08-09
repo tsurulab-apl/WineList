@@ -9,8 +9,13 @@
 import UIKit
 
 class ReferenceViewController: UIViewController,UIScrollViewDelegate {
+    //
     var wine: Wine? = nil
 
+    // デフォルト画像
+    let defaultImageName = "two-types-of-wine-1761613_640.jpg"
+
+    // コントロール
     @IBOutlet weak var mainScrollView: UIScrollView!
     @IBOutlet weak var mainStackView: UIStackView!
     @IBOutlet weak var wineImageView: UIImageView!
@@ -21,7 +26,11 @@ class ReferenceViewController: UIViewController,UIScrollViewDelegate {
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var noteTextView: UITextView!
 
-    // viewDidLoad
+    @IBOutlet weak var materialButton: UIButton!
+
+    ///
+    /// viewDidLoad
+    ///
     override func viewDidLoad() {
         super.viewDidLoad()
         print("ReferenceViewController.viewDidLoad")
@@ -39,13 +48,17 @@ class ReferenceViewController: UIViewController,UIScrollViewDelegate {
         // Do any additional setup after loading the view.
     }
 
-    //
+    ///
+    ///
+    ///
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    // マスターテーブルで選択されたワインの表示
+
+    ///
+    /// マスターテーブルで選択されたワインの表示
+    ///
     func selectedCell(wine: Wine) {
         self.title = "ワインの表示"
         
@@ -55,18 +68,34 @@ class ReferenceViewController: UIViewController,UIScrollViewDelegate {
         self.vintageLabel.text = String(wine.vintage)
         self.noteTextView.text = wine.note
         //self.noteTextView.sizeToFit()
-        self.priceLabel.text = "¥" + self.separateComma(num: Int(wine.price))
+        //self.priceLabel.text = "¥" + self.separateComma(num: Int(wine.price))
+        self.priceLabel.text = NumberUtil.japanesePrice(price: Int(wine.price))
         self.categoryLabel.text = wine.category?.name
 //        let category = CategoryEnum.init(raw: Int(wine.category))
 //        self.categoryLabel.text = category?.description
+        // ワイン画像
         if let image = wine.image {
             self.wineImageView.image = UIImage(data: image)
         }
         else{
-            self.wineImageView.image = nil
+            //self.wineImageView.image = nil
+            //self.wineImageView.image = UIImage(named: self.defaultImageName)
+            self.wineImageView.image = Settings.instance.defaultImage
         }
+        // 資料ボタン
+        self.materialButton.isHidden = true
+        if let materials = wine.materials {
+            if materials.count > 0 {
+                self.materialButton.isHidden = false
+            }
+        }
+    
     }
-    // カンマ区切り
+
+    ///
+    /// カンマ区切り
+    ///
+/*****
     func separateComma(num:Int) -> String {
         let formatter = NumberFormatter()
         formatter.groupingSeparator = ","
@@ -74,6 +103,7 @@ class ReferenceViewController: UIViewController,UIScrollViewDelegate {
         let str = formatter.string(for: num)
         return str!
     }
+************/
     ///
     /// スクロールビューのZoom対象を戻す。
     ///
@@ -86,10 +116,19 @@ class ReferenceViewController: UIViewController,UIScrollViewDelegate {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
+    */
+    ///
+    /// セグエによる遷移時
+    ///
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        // 資料参照ポップアップ
+        if segue.identifier == "PopupMaterialReference" {
+            let popupMaterialReferenceViewController = segue.destination as! PopupMaterialReferenceViewController
+            popupMaterialReferenceViewController.wine = self.wine
+        }
     }
-    */
 
 }

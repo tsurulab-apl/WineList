@@ -9,8 +9,9 @@
 import UIKit
 
 //class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate,UIScrollViewDelegate {
-class RegistrationViewController: AbstractRegistrationViewController,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate {
+class RegistrationViewController: AbstractRegistrationViewController,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate, DataListDelegate {
     
+    // コントロール
     @IBOutlet weak var formStackView: UIStackView!
     @IBOutlet weak var mainScrollView: UIScrollView!
     @IBOutlet weak var categorySegmentedControl: UISegmentedControl!
@@ -28,10 +29,13 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
     var pickerView: UIPickerView = UIPickerView()
     var vintageList:[String] = [""]
     let newPrice = 5000
-    let newImageName = "test_morning_sample"
+    let newImageName = "two-types-of-wine-1761613_640.jpg"
 
     // 処理中のワイン
     var wine: Wine? = nil
+
+    // ワイン画像の状態 true:選択済 false:選択なし
+    var selectImage: Bool = false
 
     // 資料選択のワーク
     var materials: [Material] = []
@@ -63,6 +67,10 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         self.noteTextView.layer.borderWidth = 0.5
         self.noteTextView.layer.borderColor = UIColor.lightGray.cgColor
 
+        // カテゴリー変更時のdelegate設定
+        let categoryList = self.getCategoryList()
+        categoryList.set(delegate: self)
+        
 /********
         // スクロールビューのdelegate設定
         self.mainScrollView.delegate = self
@@ -74,6 +82,17 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         self.noteTextView.delegate = self
 ***********/
     }
+
+    ///
+    /// カテゴリーの変更時処理
+    ///
+    func changeDataList(type: LinkedData.Type) {
+        if type is Category.Type {
+            // セグメントコントロールを作成し直す。
+            self.initCategory()
+        }
+    }
+    
     ///
     /// スクロールビューを戻す。
     ///
@@ -203,13 +222,17 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
     func initCategory(){
         self.categorySegmentedControl.removeAllSegments()
         var i = 0
-        let wineList = self.getWineList()
-        let categoryList = wineList.categoryList
+        let categoryList = self.getCategoryList()
         for category in categoryList {
             self.categorySegmentedControl.insertSegment(withTitle: category.name, at: i, animated: true)
             i += 1
         }
         self.categorySegmentedControl.sizeToFit()
+
+        // ワインを表示中の場合は、セグメントコントロールを選択し直す。
+        if let wine = self.wine {
+            self.setCategorySegmentedControl(wine: wine)
+        }
     }
 //    func initCategory(){
 //        self.categorySegmentedControl.removeAllSegments()
@@ -400,6 +423,8 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
                 image = originalImage
             }
             self.wineImageView.image = image
+            // 画像を変更対象としてマーク
+            self.selectImage = true
             //self.wineImageView.contentMode = UIViewContentMode.scaleAspectFill
         }
         // フォトライブラリの画像・写真選択画面を閉じる
@@ -472,8 +497,11 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
             self.wineImageView.image = UIImage(data: image)
         }
         else{
-            self.wineImageView.image = nil
+            //self.wineImageView.image = nil
+            //self.wineImageView.image = UIImage(named: self.newImageName)
+            self.wineImageView.image = Settings.instance.defaultImage
         }
+        self.selectImage = false
         self.materials.removeAll()
         if let materials = wine.materials {
             for material in materials {
@@ -517,7 +545,9 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         self.categorySegmentedControl.selectedSegmentIndex = 0
         self.priceTextField.text = String(newPrice)
         self.displaySwitch.isOn = true
-        self.wineImageView.image = UIImage(named: self.newImageName)
+        //self.wineImageView.image = UIImage(named: self.newImageName)
+        self.wineImageView.image = Settings.instance.defaultImage
+        self.selectImage = false
         self.insertDateLabel.text = nil
         self.updateDateLabel.text = nil
     }
@@ -530,6 +560,16 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         let wineList = detailViewController.getWineList()
         return wineList
     }
+
+    ///
+    /// カテゴリーリストの取得
+    ///
+    func getCategoryList() -> DataList<Category> {
+        let wineList = self.getWineList()
+        let categoryList = wineList.categoryList
+        return categoryList
+    }
+    
     ///
     /// CoreDataへのワインデータ保存
     ///
@@ -573,8 +613,9 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         wine.display = self.displaySwitch.isOn
 
         // 画像
-        wine.image = self.wineImageView.image?.jpegData
-
+        if self.selectImage {
+            wine.image = self.wineImageView.image?.jpegData
+        }
         // 資料
         wine.materials = nil
         for material in self.materials {
@@ -603,6 +644,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
 
         self.reloadWineTableView()
     }
+    
     ///
     /// テキストフィールドの値をInt16で取得
     ///
@@ -611,6 +653,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         let num :Int16 = Int16(str)!
         return num
     }
+    
     ///
     /// テキストフィールドの値をInt32で取得
     ///
@@ -619,6 +662,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         let num :Int32 = Int32(str)!
         return num
     }
+    
     ///
     /// マスターテーブルのリロード
     ///

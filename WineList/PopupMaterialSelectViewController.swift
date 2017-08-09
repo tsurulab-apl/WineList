@@ -24,9 +24,6 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
     // 資料リスト
     var materialList: DataList<Material>
 
-    // テスト用 TODO:削除
-    let photos = ["test_morning_sample", "test_evening_sample", "test_night_sample", "test_morning_sample", "test_evening_sample", "test_night_sample"]
-
     ///
     /// イニシャライザ
     ///

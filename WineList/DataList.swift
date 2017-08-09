@@ -18,6 +18,10 @@ import CoreData
 //protocol EntityWithName {
 //    static func entityName() -> String
 //}
+
+///
+/// CoreDataで管理する順序リンク付きデータ
+///
 public class LinkedData: NSManagedObject {
 //    class func entityName() -> String {
 //        fatalError("have to override")
@@ -45,10 +49,21 @@ public class LinkedData: NSManagedObject {
         return NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName)
     }
 }
+
 ///
+/// データリスト変更時の通知先設定用Delegate
 ///
+protocol DataListDelegate : class {
+    func changeDataList(type: LinkedData.Type)
+}
+
+///
+/// データリスト
 ///
 public class DataList<T: LinkedData> {
+    // 通知先
+    private var delegate:Array<DataListDelegate> = []
+
     // カテゴリーの先頭
     var first:T?
 
@@ -64,7 +79,8 @@ public class DataList<T: LinkedData> {
         }
         return data
     }
-    //
+    
+    // CoreDataのコンテキスト
     var managedObjectContext:NSManagedObjectContext
 
     ///
@@ -77,6 +93,7 @@ public class DataList<T: LinkedData> {
     init(managedObjectContext:NSManagedObjectContext) {
         self.managedObjectContext = managedObjectContext
     }
+    
     ///
     /// データの取得
     ///
@@ -84,6 +101,7 @@ public class DataList<T: LinkedData> {
         let data:T? = self.getFirst()
         self.first = data
     }
+    
     ///
     /// 最初のデータの取得
     ///
@@ -108,6 +126,7 @@ public class DataList<T: LinkedData> {
         }
         return firstData
     }
+    
     ///
     /// 件数取得
     ///
@@ -127,6 +146,7 @@ public class DataList<T: LinkedData> {
         }
         return count
     }
+    
     ///
     /// 存在判定
     ///
@@ -134,12 +154,14 @@ public class DataList<T: LinkedData> {
         let isExists = (self.first != nil)
         return isExists
     }
+    
     ///
     /// 対象判定
     ///
     func isTarget(_ data:T) -> Bool {
         return true
     }
+    
     ///
     /// データ取得
     ///
@@ -219,6 +241,7 @@ public class DataList<T: LinkedData> {
         self.managedObjectContext.delete(data)
         self.save()
     }
+    
     ///
     /// 並べ替え
     ///
@@ -230,6 +253,7 @@ public class DataList<T: LinkedData> {
         // 保存
         self.save()
     }
+    
     ///
     /// 元の位置の調整
     ///
@@ -281,7 +305,10 @@ public class DataList<T: LinkedData> {
         } catch {
             print("Save Failed.")
         }
+        // 通知先に通知
+        self.notice()
     }
+    
     ///
     /// データの保存
     ///
@@ -293,6 +320,7 @@ public class DataList<T: LinkedData> {
         }
         self.save()
     }
+    
     ///
     /// データの追加
     ///
@@ -306,28 +334,48 @@ public class DataList<T: LinkedData> {
             self.setFirst(data: data)
         }
     }
+    
     ///
     /// データの更新
     ///
     func update(data:T){
         // 何もしない
     }
+    
     ///
     /// 先頭に設定
     ///
     func setFirst(data:T){
         self.first = data
     }
+
     ///
     /// 先頭をクリア
     ///
     func clearFirst(){
         self.first = nil
     }
+    
+    ///
+    /// 変更通知先の登録
+    ///
+    func set(delegate: DataListDelegate){
+        self.delegate.append(delegate)
+    }
+    
+    ///
+    /// 変更の通知
+    ///
+    func notice() {
+        for delegate in self.delegate {
+            delegate.changeDataList(type: T.self)
+        }
+    }
 
 }
+
 ///
-///
+/// イテレーター
 ///
 public struct DataListIterator<T: LinkedData>: IteratorProtocol {
     
@@ -344,8 +392,9 @@ public struct DataListIterator<T: LinkedData>: IteratorProtocol {
         return node
     }
 }
+
 ///
-///
+/// イテレーターの作成
 ///
 extension DataList: Sequence {
     public typealias Iterator = DataListIterator<T>

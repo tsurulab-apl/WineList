@@ -114,6 +114,16 @@ class MaterialDetailViewController: UIViewController,MaterialMasterViewControlle
     }
     
     ///
+    /// 資料削除通知(delegate)
+    ///
+    func delete(material: Material) {
+        if self.material === material {
+            self.material = nil
+        }
+        self.changeScreen()
+    }
+
+    ///
     /// 画面の切り替え
     ///
     func changeScreen(){

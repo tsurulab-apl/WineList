@@ -125,6 +125,7 @@ class AbstractRegistrationViewController: UIViewController,UINavigationControlle
             self.activeText = nil
         }
     }
+    
     ///
     /// キーボードの表示を終了する際にスクロールを元に戻す。
     ///
