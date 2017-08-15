@@ -9,18 +9,24 @@
 import UIKit
 
 class ReferenceViewController: UIViewController,UIScrollViewDelegate {
-    //
+    // ワイン
     var wine: Wine? = nil
 
-    // デフォルト画像
+    // デフォルトワイン画像
     let defaultImageName = "two-types-of-wine-1761613_640.jpg"
 
+    // 資料ボタン画像
+    //let materialButtonDisabledImage = UIImage(named: "grape_r211g211b211_32")
+    let materialButtonDisabledImage = UIImage(named: "grape_r128g128b128_32")
+    let materialButtonEnabledImage = UIImage(named: "grape_r66g134b244_32")
+    
     // コントロール
     @IBOutlet weak var mainScrollView: UIScrollView!
     @IBOutlet weak var mainStackView: UIStackView!
     @IBOutlet weak var wineImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var aliasLabel: UILabel!
+    @IBOutlet weak var wineryLabel: UILabel!
     @IBOutlet weak var vintageLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var categoryLabel: UILabel!
@@ -55,7 +61,21 @@ class ReferenceViewController: UIViewController,UIScrollViewDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+/*******
+    override func viewDidAppear(_ animated: Bool) {
+        print("### viewDidAppear")
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        print("### viewWillAppear")
+    }
+    override func viewWillLayoutSubviews() {
+        print("### viewWillLayoutSubviews")
+    }
+    override func viewDidLayoutSubviews() {
+        print("### viewDidLayoutSubviews")
+    }
+***************/
+    
     ///
     /// マスターテーブルで選択されたワインの表示
     ///
@@ -65,8 +85,28 @@ class ReferenceViewController: UIViewController,UIScrollViewDelegate {
         self.wine = wine
         self.nameLabel.text = wine.name
         self.aliasLabel.text = wine.alias
+        self.wineryLabel.text = wine.winery
         self.vintageLabel.text = String(wine.vintage)
+
+        // 説明
         self.noteTextView.text = wine.note
+        //let height = StringUtil.height(text: wine.note!)
+        //print(height)
+        let noteSize = self.noteTextView.contentSize
+        print(noteSize)
+        
+        //self.noteTextView.sizeToFit()
+        let size = self.noteTextView.sizeThatFits(CGSize(width: self.noteTextView.frame.size.width, height: CGFloat.greatestFiniteMagnitude))
+        let height = size.height
+        self.noteTextView.frame.size.height = height
+        print(self.noteTextView.contentSize)
+        //self.mainScrollView.contentSize.height = self.mainScrollView.contentSize.height + height - 100
+//        let heightConstraint = self.noteTextView.heightAnchor.constraint(equalToConstant: height)
+//        heightConstraint.isActive = true
+        //self.noteTextView.heightAnchor.constraint(equalToConstant: height).isActive = true
+
+        //self.noteTextView.frame.size.height = height
+        
         //self.noteTextView.sizeToFit()
         //self.priceLabel.text = "¥" + self.separateComma(num: Int(wine.price))
         self.priceLabel.text = NumberUtil.japanesePrice(price: Int(wine.price))
@@ -83,13 +123,18 @@ class ReferenceViewController: UIViewController,UIScrollViewDelegate {
             self.wineImageView.image = Settings.instance.defaultImage
         }
         // 資料ボタン
-        self.materialButton.isHidden = true
+        //self.materialButton.isHidden = true
+        self.materialButton.setImage(self.materialButtonDisabledImage, for: UIControlState())
+        self.materialButton.isEnabled = false
         if let materials = wine.materials {
             if materials.count > 0 {
-                self.materialButton.isHidden = false
+                //self.materialButton.isHidden = false
+                self.materialButton.setImage(self.materialButtonEnabledImage, for: UIControlState())
+                self.materialButton.isEnabled = true
             }
         }
-    
+        //
+//        self.view.layoutIfNeeded()
     }
 
     ///

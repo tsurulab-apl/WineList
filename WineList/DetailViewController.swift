@@ -137,11 +137,11 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
     }
     
     ///
-    /// ナビゲーションバーの設定ボタン
+    /// 設定
     ///
     //func settingButtonAction(_ sender: Any){
     func settingButtonAction(){
-        print("settingButtonAction")
+        //print("settingButtonAction")
 //        let settingViewController = self.storyboard?.instantiateViewController(withIdentifier: "settingViewController") as! SettingViewController
 //        self.present(settingViewController, animated: true, completion: nil)
         let settingNavigationController = self.storyboard?.instantiateViewController(withIdentifier: "settingNavigationController") as! UINavigationController

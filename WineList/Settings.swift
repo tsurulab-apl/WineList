@@ -26,7 +26,8 @@ public class Settings {
     // デフォルト値
     private static let DEFAULT_PASSWORD = "0000"
     private static let DEFAULT_LONG_PRESS_DURATION:Double = 1.0
-    private static let DEFAULT_IMAGE_NAME = "two-types-of-wine-1761613_640.jpg"
+    //private static let DEFAULT_IMAGE_NAME = "two-types-of-wine-1761613_640.jpg"
+    private static let DEFAULT_IMAGE_NAME = "now_printing"
 
     // UserDefaultsのキー
     private static let KEY_PASSWORD = "password"

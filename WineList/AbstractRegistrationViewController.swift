@@ -32,7 +32,6 @@ class AbstractRegistrationViewController: UIViewController,UINavigationControlle
         let uiTextViews = self.getUITextViews()
         for uiTextView in uiTextViews {
             uiTextView.delegate = self
-            
         }
     }
 

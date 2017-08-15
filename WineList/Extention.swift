@@ -12,7 +12,9 @@ import UIKit
 /// UIImage Extension リサイズメソッド
 ///
 extension UIImage {
-    
+    ///
+    /// リサイズ
+    ///
     func resize(size: CGSize) -> UIImage {
         let widthRatio = size.width / self.size.width
         let heightRatio = size.height / self.size.height
@@ -25,6 +27,10 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return resizedImage!
     }
+    
+    ///
+    /// フィット
+    ///
     func fit(rect:CGRect) -> UIImage {
         let inputImage = CIImage(image: self)
         let scaleFilter = CIFilter(name: "CILanczosScaleTransform")
@@ -38,13 +44,22 @@ extension UIImage {
         let uiImage : UIImage = UIImage(ciImage: outputImage)
         return uiImage
     }
+    
+    ///
+    /// JPEG
+    ///
     var jpegData: Data {
         return UIImageJPEGRepresentation(self, 1.0)!
     }
+    
+    ///
+    /// PNG
+    ///
     var pngData: Data {
         return UIImagePNGRepresentation(self)!
     }
 }
+
 ///
 /// UIColor
 ///
@@ -56,6 +71,7 @@ extension UIColor {
         return UIColor.rgb(r: 66,g: 134,b: 244,alpha: 1.0)
     }
 }
+
 ///
 /// UIScrollView
 /// 画面をタッチした際にキーボードやPickerViewを閉じる対応をUIScrollViewでも実現

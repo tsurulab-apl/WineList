@@ -8,7 +8,12 @@
 
 import UIKit
 
-class SettingViewController: AbstractRegistrationViewController,UIImagePickerControllerDelegate {
+///
+/// SettingViewController
+///
+//class SettingViewController: AbstractRegistrationViewController,UIImagePickerControllerDelegate {
+class SettingViewController: AbstractRegistrationViewController,SelectableImage {
+
     // 設定クラス
     private let settings = Settings.instance
     
@@ -30,11 +35,14 @@ class SettingViewController: AbstractRegistrationViewController,UIImagePickerCon
     // 再度データ表示を実施しないように制御する。
     var dataShowed: Bool = false
 
+    // デフォルト画像の状態
+    var defaultImageStatus = SelectableImageStatus.nothing
+    
     // デフォルト画像の状態 true:選択済 false:選択なし
-    var selectImage: Bool = false
+//    var selectImage: Bool = false
 
     // デフォルト画像のクリア状態 true:クリア false:クリア以外
-    var clearImage: Bool = false
+//    var clearImage: Bool = false
 
     ///
     /// イニシャライザ
@@ -84,6 +92,27 @@ class SettingViewController: AbstractRegistrationViewController,UIImagePickerCon
     }
 
     ///
+    /// 画像選択プロトコル拡張に対してイメージビューを戻す。
+    ///
+    func get() -> UIImageView {
+        return self.defaultImageView
+    }
+    
+    ///
+    /// 画像選択プロトコル拡張に対して画像選択状態を戻す。
+    ///
+    func get() -> SelectableImageStatus {
+        return self.defaultImageStatus
+    }
+
+    ///
+    /// 画像選択プロトコル拡張の画像の選択状態管理用プロパティーの設定
+    ///
+    func set(selectableImageStatus:SelectableImageStatus) {
+        self.defaultImageStatus = selectableImageStatus
+    }
+    
+    ///
     /// viewWillAppear
     ///
     override func viewWillAppear(_ animated: Bool) {
@@ -115,6 +144,8 @@ class SettingViewController: AbstractRegistrationViewController,UIImagePickerCon
         self.saveDefaultImage()
         // 変更を反映
         self.settings.notice()
+        // 画面を閉じる
+        self.navigationController?.popViewController(animated: true)
     }
     
     ///
@@ -126,8 +157,9 @@ class SettingViewController: AbstractRegistrationViewController,UIImagePickerCon
         self.longPressDurationSlider.value = Float(longPressDuration)
         self.longPressDurationSliderValueChanged(self.longPressDurationSlider)
         self.defaultImageView.image = self.settings.defaultImage
-        self.selectImage = false
-        self.clearImage = false
+        self.defaultImageStatus = SelectableImageStatus.nothing
+//        self.selectImage = false
+//        self.clearImage = false
     }
     
     ///
@@ -154,12 +186,26 @@ class SettingViewController: AbstractRegistrationViewController,UIImagePickerCon
     /// デフォルト画像の保存
     ///
     func saveDefaultImage(){
+/**********
         if self.selectImage {
             let image = self.defaultImageView.image
             self.settings.defaultImage = image!
         }
         else if self.clearImage {
             self.settings.clearDefaultImage()
+        }
+**************/
+        switch self.defaultImageStatus {
+        case SelectableImageStatus.selected:
+            let image = self.defaultImageView.image
+            self.settings.defaultImage = image!
+            break
+        case SelectableImageStatus.cleared:
+            self.settings.clearDefaultImage()
+            break
+        default:
+            // 保存しない。
+            break
         }
     }
     
@@ -176,6 +222,8 @@ class SettingViewController: AbstractRegistrationViewController,UIImagePickerCon
     /// 写真ボタン
     ///
     @IBAction func imageSelectTouchUpInside(_ sender: Any) {
+        self.selectImageAction()
+/********
         let alert = UIAlertController(title:"ワイン画像", message: "画像を選択してください。", preferredStyle: UIAlertControllerStyle.alert)
         
         let action1 = UIAlertAction(title: "ライブラリより選択", style: UIAlertActionStyle.default, handler: {
@@ -197,17 +245,22 @@ class SettingViewController: AbstractRegistrationViewController,UIImagePickerCon
         alert.addAction(cancel)
         
         self.present(alert, animated: true, completion: nil)
+**********/
     }
     
     ///
     /// クリアボタン
     ///
     @IBAction func imageClearTouchUpInside(_ sender: Any) {
+        self.clearImageAction()
+/**********
         self.defaultImageView.image = self.settings.defaultDefaultImage
         self.clearImage = true
         self.selectImage = false
+***********/
     }
     
+/*********
     ///
     /// Photo Libraryから選択
     ///
@@ -233,12 +286,15 @@ class SettingViewController: AbstractRegistrationViewController,UIImagePickerCon
             present(imagePickerController, animated: true, completion: nil)
         }
     }
+************/
     
     ///
     /// 写真選択時の処理
     ///
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]){
-        
+        // プロトコル拡張のメソッドに処理を委譲する。
+        self.imagePickerControllerAction(picker, didFinishPickingMediaWithInfo: info)
+/*********
         if info[UIImagePickerControllerOriginalImage] != nil {
             
             let originalImage: UIImage = info[UIImagePickerControllerOriginalImage] as! UIImage
@@ -252,11 +308,13 @@ class SettingViewController: AbstractRegistrationViewController,UIImagePickerCon
             }
             self.defaultImageView.image = image
             // 画像を変更対象としてマーク
-            self.selectImage = true
-            self.clearImage = false
+            self.defaultImageStatus = SelectableImageStatus.selected
+//            self.selectImage = true
+//            self.clearImage = false
         }
         // フォトライブラリの画像・写真選択画面を閉じる
         picker.dismiss(animated: true, completion: nil)
+*************/
     }
 
     /*

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16F73" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Category" representedClassName="Category" syncable="YES">
         <attribute name="insertDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -30,6 +30,7 @@
         <attribute name="price" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="updateDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="vintage" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="winery" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="wines" inverseEntity="Category" syncable="YES"/>
         <relationship name="materials" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Material" inverseName="wines" inverseEntity="Material" syncable="YES"/>
         <relationship name="next" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Wine" inverseName="previous" inverseEntity="Wine" syncable="YES"/>
@@ -38,6 +39,6 @@
     <elements>
         <element name="Category" positionX="-234" positionY="36" width="128" height="135"/>
         <element name="Material" positionX="-234" positionY="36" width="128" height="180"/>
-        <element name="Wine" positionX="-245" positionY="-78" width="128" height="30"/>
+        <element name="Wine" positionX="-245" positionY="-78" width="128" height="270"/>
     </elements>
 </model>

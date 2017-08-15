@@ -23,6 +23,7 @@ extension Wine {
     @NSManaged public var image: Data?
     @NSManaged public var name: String?
     @NSManaged public var note: String?
+    @NSManaged public var winery: String?
     @NSManaged public var price: Int32
     //NSDateをDateに変更
     @NSManaged public var insertDate: Date?

@@ -14,7 +14,7 @@ class MaterialRegistrationViewController: AbstractRegistrationViewController,UII
     private var material:Material?
 
     //
-    let newImageName = "test_evening_sample"
+    let newImageName = "now_printing"
 
     // コントロール
     @IBOutlet weak var mainScrollView: UIScrollView!
