@@ -245,6 +245,22 @@ class MaterialRegistrationViewController: AbstractRegistrationViewController,Sel
         self.updateDateLabel.text = nil
     }
 
+    /// タイトル
+    /// SelectableImageで表示するアラートのタイトルを設定する。
+    ///
+    /// - Returns: タイトル
+    func titleForSelectableImage() -> String {
+        return "資料の画像"
+    }
+    
+    /// メッセージ
+    /// SelectableImageで表示するアラートのメッセージを設定する。
+    ///
+    /// - Returns: メッセージ
+    func messageForSelectableImage() -> String {
+        return "画像を選択してください。"
+    }
+
     /// 画像ボタン
     ///
     /// - Parameter sender: <#sender description#>

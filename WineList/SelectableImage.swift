@@ -24,6 +24,17 @@ public enum SelectableImageStatus {
 /// 利用する際に画像の選択状態を管理するプロパティーと画像を表示するイメージビューを実装すること。
 ///
 protocol SelectableImage:UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+
+    /// タイトル
+    ///
+    /// - Returns: タイトル
+    func titleForSelectableImage() -> String
+    
+    /// メッセージ
+    ///
+    /// - Returns: メッセージ
+    func messageForSelectableImage() -> String
+
     ///
     /// 画像の選択状態管理用プロパティーの取得
     ///
@@ -47,7 +58,7 @@ extension SelectableImage where Self: AbstractRegistrationViewController {
     /// 写真選択アクション
     ///
     func selectImageAction() {
-        let alert = UIAlertController(title:"画像", message: "画像を選択してください。", preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title:self.titleForSelectableImage(), message: self.messageForSelectableImage(), preferredStyle: UIAlertControllerStyle.alert)
         
         let action1 = UIAlertAction(title: "ライブラリより選択", style: UIAlertActionStyle.default, handler: {
             (action: UIAlertAction!) in
@@ -69,7 +80,7 @@ extension SelectableImage where Self: AbstractRegistrationViewController {
   
         self.present(alert, animated: true, completion: nil)
     }
-    
+
     /// クリアアクション
     ///
     /// - Parameter defaultImage: クリア時に設定するデフォルト画像(指定しなければ設定の値を利用)

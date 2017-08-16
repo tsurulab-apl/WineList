@@ -387,10 +387,26 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         }
     }
 **********/
-    
+
+    /// タイトル
+    /// SelectableImageで表示するアラートのタイトルを設定する。
     ///
+    /// - Returns: タイトル
+    func titleForSelectableImage() -> String {
+        return "ワインの写真"
+    }
+    
+    /// メッセージ
+    /// SelectableImageで表示するアラートのメッセージを設定する。
+    ///
+    /// - Returns: メッセージ
+    func messageForSelectableImage() -> String {
+        return "写真を選択してください。"
+    }
+    
     /// 写真ボタン
     ///
+    /// - Parameter sender: <#sender description#>
     @IBAction func imageSelectTouchUpInside(_ sender: Any) {
         self.selectImageAction()
 /***********

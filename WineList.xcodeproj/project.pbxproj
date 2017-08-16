@@ -17,6 +17,7 @@
 		EB26A0451F3C8AAF0040F42F /* now_printing.png in Resources */ = {isa = PBXBuildFile; fileRef = EB26A0441F3C8AAF0040F42F /* now_printing.png */; };
 		EB26A0471F412F2A0040F42F /* grape_r211g211b211_32.png in Resources */ = {isa = PBXBuildFile; fileRef = EB26A0461F412F2A0040F42F /* grape_r211g211b211_32.png */; };
 		EB26A0491F41330A0040F42F /* grape_r128g128b128_32.png in Resources */ = {isa = PBXBuildFile; fileRef = EB26A0481F41330A0040F42F /* grape_r128g128b128_32.png */; };
+		EB26A04B1F4471BF0040F42F /* Messageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB26A04A1F4471BF0040F42F /* Messageable.swift */; };
 		EB28D33A1EBB655500E77397 /* ReferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB28D3391EBB655500E77397 /* ReferenceViewController.swift */; };
 		EB28D33E1EBD594100E77397 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB28D33D1EBD594100E77397 /* RegistrationViewController.swift */; };
 		EB28D3401EC34FCA00E77397 /* UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png in Resources */ = {isa = PBXBuildFile; fileRef = EB28D33F1EC34FCA00E77397 /* UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png */; };
@@ -88,6 +89,7 @@
 		EB26A0441F3C8AAF0040F42F /* now_printing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = now_printing.png; sourceTree = "<group>"; };
 		EB26A0461F412F2A0040F42F /* grape_r211g211b211_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grape_r211g211b211_32.png; sourceTree = "<group>"; };
 		EB26A0481F41330A0040F42F /* grape_r128g128b128_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grape_r128g128b128_32.png; sourceTree = "<group>"; };
+		EB26A04A1F4471BF0040F42F /* Messageable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Messageable.swift; sourceTree = "<group>"; };
 		EB28D3391EBB655500E77397 /* ReferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferenceViewController.swift; sourceTree = "<group>"; };
 		EB28D33D1EBD594100E77397 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		EB28D33F1EC34FCA00E77397 /* UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png"; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 				EB9CBE711EB9A0D200238D52 /* Enum.swift */,
 				EB28D33D1EBD594100E77397 /* RegistrationViewController.swift */,
 				EB26A0421F3BEB110040F42F /* SelectableImage.swift */,
+				EB26A04A1F4471BF0040F42F /* Messageable.swift */,
 				EBE305621F1C58CB00DF56D7 /* AbstractRegistrationViewController.swift */,
 				EB64ABE91ECDDA630044151E /* WineList.swift */,
 				EBF320611EF16AC100797BD6 /* Settings.swift */,
@@ -448,6 +451,7 @@
 				EBF3206E1EF8A14300797BD6 /* CategoryMasterViewController.swift in Sources */,
 				EB64ABEA1ECDDA630044151E /* WineList.swift in Sources */,
 				EB26A0431F3BEB110040F42F /* SelectableImage.swift in Sources */,
+				EB26A04B1F4471BF0040F42F /* Messageable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

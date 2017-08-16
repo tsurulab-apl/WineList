@@ -256,6 +256,22 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
         second = roundf(second * 10) /  10
         self.longPressDurationLabel.text = "\(second)s"
     }
+
+    /// タイトル
+    /// SelectableImageで表示するアラートのタイトルを設定する。
+    ///
+    /// - Returns: タイトル
+    func titleForSelectableImage() -> String {
+        return "ワインのデフォルト写真"
+    }
+    
+    /// メッセージ
+    /// SelectableImageで表示するアラートのメッセージを設定する。
+    ///
+    /// - Returns: メッセージ
+    func messageForSelectableImage() -> String {
+        return "写真を選択してください。"
+    }
     
     /// 写真ボタン
     ///

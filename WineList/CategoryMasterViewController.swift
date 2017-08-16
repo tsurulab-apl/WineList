@@ -9,7 +9,6 @@
 import UIKit
 import CoreData
 
-///
 /// CategoryMasterViewControllerデリゲート
 ///
 protocol CategoryMasterViewControllerDelegate: class {
@@ -18,30 +17,28 @@ protocol CategoryMasterViewControllerDelegate: class {
     func delete(category: Category)
 }
 
-///
 /// CategoryMasterViewController
 ///
-class CategoryMasterViewController: UITableViewController,UISplitViewControllerDelegate {
-    private let categoryData = ["White", "Red", "Rose", "Sparkling"]
+class CategoryMasterViewController: UITableViewController,UISplitViewControllerDelegate,Messageable {
 
-    // 設定クラス
+    /// 設定クラス
     private let settings = Settings.instance
 
-    //
+    /// テーブルビュー
     @IBOutlet var categoryTableView: UITableView!
 
-    //
+    /// delegate
     var delegate: CategoryMasterViewControllerDelegate?
 
-    // カテゴリーリスト
-    //private var categoryList:CategoryList
+    /// カテゴリーリスト
     private var categoryList:DataList<Category>
 
     // ナビゲーションバーのボタン
+    /// 追加ボタン
     private var addButton:UIBarButtonItem
+    /// Editボタン
     private var editButton:UIBarButtonItem
     
-    ///
     /// イニシャライザ
     ///
     required init?(coder aDecoder: NSCoder) {
@@ -74,7 +71,6 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
         self.editButton.action = #selector(editButtonAction(_:))
     }
 
-    ///
     /// viewDidLoad
     ///
     override func viewDidLoad() {
@@ -127,7 +123,6 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
 //        return true
 //    }
 
-    ///
     /// didReceiveMemoryWarning
     ///
     override func didReceiveMemoryWarning() {
@@ -135,9 +130,9 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
         // Dispose of any resources that can be recreated.
     }
 
-    ///
     /// viewWillAppear
     ///
+    /// - Parameter animated: <#animated description#>
     override func viewWillAppear(_ animated: Bool) {
         // CoreDataからデータをfetchしてくる
         //self.categoryList.getData()
@@ -146,9 +141,9 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
         self.categoryTableView.reloadData()
     }
 
-    ///
     /// カテゴリーリストの取得
     ///
+    /// - Returns: カテゴリーリスト
     func getCategoryList() -> DataList<Category> {
         return self.categoryList
     }
@@ -164,23 +159,24 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
     }
 ***********/
 
-    ///
     /// テーブルのリロード
     ///
     func reloadCategoryTableView(){
         //self.categoryList.getData()
         self.categoryTableView.reloadData()
     }
-    ///
+    
     /// ナビゲーションバーの追加ボタン
     ///
+    /// - Parameter sender: <#sender description#>
     func addButtonAction(_ sender: Any){
         print("addButtonAction")
         self.addCategory()
     }
-    ///
+
     /// ナビゲーションバーのeditボタン
     ///
+    /// - Parameter sender: <#sender description#>
     func editButtonAction(_ sender: Any){
         print("editButtonAction")
         if (self.categoryTableView.isEditing){
@@ -189,7 +185,7 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
             self.categoryTableView.setEditing(true, animated: true)
         }
     }
-    ///
+    
     /// カテゴリーの追加
     ///
     func addCategory() {
@@ -204,17 +200,24 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
         return 0
     }
 ***/
-    ///
+
     /// テーブルビューのデータの個数を返すメソッド
     ///
+    /// - Parameters:
+    ///   - tableView: テーブルビュー
+    ///   - section: セクション番号
+    /// - Returns: データの個数
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return self.categoryList.count()
     }
 
-    ///
     /// データを返すメソッド
     ///
+    /// - Parameters:
+    ///   - tableView: テーブルビュー
+    ///   - indexPath: インデックスパス
+    /// - Returns: テーブルビューのセル
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath)
 
@@ -224,9 +227,11 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
         return cell
     }
     
-    ///
     /// データ選択後の呼び出しメソッド
     ///
+    /// - Parameters:
+    ///   - tableView: テーブルビュー
+    ///   - indexPath: インデックスパス
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let category = self.categoryList.get(indexPath.row)
         self.delegate?.selectedCell(category: category)
@@ -237,41 +242,71 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
         }
     }
 
-    ///
     /// editの有効化
     ///
+    /// - Parameters:
+    ///   - tableView: テーブルビュー
+    ///   - indexPath: インデックスパス
+    /// - Returns: true:有効 false:無効
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
 
-    ///
     /// 削除処理
     ///
+    /// - Parameters:
+    ///   - tableView: テーブルビュー
+    ///   - editingStyle: <#editingStyle description#>
+    ///   - indexPath: インデックスパス
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let category = self.categoryList.get(indexPath.row)
-            self.categoryList.delete(indexPath.row)
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            // 登録画面に削除を通知する。
-            self.delegate?.delete(category: category)
+            // 削除チェックを実施
+            if self.categoryDeleteCheck(category: category) {
+                self.categoryList.delete(indexPath.row)
+                // Delete the row from the data source
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                // 登録画面に削除を通知する。
+                self.delegate?.delete(category: category)
+            }
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
 
+    /// カテゴリー削除チェック
+    /// カテゴリー内にワインがある場合は削除不可とする。
     ///
+    /// - Parameter category: 削除対象カテゴリー
+    /// - Returns: true:削除可能 false:削除不可
+    func categoryDeleteCheck(category: Category) -> Bool {
+        if let wineSet = category.wines {
+            if wineSet.count > 0 {
+                self.showInvalidMessage(message: "このカテゴリーにはワインが含まれるため削除できません。")
+                return false
+            }
+        }
+        return true
+    }
+    
     /// 並び替え
     ///
+    /// - Parameters:
+    ///   - tableView: テーブルビュー
+    ///   - fromIndexPath: 並び替え前の位置
+    ///   - to: 並び替え後の位置
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
         let category = self.categoryList.get(fromIndexPath.row)
         self.categoryList.moveRow(data: category, toRow: to.row)
     }
 
-    ///
     /// 並び替えの有効化
     ///
+    /// - Parameters:
+    ///   - tableView: テーブルビュー
+    ///   - indexPath: インデックスパス
+    /// - Returns: true:有効 false:無効
     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the item to be re-orderable.
         return true

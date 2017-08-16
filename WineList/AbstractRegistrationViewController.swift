@@ -14,7 +14,7 @@ import UIKit
 /// - 改行キーでキーボードを閉じる。
 /// - スクロールビューのズーム。
 /// - 保存、リセット時の確認メッセージ/完了メッセージを表示する。
-class AbstractRegistrationViewController: UIViewController,UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate,UIScrollViewDelegate {
+class AbstractRegistrationViewController: UIViewController,UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate,UIScrollViewDelegate, Messageable {
 
     // MARK: - 定数
 
@@ -22,9 +22,11 @@ class AbstractRegistrationViewController: UIViewController,UINavigationControlle
     /// スクロール位置調整用のマージンサイズ
     private static let SCROLL_MARGIN:Float = 8.0
 
+/******
     // メッセージを表示する秒数
     private static let MESSAGE_SECOND:Double = 0.5
-
+*********/
+    
     // MARK: - 変数
     
     /// キーボード表示時にテキストフィールドやテキストビューが隠れないようにスクロールする対応用
@@ -249,6 +251,7 @@ class AbstractRegistrationViewController: UIViewController,UINavigationControlle
         present(alert, animated: true, completion: nil)
     }
 
+/**************
     /// 保存メッセージの表示
     ///
     func showSaveMessage() {
@@ -286,7 +289,8 @@ class AbstractRegistrationViewController: UIViewController,UINavigationControlle
             })
         })
     }
-
+*********/
+    
     /*
     // MARK: - Navigation
 

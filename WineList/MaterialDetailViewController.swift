@@ -8,24 +8,25 @@
 
 import UIKit
 
+/// MaterialDetailViewController
+///
 class MaterialDetailViewController: UIViewController,MaterialMasterViewControllerDelegate {
-    // 資料
+    /// 資料
     private var material:Material?
     
-    // サブビュー
+    /// サブビュー
     private var materialRegistrationViewController:MaterialRegistrationViewController? = nil
     
-    // ナビゲーションバーボタン
+    /// ナビゲーションバーボタン
     private var doneButton:UIBarButtonItem
 
-    // マスタービューコントローラー
+    /// マスタービューコントローラー
     var materialMasterViewController:MaterialMasterViewController {
         let masterNavController = self.splitViewController?.viewControllers.first as! UINavigationController
         let materialMasterViewController = masterNavController.topViewController as! MaterialMasterViewController
         return materialMasterViewController
     }
     
-    ///
     /// イニシャライザ
     ///
     required init?(coder aDecoder: NSCoder) {
@@ -38,7 +39,6 @@ class MaterialDetailViewController: UIViewController,MaterialMasterViewControlle
         self.doneButton.action = #selector(doneButtonAction(_:))
     }
 
-    ///
     /// viewDidLoad
     ///
     override func viewDidLoad() {
@@ -63,7 +63,6 @@ class MaterialDetailViewController: UIViewController,MaterialMasterViewControlle
         self.materialRegistrationViewController?.view.isHidden = true
     }
 
-    ///
     /// didReceiveMemoryWarning
     ///
     override func didReceiveMemoryWarning() {
@@ -71,39 +70,37 @@ class MaterialDetailViewController: UIViewController,MaterialMasterViewControlle
         // Dispose of any resources that can be recreated.
     }
     
-    ///
     /// ナビゲーションバーのDoneボタン
     ///
+    /// - Parameter sender: <#sender description#>
     func doneButtonAction(_ sender: Any){
         print("doneButtonAction")
         self.dismiss(animated: true, completion: nil)
     }
 
-    ///
     /// テーブルビューのリロード
     ///
     func reloadMaterialTableView(){
         self.materialMasterViewController.reloadMaterialTableView()
     }
 
-    ///
     /// 資料リストの取得
     ///
+    /// - Returns: 資料リスト
     func getMaterialList() -> DataList<Material> {
         let materialList = self.materialMasterViewController.getMaterialList()
         return materialList
     }
     
-    ///
     /// セル選択時(delegate)
     ///
+    /// - Parameter material: マスターテーブルで選択された資料
     func selectedCell(material: Material) {
         self.material = material
         self.materialRegistrationViewController?.selectedCell(material: material)
         self.changeScreen()
     }
     
-    ///
     /// 資料の追加(delegate)
     ///
     func addMaterial() {
@@ -113,9 +110,9 @@ class MaterialDetailViewController: UIViewController,MaterialMasterViewControlle
         self.materialRegistrationViewController?.view.isHidden = false
     }
     
-    ///
     /// 資料削除通知(delegate)
     ///
+    /// - Parameter material: 資料
     func delete(material: Material) {
         if self.material === material {
             self.material = nil
@@ -123,7 +120,6 @@ class MaterialDetailViewController: UIViewController,MaterialMasterViewControlle
         self.changeScreen()
     }
 
-    ///
     /// 画面の切り替え
     ///
     func changeScreen(){
