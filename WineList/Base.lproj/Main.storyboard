@@ -787,7 +787,7 @@
                                 <rect key="frame" x="0.0" y="64" width="768" height="896"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="1El-5G-y9h" userLabel="Form Stack View">
-                                        <rect key="frame" x="77" y="218" width="614" height="460"/>
+                                        <rect key="frame" x="77" y="178" width="614" height="540"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="6x3-Jx-3ST" userLabel="Image Stack View">
                                                 <rect key="frame" x="0.0" y="0.0" width="614" height="340"/>
@@ -867,16 +867,16 @@
                                                 <rect key="frame" x="0.0" y="380" width="614" height="40"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="パスワード" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EfZ-49-Qqo" userLabel="Password Label">
-                                                        <rect key="frame" x="0.0" y="10" width="120" height="20.5"/>
+                                                        <rect key="frame" x="0.0" y="10" width="160" height="20.5"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="120" id="6qT-Ae-6wC"/>
+                                                            <constraint firstAttribute="width" constant="160" id="6qT-Ae-6wC"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XnS-io-j6X">
-                                                        <rect key="frame" x="120" y="5" width="494" height="30"/>
+                                                        <rect key="frame" x="160" y="5" width="454" height="30"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
@@ -890,16 +890,13 @@
                                                 <rect key="frame" x="0.0" y="420" width="614" height="40"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="長押し時間" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O5K-bb-Kbv" userLabel="LongPressDuration Label">
-                                                        <rect key="frame" x="0.0" y="10" width="120" height="20.5"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="120" id="zNG-UG-guS"/>
-                                                        </constraints>
+                                                        <rect key="frame" x="0.0" y="10" width="160" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.10000000000000001" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="MNi-gf-M32" userLabel="LongPressDuration Slider">
-                                                        <rect key="frame" x="118" y="5" width="404" height="31"/>
+                                                        <rect key="frame" x="158" y="5" width="404" height="31"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="400" id="aCv-Sg-evo"/>
                                                         </constraints>
@@ -908,7 +905,7 @@
                                                         </connections>
                                                     </slider>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DhF-YL-qHa" userLabel="LongPressDurationSecond Label">
-                                                        <rect key="frame" x="520" y="10" width="94" height="20.5"/>
+                                                        <rect key="frame" x="560" y="10" width="54" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -918,7 +915,52 @@
                                                     <constraint firstAttribute="height" constant="40" id="kUz-1H-dS8"/>
                                                 </constraints>
                                             </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Ohg-Mr-3lp" userLabel="Default Price Stack View">
+                                                <rect key="frame" x="0.0" y="460" width="614" height="40"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="デフォルト価格" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jyE-qD-VvU" userLabel="Default Price Label">
+                                                        <rect key="frame" x="0.0" y="10" width="160" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9AE-jp-cUa" userLabel="Default Price Text Field">
+                                                        <rect key="frame" x="160" y="5" width="454" height="30"/>
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    </textField>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="jhj-OA-mXK"/>
+                                                </constraints>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="mh6-K4-gMR" userLabel="Vintage Range Stack View">
+                                                <rect key="frame" x="0.0" y="500" width="614" height="40"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ヴィンテージ範囲" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EEc-Jb-l7q" userLabel="Vintage Range Label">
+                                                        <rect key="frame" x="0.0" y="10" width="160" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Hjg-G5-dq7" userLabel="Vintage Range Text Field">
+                                                        <rect key="frame" x="160" y="5" width="454" height="30"/>
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    </textField>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="bTY-lW-FPX"/>
+                                                </constraints>
+                                            </stackView>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstItem="O5K-bb-Kbv" firstAttribute="width" secondItem="EfZ-49-Qqo" secondAttribute="width" id="COk-4m-5qM"/>
+                                            <constraint firstItem="EEc-Jb-l7q" firstAttribute="width" secondItem="EfZ-49-Qqo" secondAttribute="width" id="ljT-aK-tdi"/>
+                                            <constraint firstItem="jyE-qD-VvU" firstAttribute="width" secondItem="EfZ-49-Qqo" secondAttribute="width" id="nJG-b7-cWg"/>
+                                        </constraints>
                                     </stackView>
                                 </subviews>
                                 <constraints>
@@ -942,11 +984,13 @@
                     <navigationItem key="navigationItem" id="Sg0-Zf-HbQ"/>
                     <connections>
                         <outlet property="defaultImageView" destination="qZH-5g-KAa" id="cvZ-Sm-twu"/>
+                        <outlet property="defaultPriceTextField" destination="9AE-jp-cUa" id="gbC-ub-asB"/>
                         <outlet property="formStackView" destination="1El-5G-y9h" id="bdg-Kj-xdS"/>
                         <outlet property="longPressDurationLabel" destination="DhF-YL-qHa" id="hp1-pk-y7h"/>
                         <outlet property="longPressDurationSlider" destination="MNi-gf-M32" id="wUc-DT-aRi"/>
                         <outlet property="mainScrollView" destination="SgN-y5-BIL" id="uBF-xH-cbu"/>
                         <outlet property="passwordTextField" destination="XnS-io-j6X" id="ezE-n2-CSD"/>
+                        <outlet property="vintageRangeTextField" destination="Hjg-G5-dq7" id="y2p-TY-XnA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XMg-Xg-jho" userLabel="First Responder" sceneMemberID="firstResponder"/>

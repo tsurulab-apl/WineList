@@ -86,6 +86,9 @@ class CategoryRegistrationViewController: AbstractRegistrationViewController {
         category.updateDate = now
         categoryList.save(data: category)
 
+        // 完了メッセージ表示
+        self.showSaveMessage()
+
         let categoryDetailViewController = self.parent as! CategoryDetailViewController
         categoryDetailViewController.selectedCell(category: category)
         
@@ -112,9 +115,9 @@ class CategoryRegistrationViewController: AbstractRegistrationViewController {
         return categoryList
     }
     
-    ///
     /// セル選択時(delegate)
     ///
+    /// - Parameter category: マスタービューで選択されたカテゴリー
     func selectedCell(category: Category) {
         self.category = category
         self.nameTextField.text = category.name
@@ -131,7 +134,6 @@ class CategoryRegistrationViewController: AbstractRegistrationViewController {
         }
     }
 
-    ///
     /// カテゴリーの追加(delegate)
     ///
     func addCategory() {
@@ -141,51 +143,49 @@ class CategoryRegistrationViewController: AbstractRegistrationViewController {
         self.updateDateLabel.text = nil
     }
 
+    /// バリデーション
     ///
-    /// 保存ボタン
-    ///
-    @IBAction func saveButtonTouchUpInside(_ sender: Any) {
-        // ① UIAlertControllerクラスのインスタンスを生成
-        // タイトル, メッセージ, Alertのスタイルを指定する
-        // 第3引数のpreferredStyleでアラートの表示スタイルを指定する
-        let alert: UIAlertController = UIAlertController(title: "保存", message: "保存します。よろしいですか？", preferredStyle:  UIAlertControllerStyle.alert)
-        
-        // ② Actionの設定
-        // Action初期化時にタイトル, スタイル, 押された時に実行されるハンドラを指定する
-        // 第3引数のUIAlertActionStyleでボタンのスタイルを指定する
-        // OKボタン
-        let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler:{
-            // ボタンが押された時の処理を書く（クロージャ実装）
-            (action: UIAlertAction!) -> Void in
-            print("OK")
-            self.save()
-        })
-        // キャンセルボタン
-        let cancelAction: UIAlertAction = UIAlertAction(title: "キャンセル", style: UIAlertActionStyle.cancel, handler:{
-            // ボタンが押された時の処理を書く（クロージャ実装）
-            (action: UIAlertAction!) -> Void in
-            print("Cancel")
-        })
-        
-        // ③ UIAlertControllerにActionを追加
-        alert.addAction(cancelAction)
-        alert.addAction(defaultAction)
-        
-        // ④ Alertを表示
-        present(alert, animated: true, completion: nil)
+    /// - Returns: true:成功 false:失敗
+    func validate() -> Bool {
+        var valid = true
+        valid = self.nameTextField.requiredCheck()
+        if !valid {
+            self.showInvalidMessage(message: "名前を入力してください。")
+        }
+        return valid
     }
 
+    /// 保存ボタン
     ///
+    /// - Parameter sender: <#sender description#>
+    @IBAction func saveButtonTouchUpInside(_ sender: Any) {
+        self.saveAction(
+            handler: {
+                (action: UIAlertAction!) -> Void in
+                if self.validate() {
+                    self.save()
+                }
+        })
+    }
+
     /// リセットボタン
     ///
+    /// - Parameter sender: <#sender description#>
     @IBAction func resetButtonTouchUpInside(_ sender: Any) {
-        if self.category != nil {
-            self.selectedCell(category: self.category!)
-        }
-        else{
-            self.addCategory()
-        }
+        self.resetAction(
+            handler: {
+                (action: UIAlertAction!) -> Void in
+                if self.category != nil {
+                    self.selectedCell(category: self.category!)
+                }
+                else{
+                    self.addCategory()
+                }
+                // 完了メッセージ表示
+                self.showResetMessage()
+        })
     }
+
     /*
     // MARK: - Navigation
 

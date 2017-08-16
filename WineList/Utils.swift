@@ -33,7 +33,7 @@ public class NumberUtil {
 
 /// 文字列ユーティリティー
 public class StringUtil {
-    
+
     /// UILabelやUITextViewで必要な高さを計算する。
     ///
     /// - Parameter text: 高さを計算する文字列

@@ -8,13 +8,16 @@
 
 import UIKit
 
-class MaterialRegistrationViewController: AbstractRegistrationViewController,UIImagePickerControllerDelegate {
+class MaterialRegistrationViewController: AbstractRegistrationViewController,SelectableImage {
 
-    // 資料
+    /// 処理中の資料オブジェクト
     private var material:Material?
 
-    //
-    let newImageName = "now_printing"
+    /// 新規追加時の画像
+    let newImage = UIImage(named: "now_printing")!
+    
+    /// 資料画像の状態
+    var imageStatus = SelectableImageStatus.nothing
 
     // コントロール
     @IBOutlet weak var mainScrollView: UIScrollView!
@@ -25,7 +28,7 @@ class MaterialRegistrationViewController: AbstractRegistrationViewController,UII
     @IBOutlet weak var noteTextView: UITextView!
     @IBOutlet weak var insertDateLabel: UILabel!
     @IBOutlet weak var updateDateLabel: UILabel!
-    ///
+
     /// viewDidLoad
     ///
     override func viewDidLoad() {
@@ -41,7 +44,6 @@ class MaterialRegistrationViewController: AbstractRegistrationViewController,UII
         self.noteTextView.layer.borderColor = UIColor.lightGray.cgColor
     }
 
-    ///
     /// didReceiveMemoryWarning
     ///
     override func didReceiveMemoryWarning() {
@@ -49,28 +51,55 @@ class MaterialRegistrationViewController: AbstractRegistrationViewController,UII
         // Dispose of any resources that can be recreated.
     }
     
-    ///
     /// スクロールビューを戻す。
     ///
+    /// - Returns: スクロールビュー
     override func getScrollView() -> UIScrollView {
         return self.mainScrollView
     }
     
-    ///
     /// スクロールビューでズームするビューを戻す。
     ///
+    /// - Returns: スクロールビューでズームするビュー
     override func getZoomView() -> UIView? {
         return self.formStackView
     }
     
-    ///
     /// delegate設定するUITextFiledの配列を戻す。
     ///
+    /// - Returns: UITextFieldの配列
     override func getUITextFields() -> [UITextField] {
         return [self.nameTextField]
     }
 
+    /// delegate設定するUITextViewの配列を戻す。
     ///
+    /// - Returns: UITextViewの配列
+    override func getUITextViews() -> [UITextView] {
+        return [self.noteTextView]
+    }
+
+    /// 画像選択プロトコル拡張に対してイメージビューを戻す。
+    ///
+    /// - Returns: イメージビュー
+    func get() -> UIImageView {
+        return self.materialImageView
+    }
+    
+    /// 画像選択プロトコル拡張に対して画像選択状態を戻す。
+    ///
+    /// - Returns: 画像選択状態
+    func get() -> SelectableImageStatus {
+        return self.imageStatus
+    }
+    
+    /// 画像選択プロトコル拡張の画像の選択状態管理用プロパティーの設定
+    ///
+    /// - Parameter selectableImageStatus: 画像選択状態
+    func set(selectableImageStatus:SelectableImageStatus) {
+        self.imageStatus = selectableImageStatus
+    }
+    
     /// タイプの初期化
     ///
     func initMaterialType(){
@@ -84,14 +113,13 @@ class MaterialRegistrationViewController: AbstractRegistrationViewController,UII
         self.materialTypeSegmentedControl.sizeToFit()
     }
     
-    ///
     /// viewWillAppear
     ///
+    /// - Parameter animated: <#animated description#>
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
 
-    ///
     /// CoreDataへの資料データ保存
     ///
     func save(){
@@ -109,7 +137,20 @@ class MaterialRegistrationViewController: AbstractRegistrationViewController,UII
         material.note = self.noteTextView.text
         let materialType = self.getMaterialTypeSegmentedControl()
         material.type = materialType.rawValue
-        material.data = self.materialImageView.image?.jpegData
+
+        // 画像
+        switch self.imageStatus {
+        case SelectableImageStatus.selected:
+            let image = self.materialImageView.image
+            material.data = image?.jpegData
+            break
+        case SelectableImageStatus.cleared:
+            material.data = nil
+            break
+        default:
+            // 保存しない。
+            break
+        }
 
         let now = Date()
         if material.insertDate == nil {
@@ -117,6 +158,9 @@ class MaterialRegistrationViewController: AbstractRegistrationViewController,UII
         }
         material.updateDate = now
         materialList.save(data: material)
+
+        // 完了メッセージ表示
+        self.showSaveMessage()
         
         let materialDetailViewController = self.parent as! MaterialDetailViewController
         materialDetailViewController.selectedCell(material: material)
@@ -124,9 +168,9 @@ class MaterialRegistrationViewController: AbstractRegistrationViewController,UII
         self.reloadMaterialTableView()
     }
 
-    ///
     /// 選択されているタイプの取得
     ///
+    /// - Returns: 資料タイプ
     func getMaterialTypeSegmentedControl() -> MaterialType {
         let index = self.materialTypeSegmentedControl.selectedSegmentIndex
         if let materialType = MaterialType.init(index: index) {
@@ -135,7 +179,6 @@ class MaterialRegistrationViewController: AbstractRegistrationViewController,UII
         return MaterialType.other
     }
     
-    ///
     /// テーブルビューのリロード
     ///
     func reloadMaterialTableView(){
@@ -143,18 +186,18 @@ class MaterialRegistrationViewController: AbstractRegistrationViewController,UII
         materialDetailViewController.reloadMaterialTableView()
     }
     
-    ///
     /// 資料リストの取得
     ///
+    /// - Returns: 資料リスト
     func getMaterialList() -> DataList<Material> {
         let materialDetailViewController = self.parent as! MaterialDetailViewController
         let materialList = materialDetailViewController.getMaterialList()
         return materialList
     }
     
-    ///
     /// セル選択時(delegate)
     ///
+    /// - Parameter material: マスタービューで選択された資料
     func selectedCell(material: Material) {
         self.material = material
         self.nameTextField.text = material.name
@@ -179,9 +222,9 @@ class MaterialRegistrationViewController: AbstractRegistrationViewController,UII
         }
     }
 
-    ///
     /// 資料タイプのセグメントコントロールを選択
     ///
+    /// - Parameter material: セグメントコントロールを選択する対象の資料
     func setMaterialTypeSegmentedControl(material: Material){
         var index = 0
         if let materialType = MaterialType.init(raw: material.type) {
@@ -190,12 +233,11 @@ class MaterialRegistrationViewController: AbstractRegistrationViewController,UII
         self.materialTypeSegmentedControl.selectedSegmentIndex = index
     }
     
-    ///
     /// 資料の追加(delegate)
     ///
     func addMaterial() {
         self.material = nil
-        self.materialImageView.image = UIImage(named: self.newImageName)
+        self.materialImageView.image = self.newImage
         self.nameTextField.text = nil
         self.materialTypeSegmentedControl.selectedSegmentIndex = 0
         self.noteTextView.text = nil
@@ -203,33 +245,21 @@ class MaterialRegistrationViewController: AbstractRegistrationViewController,UII
         self.updateDateLabel.text = nil
     }
 
-    ///
     /// 画像ボタン
     ///
+    /// - Parameter sender: <#sender description#>
     @IBAction func imageSelectTouchUpInside(_ sender: Any) {
-        let alert = UIAlertController(title:"資料画像", message: "画像を選択してください。", preferredStyle: UIAlertControllerStyle.alert)
-        
-        let action1 = UIAlertAction(title: "ライブラリより選択", style: UIAlertActionStyle.default, handler: {
-            (action: UIAlertAction!) in
-            self.pickImageFromLibrary()
-        })
-        
-        let action2 = UIAlertAction(title: "カメラを起動", style: UIAlertActionStyle.default, handler: {
-            (action: UIAlertAction!) in
-            self.pickImageFromCamera()
-        })
-        
-        let cancel = UIAlertAction(title: "キャンセル", style: UIAlertActionStyle.cancel, handler: {
-            (action: UIAlertAction!) in
-        })
-        
-        alert.addAction(action1)
-        alert.addAction(action2)
-        alert.addAction(cancel)
-        
-        self.present(alert, animated: true, completion: nil)
+        self.selectImageAction()
     }
 
+    /// クリアボタン
+    ///
+    /// - Parameter sender: <#sender description#>
+    @IBAction func imageClearTouchUpInside(_ sender: Any) {
+        self.clearImageAction(defaultImage: self.newImage)
+    }
+
+/*******
     ///
     /// Photo Libraryから選択
     ///
@@ -255,12 +285,17 @@ class MaterialRegistrationViewController: AbstractRegistrationViewController,UII
             present(imagePickerController, animated: true, completion: nil)
         }
     }
-    
+***********/
+ 
+    /// 画像選択時の処理
     ///
-    /// 写真選択時の処理
-    ///
+    /// - Parameters:
+    ///   - picker: <#picker description#>
+    ///   - info: <#info description#>
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]){
-        
+        // プロトコル拡張のメソッドに処理を委譲する。
+        self.imagePickerControllerAction(picker, didFinishPickingMediaWithInfo: info)
+/*******
         if info[UIImagePickerControllerOriginalImage] != nil {
             
             // アップ用画像の一時保存
@@ -285,52 +320,50 @@ class MaterialRegistrationViewController: AbstractRegistrationViewController,UII
         }
         // フォトライブラリの画像・写真選択画面を閉じる
         picker.dismiss(animated: true, completion: nil)
+******************/
     }
 
+    /// バリデーション
     ///
+    /// - Returns: true:成功 false:失敗
+    func validate() -> Bool {
+        var valid = true
+        valid = self.nameTextField.requiredCheck()
+        if !valid {
+            self.showInvalidMessage(message: "名前を入力してください。")
+        }
+        return valid
+    }
+
     /// 保存ボタン
     ///
+    /// - Parameter sender: <#sender description#>
     @IBAction func saveButtonTouchUpInside(_ sender: Any) {
-        // ① UIAlertControllerクラスのインスタンスを生成
-        // タイトル, メッセージ, Alertのスタイルを指定する
-        // 第3引数のpreferredStyleでアラートの表示スタイルを指定する
-        let alert: UIAlertController = UIAlertController(title: "保存", message: "保存します。よろしいですか？", preferredStyle:  UIAlertControllerStyle.alert)
-        
-        // ② Actionの設定
-        // Action初期化時にタイトル, スタイル, 押された時に実行されるハンドラを指定する
-        // 第3引数のUIAlertActionStyleでボタンのスタイルを指定する
-        // OKボタン
-        let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler:{
-            // ボタンが押された時の処理を書く（クロージャ実装）
-            (action: UIAlertAction!) -> Void in
-            print("OK")
-            self.save()
+        self.saveAction(
+            handler: {
+                (action: UIAlertAction!) -> Void in
+                if self.validate() {
+                    self.save()
+                }
         })
-        // キャンセルボタン
-        let cancelAction: UIAlertAction = UIAlertAction(title: "キャンセル", style: UIAlertActionStyle.cancel, handler:{
-            // ボタンが押された時の処理を書く（クロージャ実装）
-            (action: UIAlertAction!) -> Void in
-            print("Cancel")
-        })
-        
-        // ③ UIAlertControllerにActionを追加
-        alert.addAction(cancelAction)
-        alert.addAction(defaultAction)
-        
-        // ④ Alertを表示
-        present(alert, animated: true, completion: nil)
     }
 
-    ///
     /// リセットボタン
     ///
+    /// - Parameter sender: <#sender description#>
     @IBAction func resetButtonTouchUpInside(_ sender: Any) {
-        if self.material != nil {
-            self.selectedCell(material: self.material!)
-        }
-        else{
-            self.addMaterial()
-        }
+        self.resetAction(
+            handler: {
+                (action: UIAlertAction!) -> Void in
+                if self.material != nil {
+                    self.selectedCell(material: self.material!)
+                }
+                else{
+                    self.addMaterial()
+                }
+                // 完了メッセージ表示
+                self.showResetMessage()
+        })
     }
 
     /*

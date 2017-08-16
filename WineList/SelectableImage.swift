@@ -9,16 +9,17 @@
 import Foundation
 import UIKit
 
-///
 /// 画像の選択状態
 ///
+/// - nothing: 何もしていない状態
+/// - selected: 画像を選択した状態
+/// - cleared: 画像をクリアした状態
 public enum SelectableImageStatus {
     case nothing    // 何もしていない状態
     case selected   // 画像を選択した状態
     case cleared    // 画像をクリアした状態
 }
 
-///
 /// 画像選択機能のプロトコル
 /// 利用する際に画像の選択状態を管理するプロパティーと画像を表示するイメージビューを実装すること。
 ///
@@ -39,16 +40,14 @@ protocol SelectableImage:UINavigationControllerDelegate, UIImagePickerController
     func get() -> UIImageView
 }
 
-///
 /// 画像選択機能のプロトコル拡張
 ///
 extension SelectableImage where Self: AbstractRegistrationViewController {
 
-    ///
     /// 写真選択アクション
     ///
     func selectImageAction() {
-        let alert = UIAlertController(title:"ワイン画像", message: "画像を選択してください。", preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title:"画像", message: "画像を選択してください。", preferredStyle: UIAlertControllerStyle.alert)
         
         let action1 = UIAlertAction(title: "ライブラリより選択", style: UIAlertActionStyle.default, handler: {
             (action: UIAlertAction!) in
@@ -71,16 +70,15 @@ extension SelectableImage where Self: AbstractRegistrationViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    ///
     /// クリアアクション
     ///
-    func clearImageAction() {
+    /// - Parameter defaultImage: クリア時に設定するデフォルト画像(指定しなければ設定の値を利用)
+    func clearImageAction(defaultImage:UIImage = Settings.instance.defaultDefaultImage) {
         let imageView:UIImageView = self.get()
-        imageView.image = Settings.instance.defaultDefaultImage
+        imageView.image = defaultImage
         self.set(selectableImageStatus: SelectableImageStatus.cleared)
     }
     
-    ///
     /// Photo Libraryから選択
     ///
     func pickImageFromLibrary(){
@@ -93,7 +91,6 @@ extension SelectableImage where Self: AbstractRegistrationViewController {
         }
     }
     
-    ///
     /// 写真を撮ってそれを選択
     ///
     func pickImageFromCamera() {
@@ -106,10 +103,12 @@ extension SelectableImage where Self: AbstractRegistrationViewController {
         }
     }
     
-    ///
     /// 写真選択時の処理
     /// 利用側でimagePickerControllerメソッドを実装し、このメソッドを呼び出す。
     ///
+    /// - Parameters:
+    ///   - picker: <#picker description#>
+    ///   - info: <#info description#>
     func imagePickerControllerAction(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         if info[UIImagePickerControllerOriginalImage] != nil {

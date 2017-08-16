@@ -8,7 +8,6 @@
 
 import UIKit
 
-///
 /// UIImage Extension リサイズメソッド
 ///
 extension UIImage {
@@ -60,7 +59,6 @@ extension UIImage {
     }
 }
 
-///
 /// UIColor
 ///
 extension UIColor {
@@ -72,7 +70,6 @@ extension UIColor {
     }
 }
 
-///
 /// UIScrollView
 /// 画面をタッチした際にキーボードやPickerViewを閉じる対応をUIScrollViewでも実現
 /// 可能なようにtouchesBeganを作成する。
@@ -80,5 +77,24 @@ extension UIColor {
 extension UIScrollView {
     open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.next?.touchesBegan(touches, with: event)
+    }
+}
+
+extension UITextField {
+    
+    /// 必須チェック
+    ///
+    /// - Returns: true:成功 false:失敗
+    func requiredCheck() -> Bool {
+        var valid = true
+        if let text = self.text {
+            let value = text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            if value == "" {
+                valid = false
+            }
+        } else {
+            valid = false
+        }
+        return valid
     }
 }

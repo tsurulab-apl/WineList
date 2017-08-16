@@ -27,7 +27,9 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
     @IBOutlet weak var longPressDurationLabel: UILabel!
     @IBOutlet weak var longPressDurationSlider: UISlider!
     @IBOutlet weak var defaultImageView: UIImageView!
-
+    @IBOutlet weak var defaultPriceTextField: UITextField!
+    @IBOutlet weak var vintageRangeTextField: UITextField!
+    
     // 画面呼出時のデータ表示フラグ
     // DetailViewControllerから呼び出す際にfalseに設定し、
     // showDataメソッド完了時にtrueに更新する。
@@ -88,7 +90,7 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
     /// delegate設定するUITextFiledの配列を戻す。
     ///
     override func getUITextFields() -> [UITextField] {
-        return [self.passwordTextField]
+        return [self.passwordTextField, self.defaultPriceTextField, self.vintageRangeTextField]
     }
 
     ///
@@ -142,6 +144,9 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
         self.savePassword()
         self.saveLongPressDuration()
         self.saveDefaultImage()
+        self.saveDefaultPrice()
+        self.saveVintageRange()
+
         // 変更を反映
         self.settings.notice()
         // 画面を閉じる
@@ -160,6 +165,8 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
         self.defaultImageStatus = SelectableImageStatus.nothing
 //        self.selectImage = false
 //        self.clearImage = false
+        self.defaultPriceTextField.text = String(settings.defaultPrice)
+        self.vintageRangeTextField.text = String(settings.vintageRange)
     }
     
     ///
@@ -206,6 +213,36 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
         default:
             // 保存しない。
             break
+        }
+    }
+
+    ///
+    /// デフォルト価格の保存
+    ///
+    func saveDefaultPrice(){
+        if let defaultPrice = self.defaultPriceTextField.text {
+            if let defaultPrice = Int(defaultPrice) {
+                self.settings.defaultPrice = defaultPrice
+            } else {
+                self.settings.clearDefaultPrice()
+            }
+        } else {
+            self.settings.clearDefaultPrice()
+        }
+    }
+
+    ///
+    /// ヴィンテージ範囲の保存
+    ///
+    func saveVintageRange(){
+        if let vintageRange = self.vintageRangeTextField.text {
+            if let vintageRange = Int(vintageRange) {
+                self.settings.vintageRange = vintageRange
+            } else {
+                self.settings.clearVintageRange()
+            }
+        } else {
+            self.settings.clearVintageRange()
         }
     }
     

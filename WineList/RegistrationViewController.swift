@@ -12,7 +12,10 @@ import UIKit
 //class RegistrationViewController: AbstractRegistrationViewController,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate, DataListDelegate {
 
 /// ワイン登録画面
-class RegistrationViewController: AbstractRegistrationViewController,UIPickerViewDataSource,UIPickerViewDelegate, DataListDelegate, SelectableImage {
+class RegistrationViewController: AbstractRegistrationViewController,UIPickerViewDataSource,UIPickerViewDelegate, DataListDelegate, SettingsDelegate, SelectableImage {
+
+    // 設定クラス
+    private let settings = Settings.instance
 
     // コントロール
     @IBOutlet weak var formStackView: UIStackView!
@@ -32,7 +35,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
 
     var pickerView: UIPickerView = UIPickerView()
     var vintageList:[String] = [""]
-    let newPrice = 5000
+    //let newPrice = 5000
     //let newImageName = "two-types-of-wine-1761613_640.jpg"
 
     // 処理中のワイン
@@ -41,7 +44,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
     // ワイン画像の状態 true:選択済 false:選択なし
     //var selectImage: Bool = false
 
-    // ワイン画像の状態
+    /// ワイン画像の状態
     var imageStatus = SelectableImageStatus.nothing
 
     // 資料選択のワーク
@@ -73,7 +76,9 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         // カテゴリー変更時のdelegate設定
         let categoryList = self.getCategoryList()
         categoryList.set(delegate: self)
-        
+
+        // 設定変更時のdelegate設定
+        self.settings.set(delegate: self)
 /********
         // スクロールビューのdelegate設定
         self.mainScrollView.delegate = self
@@ -94,6 +99,14 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
             // セグメントコントロールを作成し直す。
             self.initCategory()
         }
+    }
+
+    ///
+    /// 設定変更の反映
+    ///
+    func changeSettings() {
+        // ヴィンテージリストを更新
+        self.initVintageList()
     }
     
     ///
@@ -152,6 +165,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     ///
     /// viewWillAppear
     ///
@@ -287,7 +301,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         self.vintageTextField.inputView = pickerView
         self.vintageTextField.inputAccessoryView = toolbar
     }
-    
+
     ///
     /// ヴィンテージリストの作成
     ///
@@ -299,7 +313,8 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         // 現在時刻のDateComponentsを取り出す
         var dateComps = cal.dateComponents([.year, .month, .day, .hour, .minute], from: now)
         let nowYear = dateComps.year!
-        let startYear = nowYear - 50
+        let startYear = nowYear - Settings.instance.vintageRange
+        self.vintageList.removeAll()
         for year in startYear...nowYear {
             self.vintageList.append(String(year))
         }
@@ -479,11 +494,31 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         picker.dismiss(animated: true, completion: nil)
 ************/
     }
-    
+
+    /// バリデーション
     ///
+    /// - Returns: true:成功 false:失敗
+    func validate() -> Bool {
+        var valid = true
+        valid = self.nameTextField.requiredCheck()
+        if !valid {
+            self.showInvalidMessage(message: "名前を入力してください。")
+        }
+        return valid
+    }
+    
     /// 保存ボタン
     ///
+    /// - Parameter sender: <#sender description#>
     @IBAction func saveTouchUpInside(_ sender: Any) {
+        self.saveAction(
+            handler: {
+                (action: UIAlertAction!) -> Void in
+                if self.validate() {
+                    self.saveWine()
+                }
+        })
+/**************
         print("saveTouchUpInside")
         // ① UIAlertControllerクラスのインスタンスを生成
         // タイトル, メッセージ, Alertのスタイルを指定する
@@ -513,19 +548,36 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         
         // ④ Alertを表示
         present(alert, animated: true, completion: nil)
+ *********************/
     }
 
     ///
     /// リセットボタン
     ///
     @IBAction func resetTouchUpInside(_ sender: Any) {
-        print("resetTouchUpInside")
+        self.resetAction(
+            handler: {
+                (action: UIAlertAction!) -> Void in
+                if self.wine != nil {
+                    self.selectedCell(wine: self.wine!)
+                }
+                else{
+                    self.addWine()
+                }
+                // 完了メッセージ表示
+                self.showResetMessage()
+        })
+/**************
+        //print("resetTouchUpInside")
         if self.wine != nil {
             self.selectedCell(wine: self.wine!)
         }
         else{
             self.addWine()
         }
+        // 完了メッセージ表示
+        self.showResetMessage()
+****************/
     }
 
     ///
@@ -596,7 +648,8 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         self.noteTextView.text = nil
         self.vintageTextField.text = nil
         self.categorySegmentedControl.selectedSegmentIndex = 0
-        self.priceTextField.text = String(newPrice)
+        //self.priceTextField.text = String(newPrice)
+        self.priceTextField.text = String(Settings.instance.defaultPrice)
         self.displaySwitch.isOn = true
         //self.wineImageView.image = UIImage(named: self.newImageName)
         self.wineImageView.image = Settings.instance.defaultImage
@@ -706,6 +759,10 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         }
 ***/
         wineList.save(wine: wine)
+
+        // 完了メッセージ表示
+        self.showSaveMessage()
+
         let detailViewController = self.parent as! DetailViewController
         detailViewController.selectedCell(wine: wine)
 
@@ -714,20 +771,26 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
     
     ///
     /// テキストフィールドの値をInt16で取得
-    ///
+    /// 整数値に変換できない場合は0を戻す。
     func textFieldToInt16(textField: UITextField) -> Int16 {
-        let str:String = textField.text!
-        let num :Int16 = Int16(str)!
-        return num
+        if let str = textField.text {
+            if let num = Int16(str) {
+                return num
+            }
+        }
+        return 0
     }
     
     ///
     /// テキストフィールドの値をInt32で取得
-    ///
+    /// 整数値に変換できない場合は0を戻す。
     func textFieldToInt32(textField: UITextField) -> Int32 {
-        let str:String = textField.text!
-        let num :Int32 = Int32(str)!
-        return num
+        if let str = textField.text {
+            if let num = Int32(str) {
+                return num
+            }
+        }
+        return 0
     }
     
     ///

@@ -28,11 +28,15 @@ public class Settings {
     private static let DEFAULT_LONG_PRESS_DURATION:Double = 1.0
     //private static let DEFAULT_IMAGE_NAME = "two-types-of-wine-1761613_640.jpg"
     private static let DEFAULT_IMAGE_NAME = "now_printing"
+    private static let DEFAULT_PRICE:Int = 5000
+    private static let DEFAULT_VINTAGE_RANGE:Int = 50
 
     // UserDefaultsのキー
     private static let KEY_PASSWORD = "password"
     private static let KEY_LONG_PRESS_DURATION = "longPressDuration"
     private static let KEY_DEFAULT_IMAGE = "defaultImage"
+    private static let KEY_DEFAULT_PRICE = "defaultPrice"
+    private static let KEY_VINTAGE_RANGE = "vintageRange"
 
     // UserDefaults
     private var userDefaults = UserDefaults.standard
@@ -43,9 +47,7 @@ public class Settings {
     /// シングルトンインスタンス
     static let instance = Settings()
 
-    ///
     /// 管理モード用パスワード
-    ///
     var password:String {
         get {
             if let password = userDefaults.string(forKey: Settings.KEY_PASSWORD) {
@@ -58,9 +60,7 @@ public class Settings {
         }
     }
 
-    ///
     /// 管理モードへの遷移用長押し秒数
-    ///
     var longPressDuration:Double {
         get {
             let longPressDuration = userDefaults.double(forKey: Settings.KEY_LONG_PRESS_DURATION)
@@ -74,9 +74,7 @@ public class Settings {
         }
     }
 
-    ///
     /// デフォルト画像
-    ///
     var defaultImage:UIImage {
         get {
             if let data = userDefaults.data(forKey: Settings.KEY_DEFAULT_IMAGE) {
@@ -90,13 +88,49 @@ public class Settings {
         }
     }
 
-    ///
     /// デフォルト画像のクリア
-    ///
     func clearDefaultImage() {
         userDefaults.removeObject(forKey: Settings.KEY_DEFAULT_IMAGE)
     }
-    
+
+    /// デフォルト価格
+    var defaultPrice:Int {
+        get {
+            let defaultPrice = userDefaults.integer(forKey: Settings.KEY_DEFAULT_PRICE)
+            if defaultPrice > 0 {
+                return defaultPrice
+            }
+            return Settings.DEFAULT_PRICE
+        }
+        set {
+            userDefaults.set(newValue, forKey: Settings.KEY_DEFAULT_PRICE)
+        }
+    }
+
+    /// デフォルト価格のクリア
+    func clearDefaultPrice() {
+        userDefaults.removeObject(forKey: Settings.KEY_DEFAULT_PRICE)
+    }
+
+    /// ヴィンテージ範囲
+    var vintageRange:Int {
+        get {
+            let vintageRange = userDefaults.integer(forKey: Settings.KEY_VINTAGE_RANGE)
+            if vintageRange > 0 {
+                return vintageRange
+            }
+            return Settings.DEFAULT_VINTAGE_RANGE
+        }
+        set {
+            userDefaults.set(newValue, forKey: Settings.KEY_VINTAGE_RANGE)
+        }
+    }
+
+    /// ヴィンテージ範囲のクリア
+    func clearVintageRange() {
+        userDefaults.removeObject(forKey: Settings.KEY_VINTAGE_RANGE)
+    }
+
     ///
     /// イニシャライザ(シングルトン)
     ///
