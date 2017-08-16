@@ -14,7 +14,7 @@ import UIKit
 /// ワイン登録画面
 class RegistrationViewController: AbstractRegistrationViewController,UIPickerViewDataSource,UIPickerViewDelegate, DataListDelegate, SettingsDelegate, SelectableImage {
 
-    // 設定クラス
+    /// 設定クラス
     private let settings = Settings.instance
 
     // コントロール
@@ -28,6 +28,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
     @IBOutlet weak var wineImageView: UIImageView!
     @IBOutlet weak var noteTextView: UITextView!
     @IBOutlet weak var priceTextField: UITextField!
+    @IBOutlet weak var priceAskSwitch: UISwitch!
     @IBOutlet weak var displaySwitch: UISwitch!
 
     @IBOutlet weak var insertDateLabel: UILabel!
@@ -595,6 +596,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         //self.categorySegmentedControl.selectedSegmentIndex = Int(wine.category)
         self.setCategorySegmentedControl(wine: wine)
         self.priceTextField.text = String(wine.price)
+        self.priceAskSwitch.isOn = wine.priceAsk
         self.displaySwitch.isOn = wine.display
         if let image = wine.image {
             self.wineImageView.image = UIImage(data: image)
@@ -650,6 +652,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         self.categorySegmentedControl.selectedSegmentIndex = 0
         //self.priceTextField.text = String(newPrice)
         self.priceTextField.text = String(Settings.instance.defaultPrice)
+        self.priceAskSwitch.isOn = false
         self.displaySwitch.isOn = true
         //self.wineImageView.image = UIImage(named: self.newImageName)
         self.wineImageView.image = Settings.instance.defaultImage
@@ -716,7 +719,8 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         // 価格
         let price = self.textFieldToInt32(textField: self.priceTextField)
         wine.price = price
-
+        wine.priceAsk = self.priceAskSwitch.isOn
+        
         // 表示
         wine.display = self.displaySwitch.isOn
 

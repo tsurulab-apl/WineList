@@ -199,6 +199,9 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         /// 管理モードへの遷移用長押し秒数
         let longPressDuration = self.settings.longPressDuration
         self.longPressGesture.minimumPressDuration = longPressDuration
+
+        // 価格問合せ文字変更時にテーブルビューのリロード
+        self.reloadWineTableView()
     }
     
     ///
@@ -544,8 +547,17 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "WineCell", for: indexPath) as! WineTableViewCell
         let wine = self.wineList.getWine(category, indexPath.row)
         
+        // 名前
         cell.nameLabel.text = wine.name
-        cell.priceLabel.text = NumberUtil.japanesePrice(price: Int(wine.price))
+
+        // 価格
+        if wine.priceAsk {
+            cell.priceLabel.text = self.settings.priceAsk
+        } else {
+            cell.priceLabel.text = NumberUtil.japanesePrice(price: Int(wine.price))
+        }
+
+        // 画像
         if let image = wine.image {
             cell.wineImageView.image = UIImage(data: image)
         } else {

@@ -9,11 +9,14 @@
 import UIKit
 
 class ReferenceViewController: UIViewController,UIScrollViewDelegate {
-    // ワイン
+    /// 設定クラス
+    private let settings = Settings.instance
+
+    /// 選択中のワイン
     var wine: Wine? = nil
 
-    // デフォルトワイン画像
-    let defaultImageName = "two-types-of-wine-1761613_640.jpg"
+    /// デフォルトワイン画像
+    //let defaultImageName = "two-types-of-wine-1761613_640.jpg"
 
     // 資料ボタン画像
     //let materialButtonDisabledImage = UIImage(named: "grape_r211g211b211_32")
@@ -99,7 +102,8 @@ class ReferenceViewController: UIViewController,UIScrollViewDelegate {
         let size = self.noteTextView.sizeThatFits(CGSize(width: self.noteTextView.frame.size.width, height: CGFloat.greatestFiniteMagnitude))
         let height = size.height
         self.noteTextView.frame.size.height = height
-        print(self.noteTextView.contentSize)
+
+        //print(self.noteTextView.contentSize)
         //self.mainScrollView.contentSize.height = self.mainScrollView.contentSize.height + height - 100
 //        let heightConstraint = self.noteTextView.heightAnchor.constraint(equalToConstant: height)
 //        heightConstraint.isActive = true
@@ -109,7 +113,11 @@ class ReferenceViewController: UIViewController,UIScrollViewDelegate {
         
         //self.noteTextView.sizeToFit()
         //self.priceLabel.text = "¥" + self.separateComma(num: Int(wine.price))
-        self.priceLabel.text = NumberUtil.japanesePrice(price: Int(wine.price))
+        if wine.priceAsk {
+            self.priceLabel.text = self.settings.priceAsk
+        } else {
+            self.priceLabel.text = NumberUtil.japanesePrice(price: Int(wine.price))
+        }
         self.categoryLabel.text = wine.category?.name
 //        let category = CategoryEnum.init(raw: Int(wine.category))
 //        self.categoryLabel.text = category?.description
@@ -120,7 +128,7 @@ class ReferenceViewController: UIViewController,UIScrollViewDelegate {
         else{
             //self.wineImageView.image = nil
             //self.wineImageView.image = UIImage(named: self.defaultImageName)
-            self.wineImageView.image = Settings.instance.defaultImage
+            self.wineImageView.image = self.settings.defaultImage
         }
         // 資料ボタン
         //self.materialButton.isHidden = true

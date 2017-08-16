@@ -25,6 +25,7 @@ extension Wine {
     @NSManaged public var note: String?
     @NSManaged public var winery: String?
     @NSManaged public var price: Int32
+    @NSManaged public var priceAsk: Bool
     //NSDateをDateに変更
     @NSManaged public var insertDate: Date?
     @NSManaged public var updateDate: Date?

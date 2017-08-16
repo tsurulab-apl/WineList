@@ -28,16 +28,17 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
     @IBOutlet weak var longPressDurationSlider: UISlider!
     @IBOutlet weak var defaultImageView: UIImageView!
     @IBOutlet weak var defaultPriceTextField: UITextField!
+    @IBOutlet weak var priceAskTextField: UITextField!
     @IBOutlet weak var vintageRangeTextField: UITextField!
     
-    // 画面呼出時のデータ表示フラグ
-    // DetailViewControllerから呼び出す際にfalseに設定し、
-    // showDataメソッド完了時にtrueに更新する。
-    // viewWillAppear内で判定し、写真選択画面から戻った際には、
-    // 再度データ表示を実施しないように制御する。
+    /// 画面呼出時のデータ表示フラグ
+    /// DetailViewControllerから呼び出す際にfalseに設定し、
+    /// showDataメソッド完了時にtrueに更新する。
+    /// viewWillAppear内で判定し、写真選択画面から戻った際には、
+    /// 再度データ表示を実施しないように制御する。
     var dataShowed: Bool = false
 
-    // デフォルト画像の状態
+    /// デフォルト画像の状態
     var defaultImageStatus = SelectableImageStatus.nothing
     
     // デフォルト画像の状態 true:選択済 false:選択なし
@@ -46,7 +47,6 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
     // デフォルト画像のクリア状態 true:クリア false:クリア以外
 //    var clearImage: Bool = false
 
-    ///
     /// イニシャライザ
     ///
     required init?(coder aDecoder: NSCoder) {
@@ -59,7 +59,6 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
         self.saveButton.action = #selector(saveButtonAction(_:))
     }
 
-    ///
     /// viewDidLoad
     ///
     override func viewDidLoad() {
@@ -72,51 +71,51 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
         // Do any additional setup after loading the view.
     }
 
-    ///
     /// スクロールビューを戻す。
     ///
+    /// - Returns: スクロールビュー
     override func getScrollView() -> UIScrollView {
         return self.mainScrollView
     }
 
-    ///
     /// スクロールビューでズームするビューを戻す。
     ///
+    /// - Returns: スクロールビューでズームするビュー
     override func getZoomView() -> UIView? {
         return self.formStackView
     }
 
-    ///
     /// delegate設定するUITextFiledの配列を戻す。
     ///
+    /// - Returns: UITextFieldの配列
     override func getUITextFields() -> [UITextField] {
-        return [self.passwordTextField, self.defaultPriceTextField, self.vintageRangeTextField]
+        return [self.passwordTextField, self.defaultPriceTextField, self.priceAskTextField, self.vintageRangeTextField]
     }
 
-    ///
     /// 画像選択プロトコル拡張に対してイメージビューを戻す。
     ///
+    /// - Returns: イメージビュー
     func get() -> UIImageView {
         return self.defaultImageView
     }
     
-    ///
     /// 画像選択プロトコル拡張に対して画像選択状態を戻す。
     ///
+    /// - Returns: 画像選択状態
     func get() -> SelectableImageStatus {
         return self.defaultImageStatus
     }
 
-    ///
     /// 画像選択プロトコル拡張の画像の選択状態管理用プロパティーの設定
     ///
+    /// - Parameter selectableImageStatus: 画像選択状態
     func set(selectableImageStatus:SelectableImageStatus) {
         self.defaultImageStatus = selectableImageStatus
     }
     
-    ///
     /// viewWillAppear
     ///
+    /// - Parameter animated: <#animated description#>
     override func viewWillAppear(_ animated: Bool) {
         //print("SettingViewController#viewWillAppear")
         super.viewWillAppear(animated)
@@ -129,7 +128,6 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
         }
     }
 
-    ///
     /// didReceiveMemoryWarning
     ///
     override func didReceiveMemoryWarning() {
@@ -137,7 +135,6 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
         // Dispose of any resources that can be recreated.
     }
 
-    ///
     /// ナビゲーションバーの保存ボタン
     ///
     func saveButtonAction(_ sender: Any){
@@ -145,6 +142,7 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
         self.saveLongPressDuration()
         self.saveDefaultImage()
         self.saveDefaultPrice()
+        self.savePriceAsk()
         self.saveVintageRange()
 
         // 変更を反映
@@ -153,11 +151,10 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
         self.navigationController?.popViewController(animated: true)
     }
     
-    ///
     /// データの表示
     ///
     func showData(){
-        self.passwordTextField.text = settings.password
+        self.passwordTextField.text = self.settings.password
         let longPressDuration = self.settings.longPressDuration
         self.longPressDurationSlider.value = Float(longPressDuration)
         self.longPressDurationSliderValueChanged(self.longPressDurationSlider)
@@ -165,11 +162,11 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
         self.defaultImageStatus = SelectableImageStatus.nothing
 //        self.selectImage = false
 //        self.clearImage = false
-        self.defaultPriceTextField.text = String(settings.defaultPrice)
-        self.vintageRangeTextField.text = String(settings.vintageRange)
+        self.defaultPriceTextField.text = String(self.settings.defaultPrice)
+        self.priceAskTextField.text = self.settings.priceAsk
+        self.vintageRangeTextField.text = String(self.settings.vintageRange)
     }
     
-    ///
     /// パスワードの保存
     ///
     func savePassword(){
@@ -180,7 +177,6 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
         }
     }
 
-    ///
     /// 長押し設定の保存
     ///
     func saveLongPressDuration(){
@@ -189,7 +185,6 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
         self.settings.longPressDuration = Double(longPressDuration)
     }
 
-    ///
     /// デフォルト画像の保存
     ///
     func saveDefaultImage(){
@@ -216,7 +211,6 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
         }
     }
 
-    ///
     /// デフォルト価格の保存
     ///
     func saveDefaultPrice(){
@@ -231,7 +225,15 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
         }
     }
 
+    /// 価格問合せ文字の保存
     ///
+    func savePriceAsk(){
+        // nilは保存しないが、空文字はそのまま保存する。
+        if let priceAsk = self.priceAskTextField.text {
+            self.settings.priceAsk = priceAsk
+        }
+    }
+
     /// ヴィンテージ範囲の保存
     ///
     func saveVintageRange(){
@@ -246,18 +248,18 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
         }
     }
     
-    ///
     /// 長押し設定の値変更時
     ///
+    /// - Parameter sender: <#sender description#>
     @IBAction func longPressDurationSliderValueChanged(_ sender: UISlider) {
         var second = sender.value
         second = roundf(second * 10) /  10
         self.longPressDurationLabel.text = "\(second)s"
     }
     
-    ///
     /// 写真ボタン
     ///
+    /// - Parameter sender: <#sender description#>
     @IBAction func imageSelectTouchUpInside(_ sender: Any) {
         self.selectImageAction()
 /********
@@ -285,9 +287,9 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
 **********/
     }
     
-    ///
     /// クリアボタン
     ///
+    /// - Parameter sender: <#sender description#>
     @IBAction func imageClearTouchUpInside(_ sender: Any) {
         self.clearImageAction()
 /**********
@@ -325,9 +327,11 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
     }
 ************/
     
-    ///
     /// 写真選択時の処理
     ///
+    /// - Parameters:
+    ///   - picker: <#picker description#>
+    ///   - info: <#info description#>
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]){
         // プロトコル拡張のメソッドに処理を委譲する。
         self.imagePickerControllerAction(picker, didFinishPickingMediaWithInfo: info)

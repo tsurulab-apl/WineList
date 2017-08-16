@@ -29,6 +29,7 @@ public class Settings {
     //private static let DEFAULT_IMAGE_NAME = "two-types-of-wine-1761613_640.jpg"
     private static let DEFAULT_IMAGE_NAME = "now_printing"
     private static let DEFAULT_PRICE:Int = 5000
+    private static let DEFAULT_PRICE_ASK = "Ask"
     private static let DEFAULT_VINTAGE_RANGE:Int = 50
 
     // UserDefaultsのキー
@@ -36,6 +37,7 @@ public class Settings {
     private static let KEY_LONG_PRESS_DURATION = "longPressDuration"
     private static let KEY_DEFAULT_IMAGE = "defaultImage"
     private static let KEY_DEFAULT_PRICE = "defaultPrice"
+    private static let KEY_PRICE_ASK = "priceAsk"
     private static let KEY_VINTAGE_RANGE = "vintageRange"
 
     // UserDefaults
@@ -110,6 +112,19 @@ public class Settings {
     /// デフォルト価格のクリア
     func clearDefaultPrice() {
         userDefaults.removeObject(forKey: Settings.KEY_DEFAULT_PRICE)
+    }
+
+    /// 価格Ask
+    var priceAsk:String {
+        get {
+            if let priceAsk = userDefaults.string(forKey: Settings.KEY_PRICE_ASK) {
+                return priceAsk
+            }
+            return Settings.DEFAULT_PRICE_ASK
+        }
+        set {
+            userDefaults.set(newValue, forKey: Settings.KEY_PRICE_ASK)
+        }
     }
 
     /// ヴィンテージ範囲

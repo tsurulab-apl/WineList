@@ -250,16 +250,31 @@
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="anF-Gn-xYY">
                                                         <rect key="frame" x="120" y="5" width="200" height="30"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="200" id="Wuq-nN-HEO"/>
+                                                            <constraint firstAttribute="width" constant="200" id="GBi-gX-ATE"/>
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     </textField>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hpn-X1-UBT" userLabel="Space View">
-                                                        <rect key="frame" x="320" y="0.0" width="294" height="40"/>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0h3-mJ-Ag7" userLabel="Space View">
+                                                        <rect key="frame" x="320" y="0.0" width="134" height="40"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </view>
+                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Hc-QU-Xcr" userLabel="Price Ask Switch">
+                                                        <rect key="frame" x="454" y="4.5" width="62" height="31"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="60" id="0NI-yX-YOu"/>
+                                                        </constraints>
+                                                    </switch>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="問合せ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nzG-pj-fD7">
+                                                        <rect key="frame" x="514" y="10" width="100" height="20.5"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="100" id="kj1-lH-fjW"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                 </subviews>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="SAE-Vl-1my"/>
@@ -418,6 +433,7 @@
                         <outlet property="mainScrollView" destination="vDL-PC-Ue1" id="HmV-hd-sTI"/>
                         <outlet property="nameTextField" destination="SrN-S0-C1d" id="iWq-Yr-fE3"/>
                         <outlet property="noteTextView" destination="2PL-Rc-cuH" id="83D-a7-zpF"/>
+                        <outlet property="priceAskSwitch" destination="3Hc-QU-Xcr" id="Y3l-yn-HEv"/>
                         <outlet property="priceTextField" destination="anF-Gn-xYY" id="Xqa-kW-DhX"/>
                         <outlet property="updateDateLabel" destination="pr7-C7-nJF" id="yiC-Lh-b6A"/>
                         <outlet property="vintageTextField" destination="xEf-23-NXZ" id="tzb-NH-uC7"/>
@@ -915,7 +931,7 @@
                                                     <constraint firstAttribute="height" constant="40" id="kUz-1H-dS8"/>
                                                 </constraints>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Ohg-Mr-3lp" userLabel="Default Price Stack View">
+                                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Ohg-Mr-3lp" userLabel="Price Stack View">
                                                 <rect key="frame" x="0.0" y="460" width="614" height="40"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="デフォルト価格" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jyE-qD-VvU" userLabel="Default Price Label">
@@ -925,10 +941,35 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9AE-jp-cUa" userLabel="Default Price Text Field">
-                                                        <rect key="frame" x="160" y="5" width="454" height="30"/>
+                                                        <rect key="frame" x="160" y="5" width="100" height="30"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="100" id="8iH-yP-3Zy"/>
+                                                        </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    </textField>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bfq-ZO-dEW" userLabel="Space View">
+                                                        <rect key="frame" x="260" y="0.0" width="24" height="40"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </view>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="価格問合せ表示" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zNP-6x-2Ws" userLabel="Price Ask Label">
+                                                        <rect key="frame" x="284" y="10" width="130" height="20.5"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="130" id="Xwu-bK-5tJ"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gQ2-Or-wri" userLabel="Price Ask Text Field">
+                                                        <rect key="frame" x="414" y="5" width="200" height="30"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="200" id="zML-8w-wSe"/>
+                                                        </constraints>
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
                                                     </textField>
                                                 </subviews>
                                                 <constraints>
@@ -990,6 +1031,7 @@
                         <outlet property="longPressDurationSlider" destination="MNi-gf-M32" id="wUc-DT-aRi"/>
                         <outlet property="mainScrollView" destination="SgN-y5-BIL" id="uBF-xH-cbu"/>
                         <outlet property="passwordTextField" destination="XnS-io-j6X" id="ezE-n2-CSD"/>
+                        <outlet property="priceAskTextField" destination="gQ2-Or-wri" id="hB2-9Y-I5l"/>
                         <outlet property="vintageRangeTextField" destination="Hjg-G5-dq7" id="y2p-TY-XnA"/>
                     </connections>
                 </viewController>
