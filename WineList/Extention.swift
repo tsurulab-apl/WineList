@@ -80,6 +80,8 @@ extension UIScrollView {
     }
 }
 
+/// UITextField
+///
 extension UITextField {
     
     /// 必須チェック
@@ -96,5 +98,27 @@ extension UITextField {
             valid = false
         }
         return valid
+    }
+}
+
+/// UIImagePickerController
+///
+extension UIImagePickerController {
+    
+    /// 回転の許可
+    /// UIImagePickerControllerはデフォルトでは縦(portrait)でしか利用できない。
+    /// これを縦横すべて利用可能なように設定する。
+    /// ライブラリ選択もカメラ起動も両方とも縦横回転を可能とする。
+    override open var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        get {
+            if self.sourceType == .camera {
+                //return .portrait
+                return .all
+            } else { //.photoLibrary
+                //return .portrait
+                //return .landscape
+                return .all
+            }
+        }
     }
 }
