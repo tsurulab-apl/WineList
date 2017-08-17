@@ -8,23 +8,31 @@
 
 import UIKit
 
+
+/// 資料選択画面
+///
 class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
+    /// セルの枠線幅
+    private static let CELL_BORDER_WIDTH = 2.0
+    
+    /// セルのコーナー曲線
+    private static let CELL_CORNER_RADIUS = 20.0
+    
     // 親ビューコントローラーの資料配列の参照
     // セグエの遷移時に親画面で設定する。
     //var materials: [Material] = []
 
-    // ワイン登録用のビューコントローラー
-    // セグエの遷移時に親画面で設定する。
+    /// ワイン登録用のビューコントローラー
+    /// セグエの遷移時に親画面で設定する。
     var registrationViewController:RegistrationViewController?
     
     // コントロール
     @IBOutlet weak var materialSelectCollectionView: UICollectionView!
 
-    // 資料リスト
+    /// 資料リスト
     var materialList: DataList<Material>
 
-    ///
     /// イニシャライザ
     ///
     required init?(coder aDecoder: NSCoder) {
@@ -39,7 +47,6 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
         
     }
 
-    ///
     /// viewDidLoad
     ///
     override func viewDidLoad() {
@@ -53,7 +60,6 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
         self.materialSelectCollectionView.allowsMultipleSelection = true
     }
 
-    ///
     /// didReceiveMemoryWarning
     ///
     override func didReceiveMemoryWarning() {
@@ -61,14 +67,16 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
         // Dispose of any resources that can be recreated.
     }
 
-    ///
     /// ポップアップ以外をタッチすると閉じる。
     ///
+    /// - Parameters:
+    ///   - touches: <#touches description#>
+    ///   - event: <#event description#>
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         for touch: UITouch in touches {
             let tag = touch.view!.tag
-            print(tag)
+            //print(tag)
             if tag == 1 {
                 self.saveSelectedMaterial()
                 dismiss(animated: true, completion: nil)
@@ -76,7 +84,6 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
         }
     }
     
-    ///
     /// 選択された資料を保存する。
     ///
     func saveSelectedMaterial() {
@@ -90,11 +97,15 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
         }
     }
 
-    ///
     /// コレクションビューに資料を２列で表示するため、
     /// コレクションビューの幅の半分のセルサイズを返す
     /// ViewControllerにUICollectionViewDelegateFlowLayoutを設定する。
     ///
+    /// - Parameters:
+    ///   - collectionView: コレクションビュー
+    ///   - collectionViewLayout: コレクションビューレイアウト
+    ///   - indexPath: インデックスパス
+    /// - Returns: セルサイズ
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         //let cellSize:CGFloat = self.view.frame.size.width/2-2
@@ -104,9 +115,12 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
         return CGSize(width: cellSize, height: cellSize)
     }
 
-    ///
     /// コレクションビューのセルを戻す。
     ///
+    /// - Parameters:
+    ///   - collectionView: コレクションビュー
+    ///   - indexPath: インデックスパス
+    /// - Returns: 資料セル
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         // Cell はストーリーボードで設定したセルのID
@@ -132,8 +146,8 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
         materialCell.nameLabel.text = material.name
 
         // 選択時の枠線設定
-        materialCell.layer.borderWidth = 5.0
-        materialCell.layer.cornerRadius = 20
+        materialCell.layer.borderWidth = CGFloat(PopupMaterialSelectViewController.CELL_BORDER_WIDTH)
+        materialCell.layer.cornerRadius = CGFloat(PopupMaterialSelectViewController.CELL_CORNER_RADIUS)
         materialCell.layer.masksToBounds = true
 
         let selected = self.isSelected(material:material)
@@ -145,9 +159,11 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
         return materialCell
     }
 
-    ///
     /// 資料セルの選択状態設定
     ///
+    /// - Parameters:
+    ///   - materialCell: 資料セル
+    ///   - selected: 選択状態 true:選択 false:非選択
     func set(materialCell:MaterialSelectCollectionViewCell, selected:Bool) {
         if selected {
             materialCell.layer.borderColor = UIColor.blue2.cgColor
@@ -157,9 +173,10 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
         }
     }
     
-    ///
     /// 資料の選択判定
     ///
+    /// - Parameter material: 資料
+    /// - Returns: 選択状態 true:選択 false:非選択
     func isSelected(material:Material) -> Bool {
         var selected:Bool = false
         for selectMaterial in (self.registrationViewController?.materials)! {
@@ -171,35 +188,43 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
         return selected
     }
 
-    ///
     /// セクションの数を戻す。
     ///
+    /// - Parameter collectionView: コレクションビュー
+    /// - Returns: セクション数
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         // section数は１つ
         return 1
     }
 
-    ///
     /// セルの数を戻す。
     ///
+    /// - Parameters:
+    ///   - collectionView: コレクションビュー
+    ///   - section: セクション番号
+    /// - Returns: セルの数
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // 要素数を入れる、要素以上の数字を入れると表示でエラーとなる
         //return self.photos.count;
         return self.materialList.count()
     }
 
+    /// セル選択時
     ///
-    /// 選択時
-    ///
+    /// - Parameters:
+    ///   - collectionView: コレクションビュー
+    ///   - indexPath: インデックスパス
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let materialCell = collectionView.cellForItem(at: indexPath) as! MaterialSelectCollectionViewCell
         self.set(materialCell: materialCell, selected: true)
         //print(materialCell.nameLabel.text!)
     }
 
-    ///
     /// 選択解除時
     ///
+    /// - Parameters:
+    ///   - collectionView: コレクションビュー
+    ///   - indexPath: インデックスパス
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         let materialCell = collectionView.cellForItem(at: indexPath) as! MaterialSelectCollectionViewCell
         self.set(materialCell: materialCell, selected: false)

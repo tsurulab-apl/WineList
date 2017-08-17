@@ -9,7 +9,7 @@
 import UIKit
 
 class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegate {
-    // 処理中のワイン
+    /// 処理中のワイン
     var wine: Wine? = nil
 
     // コントロール
@@ -18,7 +18,6 @@ class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegat
     @IBOutlet weak var mainStackView: UIStackView!
     @IBOutlet weak var pageControl: UIPageControl!
 
-    ///
     /// viewDidLoad
     ///
     override func viewDidLoad() {
@@ -34,23 +33,41 @@ class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegat
         // ページコントロールの設定
         self.pageControl.hidesForSinglePage = true
         self.pageControl.currentPageIndicatorTintColor = UIColor.blue2
-    }
 
-    ///
+//        // 端末の向きがかわったらNotificationを呼ばす設定
+//        NotificationCenter.default.addObserver(self, selector: Selector(("onOrientationChange:")), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+    }
+    
     /// didReceiveMemoryWarning
     ///
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    ///
+/***********
     /// viewWillAppear
     ///
-    //override func viewWillAppear(_ animated: Bool) {
-    //}
+    /// - Parameter animated: <#animated description#>
+    override func viewWillAppear(_ animated: Bool) {
+        print("### viewWillAppear")
+    }
 
+    
+    /// viewDidAppear
     ///
+    /// - Parameter animated: <#animated description#>
+    override func viewDidAppear(_ animated: Bool) {
+        print("### viewDidAppear")
+    }
+
+    /// viewWillTransition
+    /// 画面回転開始時
+    ///
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        print("### viewWillTransition")
+    }
+*******************/
+
     /// viewDidLayoutSubviews
     ///
     override func viewDidLayoutSubviews() {
@@ -106,11 +123,21 @@ class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegat
 
         // ページコントロールを設定
         self.pageControl.numberOfPages = count
+
+        // 回転時にページに合わせてスクロール位置を調整
+        // offset.xは正しい値になっているが、何故かずれてしまう現象に対応
+        // この処理を非同期で実行することでずれを正す。
+        DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
+            self.mainScrollView.contentOffset.x = self.mainScrollView.frame.maxX * CGFloat(self.pageControl.currentPage)
+        })
     }
 
-    ///
     /// ズーム用スクロールビューの作成
     ///
+    /// - Parameters:
+    ///   - subview: <#subview description#>
+    ///   - x: <#x description#>
+    /// - Returns: <#return value description#>
     private func createZoomScrollView(subview:UIView, x:CGFloat) -> UIScrollView {
         var innerFrame = subview.frame
         innerFrame.origin.x = x

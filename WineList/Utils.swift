@@ -10,10 +10,13 @@ import Foundation
 import UIKit
 
 /// 数値ユーティリティー
+///
 public class NumberUtil {
-    ///
+
     /// カンマ区切り
     ///
+    /// - Parameter num: 数値
+    /// - Returns: カンマ区切り文字列
     static func separateComma(num:Int) -> String {
         let formatter = NumberFormatter()
         formatter.groupingSeparator = ","
@@ -21,17 +24,19 @@ public class NumberUtil {
         let str = formatter.string(for: num)
         return str!
     }
-    ///
+
     /// 日本円表記
     ///
+    /// - Parameter price: 価格
+    /// - Returns: 日本円表記文字列
     static func japanesePrice(price:Int) -> String {
         let str = "¥" + NumberUtil.separateComma(num: price)
         return str
     }
 }
 
-
 /// 文字列ユーティリティー
+///
 public class StringUtil {
 
     /// UILabelやUITextViewで必要な高さを計算する。
