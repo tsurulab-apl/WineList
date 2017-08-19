@@ -14,10 +14,13 @@ import UIKit
 class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     /// セルの枠線幅
-    private static let CELL_BORDER_WIDTH = 2.0
+    private static let CELL_BORDER_WIDTH = 3.0
     
     /// セルのコーナー曲線
     private static let CELL_CORNER_RADIUS = 20.0
+
+    /// 端末回転時にコレクションビューを再描画するためのフラグ
+    private var invalidLayout = false
     
     // 親ビューコントローラーの資料配列の参照
     // セグエの遷移時に親画面で設定する。
@@ -78,14 +81,43 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
             let tag = touch.view!.tag
             //print(tag)
             if tag == 1 {
-                self.saveSelectedMaterial()
+                //self.saveSelectedMaterial()
                 dismiss(animated: true, completion: nil)
             }
         }
     }
+
+    /// 端末回転の開始
+    /// レイアウトの無効化フラグをtrueに設定する。
+    ///
+    /// - Parameters:
+    ///   - size: サイズ
+    ///   - coordinator: コーディネーター
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+
+        // レイアウトの無効化フラグをtrueに設定
+        // 実際のレイアウト変更は、AutoLayoutによるレイアウトが確定するviewDidLayoutSubviewsで実施する。
+        self.invalidLayout = true
+    }
+
+    
+    /// 画面レイアウトの確定
+    /// 端末回転時にコレクションビューを再描画する。
+    /// viewWillTransition時にinvalidLayoutフラグをtrueにし本メソッドで判定する。
+    ///
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if self.invalidLayout {
+            //self.materialSelectCollectionView.collectionViewLayout.invalidateLayout() //不要
+            self.materialSelectCollectionView.reloadData()
+        }
+        self.invalidLayout = false
+    }
     
     /// 選択された資料を保存する。
-    ///
+    /// TODO:削除
+/*******
     func saveSelectedMaterial() {
         self.registrationViewController?.materials.removeAll()
         if let indexPaths = self.materialSelectCollectionView.indexPathsForSelectedItems {
@@ -96,7 +128,8 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
             }
         }
     }
-
+*********/
+    
     /// コレクションビューに資料を２列で表示するため、
     /// コレクションビューの幅の半分のセルサイズを返す
     /// ViewControllerにUICollectionViewDelegateFlowLayoutを設定する。
@@ -110,7 +143,7 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
         
         //let cellSize:CGFloat = self.view.frame.size.width/2-2
         let collectionViewSize = collectionView.frame.size
-        let cellSize:CGFloat = collectionViewSize.width/2 - 2
+        let cellSize:CGFloat = collectionViewSize.width/2 - 4
         // 正方形で返すためにwidth,heightを同じにする
         return CGSize(width: cellSize, height: cellSize)
     }
@@ -125,24 +158,18 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
         
         // Cell はストーリーボードで設定したセルのID
         let materialCell:MaterialSelectCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MaterialCell", for: indexPath) as! MaterialSelectCollectionViewCell
-        
-        // Tag番号を使ってImageViewのインスタンス生成
-        //let imageView = materialCell.contentView.viewWithTag(1) as! UIImageView
+
+        //print("indexPath.row=\(indexPath.row)")
 
         // 画像配列の番号で指定された要素の名前の画像をUIImageとする
         let material = self.materialList.get(indexPath.row)
-        //let cellImage = UIImage(named: photos[(indexPath as NSIndexPath).row])
 
         // UIImageをUIImageViewのimageとして設定
         if let image = material.data {
             materialCell.dataImageView.image = UIImage(data: image)
-            //imageView.image = UIImage(data: image)
         }
-        //imageView.image = cellImage
-        
-        // Tag番号を使ってLabelのインスタンス生成
-        //let label = materialCell.contentView.viewWithTag(2) as! UILabel
-        //label.text = photos[(indexPath as NSIndexPath).row]
+
+        // 名前をラベルに設定
         materialCell.nameLabel.text = material.name
 
         // 選択時の枠線設定
@@ -152,8 +179,13 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
 
         let selected = self.isSelected(material:material)
         if selected {
+            // scrollPositionを設定するとスクロール中に本メソッドが呼ばれてセルを再生成する際に
+            // 意図しないポジション変更が発生してしまう。
+            // 設定例:UICollectionViewScrollPosition.centeredVertically
+            // そのため、scrollPositonには、空の[]を設定する。
+            // また、selectItemではisSelectedは更新されないため、明示的に設定する。
+            self.materialSelectCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
             materialCell.isSelected = true
-            self.materialSelectCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition.centeredVertically)
         }
         self.set(materialCell: materialCell, selected: selected)
         return materialCell
@@ -167,24 +199,24 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
     func set(materialCell:MaterialSelectCollectionViewCell, selected:Bool) {
         if selected {
             materialCell.layer.borderColor = UIColor.blue2.cgColor
-        }
-        else {
+        } else {
             materialCell.layer.borderColor = UIColor.clear.cgColor
         }
     }
-    
+
     /// 資料の選択判定
     ///
     /// - Parameter material: 資料
     /// - Returns: 選択状態 true:選択 false:非選択
     func isSelected(material:Material) -> Bool {
-        var selected:Bool = false
-        for selectMaterial in (self.registrationViewController?.materials)! {
-            if selectMaterial === material {
-                selected = true
-                break
-            }
-        }
+        let selected = (self.registrationViewController?.materialsWork.contains(material))!
+//        var selected:Bool = false
+//        for selectMaterial in (self.registrationViewController?.materials)! {
+//            if selectMaterial === material {
+//                selected = true
+//                break
+//            }
+//        }
         return selected
     }
 
@@ -210,6 +242,7 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
     }
 
     /// セル選択時
+    /// セルの枠線を選択状態に変更し、資料ワーク領域に資料を登録する。
     ///
     /// - Parameters:
     ///   - collectionView: コレクションビュー
@@ -217,10 +250,12 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let materialCell = collectionView.cellForItem(at: indexPath) as! MaterialSelectCollectionViewCell
         self.set(materialCell: materialCell, selected: true)
+        self.save(indexPath: indexPath, selected: true)
         //print(materialCell.nameLabel.text!)
     }
 
     /// 選択解除時
+    /// セルの枠線を非選択状態に変更し、資料ワーク領域の資料を削除する。
     ///
     /// - Parameters:
     ///   - collectionView: コレクションビュー
@@ -228,9 +263,35 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         let materialCell = collectionView.cellForItem(at: indexPath) as! MaterialSelectCollectionViewCell
         self.set(materialCell: materialCell, selected: false)
+        self.save(indexPath: indexPath, selected: false)
         //print(materialCell.nameLabel.text!)
     }
     
+    /// 選択もしくは選択解除された資料を資料ワークに反映する。
+    ///
+    /// - Parameters:
+    ///   - indexPath: 資料セルのインデックスパス
+    ///   - selected: 選択状態 true:選択 false:非選択
+    func save(indexPath: IndexPath, selected:Bool) {
+        let material = self.materialList.get(indexPath.row)
+        if selected {
+            // 選択時には追加する。
+            self.registrationViewController?.materialsWork.insert(material)
+        } else {
+            // 選択解除時には削除する。
+            self.registrationViewController?.materialsWork.remove(material)
+        }
+    }
+
+    /*******
+    /// スクロール中(debug用)
+    ///
+    /// - Parameter scrollView: スクロールビュー
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print("contentOffset.y=\(scrollView.contentOffset.y)")
+    }
+    *********/
+
     /*
     // MARK: - Navigation
 
