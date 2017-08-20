@@ -103,7 +103,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
     ///
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("MasterViewController.viewDidLoad")
+        //print("MasterViewController.viewDidLoad")
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -215,9 +215,9 @@ class MasterViewController: UITableViewController,SettingsDelegate {
     /// タイトル長押し時
     ///
     func longTap(_ sender: UIGestureRecognizer) {
-        print("logTap")
+        //print("logTap")
         if sender.state == .began {
-            print("UIGestureRecognizerStateBegan.")
+            //print("UIGestureRecognizerStateBegan.")
             //Do Whatever You want on Began of Gesture
             if(self.manageMode){
                 self.endManageModeAlert()
@@ -226,7 +226,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
             }
         }
         else if sender.state == .ended {
-            print("UIGestureRecognizerStateEnded")
+            //print("UIGestureRecognizerStateEnded")
             //Do Whatever You want on End of Gesture
         }
     }
@@ -252,7 +252,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
                         // isSecureTextEntryの状態で判定
                         if textField.isSecureTextEntry == true {
                             // パスワード表示
-                            print("password=" + textField.text!)
+                            //print("password=" + textField.text!)
                             if self.verify(password: textField.text) {
                                 self.setManageMode()
                             } else {
@@ -326,7 +326,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
     /// ナビゲーションバーの追加ボタン
     ///
     func addButtonAction(_ sender: Any){
-        print("addButtonAction")
+        //print("addButtonAction")
         self.addWine()
     }
     
@@ -334,7 +334,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
     /// ナビゲーションバーのreplyボタン(管理モードの終了)
     ///
     func replyButtonAction(_ sender: Any){
-        print("replyButtonAction")
+        //print("replyButtonAction")
         self.endManageModeAlert()
     }
     
@@ -342,7 +342,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
     /// ナビゲーションバーのeditボタン
     ///
     func editButtonAction(_ sender: Any){
-        print("editButtonAction")
+        //print("editButtonAction")
         if (self.wineTableView.isEditing){
             self.wineTableView.setEditing(false, animated: true)
         } else {
@@ -623,7 +623,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
     ///
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            print("editingStyle=delete")
+            //print("editingStyle=delete")
             // Delete the row from the data source
             //tableView.deleteRows(at: [indexPath], with: .fade)
             //let category = CategoryEnum.init(raw: indexPath.section)
@@ -637,7 +637,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
             self.delegate?.delete(wine: wine)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-            print("editingStyle=insert")
+            //print("editingStyle=insert")
         }
     }
 
@@ -645,7 +645,7 @@ class MasterViewController: UITableViewController,SettingsDelegate {
     /// 並び替え
     ///
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-        print("moveRowAt")
+        //print("moveRowAt")
         //let fromCategory = CategoryEnum.init(raw: fromIndexPath.section)
         let fromCategory = self.getCategory(fromIndexPath.section)
         let wine = self.wineList.getWine(fromCategory, fromIndexPath.row)

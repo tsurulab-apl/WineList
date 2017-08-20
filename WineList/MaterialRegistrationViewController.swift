@@ -205,9 +205,8 @@ class MaterialRegistrationViewController: AbstractRegistrationViewController,Sel
         self.noteTextView.text = material.note
         if let image = material.data {
             self.materialImageView.image = UIImage(data: image)
-        }
-        else{
-            self.materialImageView.image = nil
+        } else {
+            self.materialImageView.image = self.newImage
         }
 
         let formatter = DateFormatter()

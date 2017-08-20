@@ -622,8 +622,7 @@ class RegistrationViewController: AbstractRegistrationViewController,UIPickerVie
         self.displaySwitch.isOn = wine.display
         if let image = wine.image {
             self.wineImageView.image = UIImage(data: image)
-        }
-        else{
+        } else{
             //self.wineImageView.image = nil
             //self.wineImageView.image = UIImage(named: self.newImageName)
             self.wineImageView.image = Settings.instance.defaultImage

@@ -9,6 +9,8 @@
 import UIKit
 
 class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegate {
+    private static let TEXT_VIEW_HEIGHT: CGFloat = 100.0
+    
     /// 処理中のワイン
     var wine: Wine? = nil
 
@@ -67,10 +69,191 @@ class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegat
         print("### viewWillTransition")
     }
 *******************/
-
     /// viewDidLayoutSubviews
     ///
     override func viewDidLayoutSubviews() {
+        
+        // サブビューの全削除
+        self.removeSubviews()
+        
+        // イメージビューの幅、高さを設定する。
+        // mainScrollView配下のサイズはこの時点では定まっていない。(storyboardのサイズとなっている。)
+        // そのため、popupViewのサイズからページコントローラーの高さを引いた値を利用する。
+        let width = self.popupView.frame.width
+        let height = self.popupView.frame.height - self.pageControl.frame.height
+        //let popupSize = self.popupView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
+        //let width = self.view.frame.width * 0.8
+        //let height = self.view.frame.height * 0.8
+        
+        var count:Int = 0
+        var x:CGFloat = 0.0
+        if let wine = self.wine {
+            if let materials = wine.materials {
+                for materialObj in materials {
+                    let material = materialObj as! Material
+
+                    // ズーム用スクロールビューの作成
+                    let zoomScrollView = self.createZoomScrollView(width: width, height: height, x: x)
+                    let stackView = zoomScrollView.subviews[0] as! UIStackView
+                    
+                    var useHeight = height
+                    let isExistNote = self.isExistNote(material: material)
+                    
+                    // イメージビューの作成
+                    if let data = material.data {
+                        let image = UIImage(data: data)
+                        let imageView = UIImageView(image: image)
+                        imageView.contentMode = UIViewContentMode.scaleAspectFit
+                        //imageView.frame.size.width = width
+                        if isExistNote {
+                            useHeight -= PopupMaterialReferenceViewController.TEXT_VIEW_HEIGHT
+                        }
+                        //imageView.frame.size.height = useHeight
+                        imageView.heightAnchor.constraint(greaterThanOrEqualToConstant: 300.0).isActive = true
+                        //imageView.heightAnchor.constraint(equalToConstant: 500.0)
+
+                        //imageView.setContentCompressionResistancePriority(500, for: UILayoutConstraintAxis.vertical)
+                        imageView.setContentHuggingPriority(100, for: .vertical)
+                        //imageView.layer.borderWidth = 2.0
+                        //imageView.layer.borderColor = UIColor.red.cgColor
+
+                        //stackView.addSubview(imageView)
+                        stackView.addArrangedSubview(imageView)
+
+                        useHeight = height - useHeight
+                    }
+                    
+                    // テキストビューの作成
+                    if isExistNote {
+                        //let y = height - useHeight
+                        //let textViewFrame = CGRect(x: 0, y: y, width: width, height: useHeight)
+                        //let textView = UITextView(frame: textViewFrame)
+                        let textView = UITextView()
+                        textView.font = UIFont.systemFont(ofSize: 14.0)
+                        textView.isEditable = false
+                        textView.isSelectable = false
+                        textView.isScrollEnabled = false
+                        textView.text = material.note
+
+                        let size = textView.sizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude))
+                        //textView.frame.size.height = size.height
+                        textView.heightAnchor.constraint(equalToConstant: size.height).isActive = true
+
+                        textView.setContentHuggingPriority(500, for: .vertical)
+                        //textView.layer.borderWidth = 2.0
+                        //textView.layer.borderColor = UIColor.blue.cgColor
+
+                        //stackView.addSubview(textView)
+                        stackView.addArrangedSubview(textView)
+
+                        // 高さが収まりきらない場合は、
+                        // スタックビューの高さを調整しスクロール可能とする。
+                        self.adjust(zoomScrollView: zoomScrollView, textViewSize: size)
+                    }
+
+                    // スライダー用スクロールビューにズーム用スクロールビューを追加
+                    self.mainScrollView.addSubview(zoomScrollView)
+
+                    count += 1
+                    x += width
+                }
+            }
+        }
+        
+        // スクロールビューのサイズを調整
+        let scrollViewWidth:CGFloat = width * CGFloat(count)
+        self.mainScrollView.contentSize = CGSize(width: scrollViewWidth, height: height)
+        
+        // ページコントロールを設定
+        self.pageControl.numberOfPages = count
+        
+        // 回転時にページに合わせてスクロール位置を調整
+        // offset.xは正しい値になっているが、何故かずれてしまう現象に対応
+        // この処理を非同期で実行することでずれを正す。
+        DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
+            self.mainScrollView.contentOffset.x = self.mainScrollView.frame.maxX * CGFloat(self.pageControl.currentPage)
+        })
+    }
+
+    /// 高さが収まりきらない場合にスタックビューの高さを調整しスクロール可能とする。
+    ///
+    /// - Parameters:
+    ///   - zoomScrollView: ズームスクロールビュー
+    ///   - textViewSize: テキストビューのサイズ
+    private func adjust(zoomScrollView: UIScrollView, textViewSize: CGSize) {
+        let stackView = zoomScrollView.subviews[0] as! UIStackView
+
+        var subView0Height:CGFloat = 0.0
+        let subView0 = stackView.arrangedSubviews[0]
+        if subView0 is UIImageView {
+            subView0Height = subView0.frame.size.height
+        }
+        let contentHeight = subView0Height + textViewSize.height
+        if stackView.frame.size.height < contentHeight {
+            stackView.frame.size.height = contentHeight
+            zoomScrollView.isScrollEnabled = true
+            zoomScrollView.showsVerticalScrollIndicator = true
+            zoomScrollView.contentSize = stackView.frame.size
+        }
+    }
+    
+    /// ノートの存在チェック
+    ///
+    /// - Parameter material: 資料
+    /// - Returns: ノートの存在 true:存在 false:不在
+    private func isExistNote(material: Material) -> Bool {
+        if let text = material.note {
+            let note = text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            if note != "" {
+                return true
+            }
+        }
+        return false
+    }
+    
+    /// ズーム用スクロールビューの作成
+    ///
+    /// - Parameters:
+    ///   - width: 幅
+    ///   - height: 高さ
+    ///   - x: x位置
+    /// - Returns: ズーム用スクロールビュー
+    private func createZoomScrollView(width:CGFloat, height:CGFloat, x:CGFloat) -> UIScrollView {
+        let scrollViewFrame = CGRect(x: x, y: 0, width: width, height: height)
+        //innerFrame.origin.x = x
+        let zoomScrollView = UIScrollView(frame: scrollViewFrame)
+        zoomScrollView.minimumZoomScale = 1
+        zoomScrollView.maximumZoomScale = 4
+        zoomScrollView.zoomScale = 1.0
+        zoomScrollView.delegate = self
+        zoomScrollView.isScrollEnabled = false
+        zoomScrollView.showsHorizontalScrollIndicator = false
+        zoomScrollView.showsVerticalScrollIndicator = false
+
+        let stackViewFrame = CGRect(x: 0, y: 0, width: width, height: height)
+        let verticalStackView = UIStackView(frame: stackViewFrame)
+        //let verticalStackView = UIStackView()
+        verticalStackView.axis = .vertical
+        verticalStackView.alignment = .fill
+        verticalStackView.distribution = .fill
+        verticalStackView.spacing = 0.0
+        //verticalStackView.backgroundColor = UIColor.cyan
+        //verticalStackView.layer.borderWidth = 5.0
+        //verticalStackView.layer.borderColor = UIColor.orange.cgColor
+        zoomScrollView.addSubview(verticalStackView)
+
+//        verticalStackView.widthAnchor.constraint(equalTo: zoomScrollView.widthAnchor).isActive = true
+//        verticalStackView.heightAnchor.constraint(greaterThanOrEqualTo: zoomScrollView.heightAnchor, multiplier: 1.0).isActive = true
+//        verticalStackView.centerXAnchor.constraint(equalTo: zoomScrollView.centerXAnchor).isActive = true
+//        verticalStackView.centerYAnchor.constraint(equalTo: zoomScrollView.centerYAnchor).isActive = true
+        
+        return zoomScrollView
+    }
+    
+    /// viewDidLayoutSubviews
+    ///
+    //override func viewDidLayoutSubviews() {
+    func viewDidLayoutSubviewsBak() {
 
         // サブビューの全削除
         self.removeSubviews()
