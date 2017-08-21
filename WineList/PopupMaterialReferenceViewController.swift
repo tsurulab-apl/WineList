@@ -97,6 +97,7 @@ class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegat
                     let stackView = zoomScrollView.subviews[0] as! UIStackView
                     
                     var useHeight = height
+                    let isExistImage = !(material.data == nil)
                     let isExistNote = self.isExistNote(material: material)
                     
                     // イメージビューの作成
@@ -136,14 +137,21 @@ class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegat
                         textView.text = material.note
 
                         let size = textView.sizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude))
-                        //textView.frame.size.height = size.height
-                        textView.heightAnchor.constraint(equalToConstant: size.height).isActive = true
 
-                        textView.setContentHuggingPriority(500, for: .vertical)
+                        // textViewのみの場合は、textViewを垂直方向にセンタリングする。
+                        let textViewHeightConstraintActive = self.textViewVerticalCenter(stackView: stackView, isExistImage: isExistImage, height: height, textViewSize: size)
+                        //textView.frame.size.height = size.height
+                        // textViewの高さを制約で付与する。
+                        // ただし、textViewのみで垂直方向にセンタリングする場合は、制約を付与しない。
+                        if textViewHeightConstraintActive {
+                            textView.heightAnchor.constraint(equalToConstant: size.height).isActive = true
+                        }
+                        // imageViewより大きい値を設定し、imageViewが拡大されるようにする。
+                        textView.setContentHuggingPriority(300, for: .vertical)
                         //textView.layer.borderWidth = 2.0
                         //textView.layer.borderColor = UIColor.blue.cgColor
-
                         //stackView.addSubview(textView)
+
                         stackView.addArrangedSubview(textView)
 
                         // 高さが収まりきらない場合は、
@@ -175,6 +183,37 @@ class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegat
         })
     }
 
+    /// テキストビューの垂直方向センタリング
+    /// テキストビューのみの場合でテキストビューがポップアップビューの高さ内に収まる場合、
+    /// テキストビューを垂直方向にセンタリングする。
+    /// テキストビューの上部にスペース分の空ビューを追加することでセンタリングを実現する。
+    /// また、空ビューを上部に追加した場合は、テキストビューに高さ制約を付与せずに自動拡大させる。
+    /// そのため、戻り値で高さ制約を付与するか否かを表すフラグ値を戻す。
+    ///
+    /// - Parameters:
+    ///   - stackView: スタックビュー
+    ///   - isExistImage: イメージビューの存在 true:存在 false:不在
+    ///   - height: ポップアップビューの高さ
+    ///   - textViewSize: テキストビューのサイズ
+    /// - Returns: テキストビューの高さ制約を付与するか否か true:付与する。false:付与しない。
+    private func textViewVerticalCenter(stackView: UIStackView, isExistImage: Bool, height: CGFloat, textViewSize: CGSize) -> Bool {
+        var textViewHeightConstraintActive = true
+        if !isExistImage {
+            if textViewSize.height < height {
+                let spaceView = UIView()
+                let spaceViewHeight = (height / 2) - (textViewSize.height / 2)
+                spaceView.heightAnchor.constraint(equalToConstant: spaceViewHeight).isActive = true
+                // textViewより大きい値を設定し、textViewが拡大されるようにする。
+                spaceView.setContentHuggingPriority(600, for: .vertical)
+                //spaceView.layer.borderWidth = 2.0
+                //spaceView.layer.borderColor = UIColor.orange.cgColor
+                stackView.addArrangedSubview(spaceView)
+                textViewHeightConstraintActive = false
+            }
+        }
+        return textViewHeightConstraintActive
+    }
+    
     /// 高さが収まりきらない場合にスタックビューの高さを調整しスクロール可能とする。
     ///
     /// - Parameters:
@@ -185,7 +224,7 @@ class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegat
 
         var subView0Height:CGFloat = 0.0
         let subView0 = stackView.arrangedSubviews[0]
-        if subView0 is UIImageView {
+        if !(subView0 is UITextView) {
             subView0Height = subView0.frame.size.height
         }
         let contentHeight = subView0Height + textViewSize.height
