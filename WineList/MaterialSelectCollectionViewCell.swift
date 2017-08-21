@@ -15,4 +15,12 @@ class MaterialSelectCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var dataImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
+
+    /// 値のクリア
+    /// セルの再利用時に呼び出す。
+    ///
+    func clear() {
+        self.dataImageView.image = nil
+        self.nameLabel.text = nil
+    }
 }

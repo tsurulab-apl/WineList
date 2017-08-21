@@ -159,6 +159,9 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
         // Cell はストーリーボードで設定したセルのID
         let materialCell:MaterialSelectCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MaterialCell", for: indexPath) as! MaterialSelectCollectionViewCell
 
+        // Cellの初期化(再利用時に前の値をクリア)
+        materialCell.clear()
+        
         //print("indexPath.row=\(indexPath.row)")
 
         // 画像配列の番号で指定された要素の名前の画像をUIImageとする

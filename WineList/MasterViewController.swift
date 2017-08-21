@@ -524,9 +524,12 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         return category.name
     }
 
-    ///
     /// テーブルビューのデータの個数を返すメソッド
     ///
+    /// - Parameters:
+    ///   - tableView: テーブルビュー
+    ///   - section: セクション番号
+    /// - Returns: セクション(カテゴリー)内のデータ個数
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //return self.wineList.count
         //let category = CategoryEnum.init(raw: section)
@@ -537,14 +540,21 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         return count
     }
 
-    ///
     /// データを返すメソッド
     ///
+    /// - Parameters:
+    ///   - tableView: テーブルビュー
+    ///   - indexPath: インデックスパス
+    /// - Returns: ワインセル
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let category = self.getCategory(indexPath.section)
         
-        //セルを取得し、テキストを設定して返す。
+        // セルを取得し、テキストを設定して返す。
         let cell = tableView.dequeueReusableCell(withIdentifier: "WineCell", for: indexPath) as! WineTableViewCell
+
+        // セルの再利用時に前の値を削除する。
+        cell.clear()
+        
         let wine = self.wineList.getWine(category, indexPath.row)
         
         // 名前
