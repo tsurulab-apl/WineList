@@ -13,6 +13,9 @@ import UIKit
 ///
 class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
+    /// テキストビューの表示文字数
+    private static let TEXT_VIEW_LENGTH:Int = 150
+    
     /// セルの枠線幅
     private static let CELL_BORDER_WIDTH = 3.0
     
@@ -156,24 +159,113 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
     /// - Returns: 資料セル
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
+        // 画像配列の番号で指定された要素の名前の画像をUIImageとする
+        let material = self.materialList.get(indexPath.row)
+        
         // Cell はストーリーボードで設定したセルのID
         let materialCell:MaterialSelectCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MaterialCell", for: indexPath) as! MaterialSelectCollectionViewCell
 
         // Cellの初期化(再利用時に前の値をクリア)
         materialCell.clear()
         
-        //print("indexPath.row=\(indexPath.row)")
+        // 画像を設定
+        if let image = material.data {
+            // UIImageをUIImageViewのimageとして設定
+            materialCell.dataImageView.image = UIImage(data: image)
+            // 画像がある場合はノートを非表示とする。
+            materialCell.noteTextView.isHidden = true
+        } else {
+            materialCell.dataImageView.isHidden = true
 
+            // 画像がない場合は、ノートを設定
+            if let note = material.note {
+                let count = note.characters.count
+                if count > PopupMaterialSelectViewController.TEXT_VIEW_LENGTH {
+                    let index = note.index(note.startIndex, offsetBy: PopupMaterialSelectViewController.TEXT_VIEW_LENGTH)
+                    materialCell.noteTextView.text = note.substring(to: index) + "..."
+                } else {
+                    materialCell.noteTextView.text = note
+                }
+            } else {
+                materialCell.noteTextView.isHidden = true
+            }
+        }
+        
+        // 名前をラベルに設定
+        materialCell.nameLabel.text = material.name
+        
+        // 選択時の枠線設定
+        materialCell.layer.borderWidth = CGFloat(PopupMaterialSelectViewController.CELL_BORDER_WIDTH)
+        materialCell.layer.cornerRadius = CGFloat(PopupMaterialSelectViewController.CELL_CORNER_RADIUS)
+        materialCell.layer.masksToBounds = true
+        
+        let selected = self.isSelected(material:material)
+        if selected {
+            // scrollPositionを設定するとスクロール中に本メソッドが呼ばれてセルを再生成する際に
+            // 意図しないポジション変更が発生してしまう。
+            // 設定例:UICollectionViewScrollPosition.centeredVertically
+            // そのため、scrollPositonには、空の[]を設定する。
+            // また、selectItemではisSelectedは更新されないため、明示的に設定する。
+            self.materialSelectCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+            materialCell.isSelected = true
+        }
+        self.set(materialCell: materialCell, selected: selected)
+        return materialCell
+    }
+
+    /// コレクションビューのセルを戻す。
+    ///
+    /// - Parameters:
+    ///   - collectionView: コレクションビュー
+    ///   - indexPath: インデックスパス
+    /// - Returns: 資料セル
+    func collectionViewBack(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         // 画像配列の番号で指定された要素の名前の画像をUIImageとする
         let material = self.materialList.get(indexPath.row)
 
+        var materialCell:UICollectionViewCell
+
         // UIImageをUIImageViewのimageとして設定
         if let image = material.data {
-            materialCell.dataImageView.image = UIImage(data: image)
-        }
+            // Cell はストーリーボードで設定したセルのID
+            let imageViewCell:MaterialSelectCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MaterialCell", for: indexPath) as! MaterialSelectCollectionViewCell
+            materialCell = imageViewCell
+            
+            // Cellの初期化(再利用時に前の値をクリア)
+            imageViewCell.clear()
 
-        // 名前をラベルに設定
-        materialCell.nameLabel.text = material.name
+            // 画像を設定
+            imageViewCell.dataImageView.image = UIImage(data: image)
+
+            // 名前をラベルに設定
+            imageViewCell.nameLabel.text = material.name
+
+        } else {
+
+            // Cell はストーリーボードで設定したセルのID
+            let textViewCell:MaterialSelectTextViewCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MaterialTextViewCell", for: indexPath) as! MaterialSelectTextViewCollectionViewCell
+            materialCell = textViewCell
+            
+            // Cellの初期化(再利用時に前の値をクリア)
+            textViewCell.clear()
+            
+            // ノートを設定
+            /****
+            if let note = material.note {
+                let count = note.characters.count
+                if count > PopupMaterialSelectViewController.TEXT_VIEW_LENGTH {
+                    let index = note.index(note.startIndex, offsetBy: PopupMaterialSelectViewController.TEXT_VIEW_LENGTH)
+                    textViewCell.noteTextView.text = note.substring(to: index) + "..."
+                } else {
+                    textViewCell.noteTextView.text = note
+                }
+            }
+            ********/
+            
+            // 名前をラベルに設定
+            textViewCell.nameLabel.text = material.name
+        }
 
         // 選択時の枠線設定
         materialCell.layer.borderWidth = CGFloat(PopupMaterialSelectViewController.CELL_BORDER_WIDTH)
@@ -199,7 +291,7 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
     /// - Parameters:
     ///   - materialCell: 資料セル
     ///   - selected: 選択状態 true:選択 false:非選択
-    func set(materialCell:MaterialSelectCollectionViewCell, selected:Bool) {
+    func set(materialCell:UICollectionViewCell, selected:Bool) {
         if selected {
             materialCell.layer.borderColor = UIColor.blue2.cgColor
         } else {
@@ -251,10 +343,9 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
     ///   - collectionView: コレクションビュー
     ///   - indexPath: インデックスパス
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let materialCell = collectionView.cellForItem(at: indexPath) as! MaterialSelectCollectionViewCell
+        let materialCell = collectionView.cellForItem(at: indexPath)!
         self.set(materialCell: materialCell, selected: true)
         self.save(indexPath: indexPath, selected: true)
-        //print(materialCell.nameLabel.text!)
     }
 
     /// 選択解除時
@@ -264,10 +355,9 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
     ///   - collectionView: コレクションビュー
     ///   - indexPath: インデックスパス
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        let materialCell = collectionView.cellForItem(at: indexPath) as! MaterialSelectCollectionViewCell
+        let materialCell = collectionView.cellForItem(at: indexPath)!
         self.set(materialCell: materialCell, selected: false)
         self.save(indexPath: indexPath, selected: false)
-        //print(materialCell.nameLabel.text!)
     }
     
     /// 選択もしくは選択解除された資料を資料ワークに反映する。

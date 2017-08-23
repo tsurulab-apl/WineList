@@ -8,12 +8,12 @@
 
 import UIKit
 
-///
-/// 資料選択画面用のコレクションビューセル
+/// 資料選択画面用のコレクションビューセル(イメージビュー)
 ///
 class MaterialSelectCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var dataImageView: UIImageView!
+    @IBOutlet weak var noteTextView: UITextView!
     @IBOutlet weak var nameLabel: UILabel!
 
     /// 値のクリア
@@ -21,6 +21,10 @@ class MaterialSelectCollectionViewCell: UICollectionViewCell {
     ///
     func clear() {
         self.dataImageView.image = nil
+        self.noteTextView.text = nil
         self.nameLabel.text = nil
+
+        self.dataImageView.isHidden = false
+        self.noteTextView.isHidden = false
     }
 }
