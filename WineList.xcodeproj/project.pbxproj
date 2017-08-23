@@ -18,7 +18,6 @@
 		EB26A0471F412F2A0040F42F /* grape_r211g211b211_32.png in Resources */ = {isa = PBXBuildFile; fileRef = EB26A0461F412F2A0040F42F /* grape_r211g211b211_32.png */; };
 		EB26A0491F41330A0040F42F /* grape_r128g128b128_32.png in Resources */ = {isa = PBXBuildFile; fileRef = EB26A0481F41330A0040F42F /* grape_r128g128b128_32.png */; };
 		EB26A04B1F4471BF0040F42F /* Messageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB26A04A1F4471BF0040F42F /* Messageable.swift */; };
-		EB26A0531F4B173F0040F42F /* MaterialSelectTextViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB26A0521F4B173F0040F42F /* MaterialSelectTextViewCollectionViewCell.swift */; };
 		EB28D33A1EBB655500E77397 /* ReferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB28D3391EBB655500E77397 /* ReferenceViewController.swift */; };
 		EB28D33E1EBD594100E77397 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB28D33D1EBD594100E77397 /* RegistrationViewController.swift */; };
 		EB28D3401EC34FCA00E77397 /* UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png in Resources */ = {isa = PBXBuildFile; fileRef = EB28D33F1EC34FCA00E77397 /* UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png */; };
@@ -91,7 +90,6 @@
 		EB26A0461F412F2A0040F42F /* grape_r211g211b211_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grape_r211g211b211_32.png; sourceTree = "<group>"; };
 		EB26A0481F41330A0040F42F /* grape_r128g128b128_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grape_r128g128b128_32.png; sourceTree = "<group>"; };
 		EB26A04A1F4471BF0040F42F /* Messageable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Messageable.swift; sourceTree = "<group>"; };
-		EB26A0521F4B173F0040F42F /* MaterialSelectTextViewCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialSelectTextViewCollectionViewCell.swift; sourceTree = "<group>"; };
 		EB28D3391EBB655500E77397 /* ReferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferenceViewController.swift; sourceTree = "<group>"; };
 		EB28D33D1EBD594100E77397 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		EB28D33F1EC34FCA00E77397 /* UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UIBarButtonCompose_2x_cd7e6340-c981-4dc4-85ae-63ae5a64ccfc.png"; sourceTree = "<group>"; };
@@ -198,7 +196,6 @@
 				EBA9C47F1E9E601100311E3B /* images */,
 				EBA9C4481E9E526400311E3B /* AppDelegate.swift */,
 				EBA9C44C1E9E526400311E3B /* Main.storyboard */,
-				EB26A0521F4B173F0040F42F /* MaterialSelectTextViewCollectionViewCell.swift */,
 				EBFAB47B1F26F89500E7F95A /* PopupMaterialSelectViewController.swift */,
 				EB26A02E1F320C700040F42F /* PopupMaterialReferenceViewController.swift */,
 				EBFAB47F1F2C30B000E7F95A /* MaterialSelectCollectionViewCell.swift */,
@@ -423,7 +420,6 @@
 				EBF3207C1EFA885B00797BD6 /* CategoryRegistrationViewController.swift in Sources */,
 				EBA9C47C1E9E5A9300311E3B /* MasterViewController.swift in Sources */,
 				EB58B1B01F22F1FF004BDE28 /* Material+CoreDataClass.swift in Sources */,
-				EB26A0531F4B173F0040F42F /* MaterialSelectTextViewCollectionViewCell.swift in Sources */,
 				EBA9C47E1E9E5B4D00311E3B /* DetailViewController.swift in Sources */,
 				EBFAB4761F243E8F00E7F95A /* MaterialDetailViewController.swift in Sources */,
 				EB9CBE6F1EB6CF8A00238D52 /* Wine+CoreDataClass.swift in Sources */,
