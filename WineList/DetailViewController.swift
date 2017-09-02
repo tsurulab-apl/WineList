@@ -12,19 +12,24 @@ import CoreData
 import CoreImage
 class DetailViewController: UIViewController,MasterViewControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
 *******/
-///
+
 /// DetailViewController
 ///
 class DetailViewController: UIViewController,MasterViewControllerDelegate {
 
-    // 管理モード
+    /// 管理モード
     private var manageMode:Bool = false
+
     // サブビュー
+    /// 参照用ビュー
     private var referenceViewController:ReferenceViewController? = nil
+    /// 登録用ビュー
     private var registrationViewController:RegistrationViewController? = nil
+
     // ナビゲーションバーボタン
     //private var settingButton:UIBarButtonItem
     //private var categoryButton:UIBarButtonItem
+    /// 機能選択ボタン
     private var selectButton:UIBarButtonItem
 
 /*****
@@ -49,7 +54,7 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
 
     @IBOutlet weak var categorySegmentedControl: UISegmentedControl!
 *********/
-    ///
+
     /// イニシャライザ
     ///
     required init?(coder aDecoder: NSCoder) {
@@ -69,9 +74,9 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
 
     }
     
-    ///
     /// ナビゲーションバーの選択ボタン
     ///
+    /// - Parameter sender: <#sender description#>
     func selectButtonAction(_ sender: Any) {
         let alert = UIAlertController(title:"管理メニュー", message: "処理を選択してください。", preferredStyle: UIAlertControllerStyle.alert)
         
@@ -150,13 +155,18 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
         self.navigationController?.pushViewController(settingViewController, animated: true)
     }
 
-    ///
     /// viewDidLoad
     ///
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.title = "ワイン"
+
+        //ナビゲーションバーの左ボタンに画面モードの切り替えボタンを表示する。
+        self.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
+        
+        //戻るボタンの後ろに表示する。
+        self.navigationItem.leftItemsSupplementBackButton = true
 
         //画像を設定する。
 //        if(imageName != nil) {
@@ -263,15 +273,20 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
         self.vintageTextField.endEditing(true)
     }
 ***********************/
-    ///
+
     /// セル選択時(delegate)
     ///
+    /// - Parameter wine: 選択されたワイン
     func selectedCell(wine: Wine) {
-        self.wine = wine
+        self.wine = nil
         if(self.manageMode){
+            self.wine = wine
             self.registrationViewController?.selectedCell(wine: wine)
         } else {
-            self.referenceViewController?.selectedCell(wine: wine)
+            if wine.display {
+                self.wine = wine
+                self.referenceViewController?.selectedCell(wine: wine)
+            }
         }
         self.changeScreen()
     }

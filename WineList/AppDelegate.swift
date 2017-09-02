@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
+/******
         //スプリットビューコントローラーを取得する。
         let splitViewController = self.window!.rootViewController as! UISplitViewController
 
@@ -46,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //マスター部のデリゲート先にディテール部のビューコントローラーを設定する。
         masterViewController.delegate = detailViewController as MasterViewControllerDelegate
-
+************/
         return true
     }
 

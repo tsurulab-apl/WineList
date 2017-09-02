@@ -112,6 +112,18 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
 
         self.title = "リスト"
+
+        // delegateの設定
+        let detailNavController = self.splitViewController?.viewControllers.last as! UINavigationController
+        let DetailViewController = detailNavController.topViewController as! DetailViewController
+        self.delegate = DetailViewController
+        
+        //ナビゲーションバーの左ボタンに画面モードの切り替えボタンを表示する。
+        self.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
+        
+        //戻るボタンの後ろに表示する。
+        self.navigationItem.leftItemsSupplementBackButton = true
+
 /********
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap(_:)))
         longGesture.minimumPressDuration = 1.0  // default:0.5秒
