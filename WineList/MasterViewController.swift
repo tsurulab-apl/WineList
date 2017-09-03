@@ -204,7 +204,6 @@ class MasterViewController: UITableViewController,SettingsDelegate {
 *******/
     }
 
-    ///
     /// 設定変更の反映
     ///
     func changeSettings() {
@@ -216,16 +215,16 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         self.reloadWineTableView()
     }
     
-    ///
     /// ワインリストの取得
     ///
+    /// - Returns: ワインリスト
     func getWineList() -> WineList{
         return self.wineList
     }
     
-    ///
     /// タイトル長押し時
     ///
+    /// - Parameter sender: <#sender description#>
     func longTap(_ sender: UIGestureRecognizer) {
         //print("logTap")
         if sender.state == .began {

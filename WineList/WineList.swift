@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-///
 /// ワインのデータリスト
 /// あるカテゴリーのワインリストを保持する。
 /// ワインリストクラス内でDictionaryに格納して利用する。
@@ -18,14 +17,13 @@ public class WineDataList:DataList<Wine> {
     private var manageMode:Bool = false
     private var category:Category
 
-    ///
     /// イニシャライザ
     ///
     init(managedObjectContext:NSManagedObjectContext,category:Category) {
         self.category = category
         super.init(managedObjectContext: managedObjectContext)
     }
-    ///
+
     /// 最初のワインの取得
     ///
     override func getFirst() -> Wine? {
@@ -41,31 +39,31 @@ public class WineDataList:DataList<Wine> {
         }
         return first
     }
-    ///
+    
     /// 管理モードへの変更
     ///
     func setManageMode(){
         self.manageMode = true
     }
-    ///
+
     /// 参照モードへの変更
     ///
     func setReferenceMode(){
         self.manageMode = false
     }
-    ///
+
     /// 管理モード判定
     ///
     func isMangeMode() -> Bool{
         return self.manageMode
     }
-    ///
+    
     /// 参照モード判定
     ///
     func isReferenceMode() -> Bool{
         return !self.manageMode
     }
-    ///
+    
     /// 対象判定
     ///
     override func isTarget(_ data:Wine) -> Bool {
@@ -79,35 +77,69 @@ public class WineDataList:DataList<Wine> {
     }
 }
 
+
+/// カテゴリーリスト
 ///
+public class CategoryList:DataList<Category> {
+    
+    /// サンプルデータリスト
+    private let sampleDataList = ["White", "Red", "Rose", "Sparkling"]
+    
+    /// サンプルデータ作成
+    ///
+    func sampleData() {
+        for sample in self.sampleDataList {
+            let category = self.new()
+            category.name = sample
+            let now = Date()
+            category.insertDate = now
+            category.updateDate = now
+            self.save(data: category)
+        }
+    }
+}
+
+
 /// ワインリスト
 ///
-public class WineList {
+public class WineList: DataListDelegate {
     /// 管理モード
     private var manageMode:Bool = false
+
     /// カテゴリーリスト
-    var categoryList:DataList<Category>
+    var categoryList:CategoryList
+    //var categoryList:DataList<Category>
+
     /// 資料リスト
     var materialList:DataList<Material>
     
     //var firstWine:Dictionary<CategoryEnum, Wine> = [:]
+    
+    /// ワインデータリストのディクショナリー
     var wineDataList:Dictionary<Category, WineDataList> = [:]
-    var firstWine:Dictionary<Category, Wine> = [:]
+    //var firstWine:Dictionary<Category, Wine> = [:]
     //var wineDictionary:Dictionary<CategoryEnum, Array<Wine>> = [:]
+    
+    /// CoreDataコンテキスト
     var managedObjectContext:NSManagedObjectContext
 
-    ///
     /// イニシャライザ
     ///
+    /// - Parameter managedObjectContext: CoreDataコンテキスト
     init(managedObjectContext:NSManagedObjectContext) {
         self.managedObjectContext = managedObjectContext
-        self.categoryList = DataList<Category>(managedObjectContext:managedObjectContext)
+        //self.categoryList = DataList<Category>(managedObjectContext:managedObjectContext)
+        self.categoryList = CategoryList(managedObjectContext: managedObjectContext)
         self.materialList = DataList<Material>(managedObjectContext:managedObjectContext)
+
+        // カテゴリー変更時の通知を受信する設定
+        self.categoryList.set(delegate: self)
+
+        // データの取得
         self.getData()
         //self.categoryList.getData()
     }
 
-    ///
     /// 管理モードへの変更
     ///
     func setManageMode(){
@@ -204,6 +236,8 @@ public class WineList {
     /// イニシャライザからのみ呼び出す。
     ///
     private func getData() {
+        self.wineDataList.removeAll()
+
         // カテゴリー
         self.categoryList.getData()
         // カテゴリー毎にワインを読み込む
@@ -711,6 +745,21 @@ public class WineList {
         return wine
     }
 *************/
+
+    /// カテゴリー変更時処理
+    ///
+    /// - Parameter type: リンクデータの型(カテゴリー)
+    func changeDataList(type: LinkedData.Type) {
+        if type is Category.Type {
+            self.getData()
+        }
+    }
+    
+    /// サンプルデータ作成
+    ///
+    func sampleData() {
+        self.categoryList.sampleData()
+    }
 }
 ///
 ///

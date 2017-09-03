@@ -19,7 +19,6 @@ import CoreData
 //    static func entityName() -> String
 //}
 
-///
 /// CoreDataで管理する順序リンク付きデータ
 ///
 public class LinkedData: NSManagedObject {
@@ -50,24 +49,22 @@ public class LinkedData: NSManagedObject {
     }
 }
 
-///
 /// データリスト変更時の通知先設定用Delegate
 ///
 protocol DataListDelegate : class {
     func changeDataList(type: LinkedData.Type)
 }
 
-///
 /// データリスト
 ///
 public class DataList<T: LinkedData> {
-    // 通知先
+    /// 通知先
     private var delegate:Array<DataListDelegate> = []
 
-    // カテゴリーの先頭
+    /// カテゴリーの先頭
     var first:T?
 
-    // カテゴリーの最後
+    /// カテゴリーの最後
     var last:T? {
         var data:T? = self.first
         while true {
@@ -80,21 +77,21 @@ public class DataList<T: LinkedData> {
         return data
     }
     
-    // CoreDataのコンテキスト
+    /// CoreDataのコンテキスト
     var managedObjectContext:NSManagedObjectContext
 
-    ///
-    /// イニシャライザ
-    ///
 //    init(entityName:String, managedObjectContext:NSManagedObjectContext) {
 //        self._entityName = entityName
 //        self.managedObjectContext = managedObjectContext
 //    }
+
+    /// イニシャライザ
+    ///
+    /// - Parameter managedObjectContext: <#managedObjectContext description#>
     init(managedObjectContext:NSManagedObjectContext) {
         self.managedObjectContext = managedObjectContext
     }
     
-    ///
     /// データの取得
     ///
     func getData() {
@@ -102,9 +99,9 @@ public class DataList<T: LinkedData> {
         self.first = data
     }
     
-    ///
     /// 最初のデータの取得
     ///
+    /// - Returns: 最初のデータ
     func getFirst() -> T? {
         var firstData:T? = nil
         let fetchRequest = T.fetchRequest()
@@ -127,9 +124,9 @@ public class DataList<T: LinkedData> {
         return firstData
     }
     
-    ///
     /// 件数取得
     ///
+    /// - Returns: 件数
     func count() -> Int {
         var count:Int = 0
         if var data = self.first {
@@ -147,24 +144,27 @@ public class DataList<T: LinkedData> {
         return count
     }
     
-    ///
     /// 存在判定
     ///
+    /// - Returns: true:存在 false:不在
     func isExists() -> Bool {
         let isExists = (self.first != nil)
         return isExists
     }
     
-    ///
     /// 対象判定
+    /// このメソッドを上書きし非表示データなど対象か対象外かの判定を行う。
     ///
+    /// - Parameter data: データ
+    /// - Returns: true:対象 false:対象外
     func isTarget(_ data:T) -> Bool {
         return true
     }
     
-    ///
     /// データ取得
     ///
+    /// - Parameter row: 行番号
+    /// - Returns: データ
     func get(_ row: Int) -> T {
         var index:Int = -1
         var data:T = self.first!
@@ -184,9 +184,10 @@ public class DataList<T: LinkedData> {
         return data
     }
 
-    ///
     /// インデックス取得
     ///
+    /// - Parameter data: データ
+    /// - Returns: インデックス番号
     func index(data: T) -> Int {
         var index:Int = -1
         var listData:T = self.first!
@@ -206,9 +207,10 @@ public class DataList<T: LinkedData> {
         return index
     }
 
-    ///
     /// データ取得(Nilを含む)
     ///
+    /// - Parameter row: 行番号
+    /// - Returns: データ
     func getWithNil(row: Int) -> T? {
         var index:Int = 0
         var data:T? = self.first
@@ -222,17 +224,17 @@ public class DataList<T: LinkedData> {
         return data
     }
     
-    ///
     /// 新しいデータの作成
     ///
+    /// - Returns: 新しいデータ
     func new() -> T {
         let data = T(context: managedObjectContext)
         return data
     }
     
+    /// データの削除
     ///
-    /// カテゴリーの削除
-    ///
+    /// - Parameter row: 行番号
     func delete(_ row: Int){
         let data = self.get(row)
         
@@ -242,9 +244,11 @@ public class DataList<T: LinkedData> {
         self.save()
     }
     
-    ///
     /// 並べ替え
     ///
+    /// - Parameters:
+    ///   - data: データ
+    ///   - toRow: 移動先の行番号
     func moveRow(data:T, toRow:Int){
         // 元の位置の調整
         self.leave(data: data)
@@ -254,9 +258,9 @@ public class DataList<T: LinkedData> {
         self.save()
     }
     
-    ///
     /// 元の位置の調整
     ///
+    /// - Parameter data: データ
     func leave(data:T){
         if let next = data.next {
             if let previous = data.previous {
@@ -278,9 +282,11 @@ public class DataList<T: LinkedData> {
         }
     }
     
-    ///
     /// 新しい位置の調整
     ///
+    /// - Parameters:
+    ///   - data: データ
+    ///   - toRow: 移動先の行番号
     func arrive(data:T, toRow:Int){
         // 新しい位置のデータを検索
         if let position:T = self.getWithNil(row:toRow) {
@@ -296,7 +302,6 @@ public class DataList<T: LinkedData> {
         }
     }
 
-    ///
     /// データの保存
     ///
     func save(){
@@ -309,9 +314,9 @@ public class DataList<T: LinkedData> {
         self.notice()
     }
     
-    ///
     /// データの保存
     ///
+    /// - Parameter data: データ
     func save(data:T){
         if (data.isInserted) {
             self.insert(data: data)
@@ -321,9 +326,9 @@ public class DataList<T: LinkedData> {
         self.save()
     }
     
-    ///
     /// データの追加
     ///
+    /// - Parameter data: データ
     func insert(data:T){
         data.previous = nil
         data.next = nil
@@ -335,35 +340,33 @@ public class DataList<T: LinkedData> {
         }
     }
     
-    ///
     /// データの更新
     ///
+    /// - Parameter data: データ
     func update(data:T){
         // 何もしない
     }
     
-    ///
     /// 先頭に設定
     ///
+    /// - Parameter data: データ
     func setFirst(data:T){
         self.first = data
     }
 
-    ///
     /// 先頭をクリア
     ///
     func clearFirst(){
         self.first = nil
     }
     
-    ///
     /// 変更通知先の登録
     ///
+    /// - Parameter delegate: 通知先
     func set(delegate: DataListDelegate){
         self.delegate.append(delegate)
     }
     
-    ///
     /// 変更の通知
     ///
     func notice() {
@@ -374,7 +377,6 @@ public class DataList<T: LinkedData> {
 
 }
 
-///
 /// イテレーター
 ///
 public struct DataListIterator<T: LinkedData>: IteratorProtocol {
@@ -382,9 +384,16 @@ public struct DataListIterator<T: LinkedData>: IteratorProtocol {
     /// The current node in the iteration
     private var current: T?
     
+    /// イニシャライザ
+    ///
+    /// - Parameter first: 最初のデータ
     public init(_ first: T?) {
         self.current = first
     }
+
+    /// 次データの取得
+    ///
+    /// - Returns: 次データ
     public mutating func next() -> T? {
         let node = self.current
         current = self.current?.next as? T
@@ -393,12 +402,15 @@ public struct DataListIterator<T: LinkedData>: IteratorProtocol {
     }
 }
 
-///
 /// イテレーターの作成
 ///
 extension DataList: Sequence {
+    /// イテレーター
     public typealias Iterator = DataListIterator<T>
     
+    /// イテレーターの作成
+    ///
+    /// - Returns: イテレーター
     public func makeIterator() -> DataList.Iterator {
         let dataListIterator = DataListIterator<T>(self.first)
         return dataListIterator

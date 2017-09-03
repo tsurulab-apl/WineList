@@ -9,7 +9,6 @@
 import UIKit
 import CoreData
 
-///
 /// アプリケーションコンテキスト
 /// アプリケーション全体のデータ共有領域
 ///
@@ -18,12 +17,10 @@ public class ApplicationContext {
     /// シングルトンインスタンス
     static let instance = ApplicationContext()
 
-    ///
     /// ワインリスト
     ///
     var wineList:WineList
     
-    ///
     /// イニシャライザ(シングルトン)
     ///
     private init() {

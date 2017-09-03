@@ -33,6 +33,7 @@ public class Settings {
     private static let DEFAULT_VINTAGE_RANGE:Int = 50
 
     // UserDefaultsのキー
+    private static let KEY_APP_FIRST_PROCESSED = "appFirstProcessed"
     private static let KEY_PASSWORD = "password"
     private static let KEY_LONG_PRESS_DURATION = "longPressDuration"
     private static let KEY_DEFAULT_IMAGE = "defaultImage"
@@ -48,6 +49,17 @@ public class Settings {
     
     /// シングルトンインスタンス
     static let instance = Settings()
+
+    /// 初回処理済みフラグ
+    var appFirstProcessed:Bool {
+        get {
+            let appFirstProcessed = userDefaults.bool(forKey: Settings.KEY_APP_FIRST_PROCESSED)
+            return appFirstProcessed
+        }
+        set {
+            userDefaults.set(newValue, forKey: Settings.KEY_APP_FIRST_PROCESSED)
+        }
+    }
 
     /// 管理モード用パスワード
     var password:String {
