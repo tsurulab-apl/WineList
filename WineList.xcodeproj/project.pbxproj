@@ -42,6 +42,7 @@
 		EBA9C4851E9E603200311E3B /* test_night_sample.png in Resources */ = {isa = PBXBuildFile; fileRef = EBA9C4821E9E603200311E3B /* test_night_sample.png */; };
 		EBCDF5461EEFFD3B00033689 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCDF5451EEFFD3B00033689 /* SettingViewController.swift */; };
 		EBE305631F1C58CB00DF56D7 /* AbstractRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE305621F1C58CB00DF56D7 /* AbstractRegistrationViewController.swift */; };
+		EBF208A01F6DEB9A00BBE8BB /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF2089F1F6DEB9A00BBE8BB /* LaunchViewController.swift */; };
 		EBF320621EF16AC100797BD6 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF320611EF16AC100797BD6 /* Settings.swift */; };
 		EBF320641EF4CF6B00797BD6 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF320631EF4CF6B00797BD6 /* Utils.swift */; };
 		EBF3206C1EF8A0BE00797BD6 /* Category.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBF3206B1EF8A0BE00797BD6 /* Category.storyboard */; };
@@ -120,6 +121,7 @@
 		EBA9C4821E9E603200311E3B /* test_night_sample.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_night_sample.png; sourceTree = "<group>"; };
 		EBCDF5451EEFFD3B00033689 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		EBE305621F1C58CB00DF56D7 /* AbstractRegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbstractRegistrationViewController.swift; sourceTree = "<group>"; };
+		EBF2089F1F6DEB9A00BBE8BB /* LaunchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		EBF320611EF16AC100797BD6 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		EBF320631EF4CF6B00797BD6 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		EBF3206B1EF8A0BE00797BD6 /* Category.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Category.storyboard; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 				EBA9C47B1E9E5A9300311E3B /* MasterViewController.swift */,
 				EBA9C47D1E9E5B4D00311E3B /* DetailViewController.swift */,
 				EB28D3391EBB655500E77397 /* ReferenceViewController.swift */,
+				EBF2089F1F6DEB9A00BBE8BB /* LaunchViewController.swift */,
 				EB9CBE1F1EAAFFB400238D52 /* Extention.swift */,
 				EB9CBE711EB9A0D200238D52 /* Enum.swift */,
 				EB28D33D1EBD594100E77397 /* RegistrationViewController.swift */,
@@ -424,6 +427,7 @@
 				EBFAB4761F243E8F00E7F95A /* MaterialDetailViewController.swift in Sources */,
 				EB9CBE6F1EB6CF8A00238D52 /* Wine+CoreDataClass.swift in Sources */,
 				EBF320701EF8A16000797BD6 /* CategoryDetailViewController.swift in Sources */,
+				EBF208A01F6DEB9A00BBE8BB /* LaunchViewController.swift in Sources */,
 				EBCDF5461EEFFD3B00033689 /* SettingViewController.swift in Sources */,
 				EBFAB47A1F243F7600E7F95A /* MaterialRegistrationViewController.swift in Sources */,
 				EBF320791EF8B60300797BD6 /* Category+CoreDataClass.swift in Sources */,

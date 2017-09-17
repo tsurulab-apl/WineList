@@ -11,7 +11,7 @@ import UIKit
 /// UIImage Extension リサイズメソッド
 ///
 extension UIImage {
-    ///
+
     /// リサイズ
     ///
     func resize(size: CGSize) -> UIImage {
@@ -27,7 +27,6 @@ extension UIImage {
         return resizedImage!
     }
     
-    ///
     /// フィット
     ///
     func fit(rect:CGRect) -> UIImage {
@@ -44,14 +43,12 @@ extension UIImage {
         return uiImage
     }
     
-    ///
     /// JPEG
     ///
     var jpegData: Data {
         return UIImageJPEGRepresentation(self, 1.0)!
     }
     
-    ///
     /// PNG
     ///
     var pngData: Data {

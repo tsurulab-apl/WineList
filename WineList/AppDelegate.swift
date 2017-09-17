@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
 
         // 初回起動時にサンプルデータ作成
-        print("appFirstProcessed=\(Settings.instance.appFirstProcessed)")
+        //print("appFirstProcessed=\(Settings.instance.appFirstProcessed)")
         if !Settings.instance.appFirstProcessed {
             let wineList = ApplicationContext.instance.wineList
             wineList.sampleData()

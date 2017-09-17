@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mSG-WS-qhB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="1X3-4h-yVl">
     <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -40,7 +40,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PFc-Wm-CGk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="621.09375" y="18.75"/>
+            <point key="canvasLocation" x="1386.71875" y="18.75"/>
         </scene>
         <!--Registration View Controller-->
         <scene sceneID="WS6-Js-3Pa">
@@ -443,7 +443,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gne-MQ-aFB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1258.59375" y="19.921875"/>
+            <point key="canvasLocation" x="2024.21875" y="19.921875"/>
         </scene>
         <!--Popup Material Select View Controller-->
         <scene sceneID="1Cb-h1-iKD">
@@ -545,7 +545,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QNB-zK-xDM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1965.625" y="19.921875"/>
+            <point key="canvasLocation" x="2731.25" y="19.921875"/>
         </scene>
         <!--Reference View Controller-->
         <scene sceneID="CBq-Qt-2ys">
@@ -1085,7 +1085,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XMg-Xg-jho" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1157.03125" y="1406.8359375"/>
+            <point key="canvasLocation" x="-1209" y="602"/>
         </scene>
         <!--Root View Controller-->
         <scene sceneID="4sg-vJ-Kub">
@@ -1162,7 +1162,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="46Y-cn-gqb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="807.8125" y="-636.328125"/>
+            <point key="canvasLocation" x="1573.4375" y="-636.328125"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="skW-fQ-Anr">
@@ -1178,7 +1178,255 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rmg-AN-sZN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-144" y="-636"/>
+            <point key="canvasLocation" x="621.09375" y="-636.328125"/>
+        </scene>
+        <!--Launch View Controller-->
+        <scene sceneID="wlF-HV-AOL">
+            <objects>
+                <viewController id="T2p-ye-VVP" customClass="LaunchViewController" customModule="WineList" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gAC-ZC-jdU"/>
+                        <viewControllerLayoutGuide type="bottom" id="g5a-5K-7Eq"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pMD-dO-Pr5">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" maximumZoomScale="4" translatesAutoresizingMaskIntoConstraints="NO" id="P2C-ly-b2d" userLabel="Main Scroll View">
+                                <rect key="frame" x="0.0" y="64" width="768" height="896"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="K7n-jO-7SG" userLabel="Main Stack View">
+                                        <rect key="frame" x="77.5" y="169" width="614" height="558.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ワインリストの使い方" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f6J-gd-Rnz">
+                                                <rect key="frame" x="0.0" y="0.0" width="614" height="26.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XFZ-Uz-Nd6" userLabel="Space View">
+                                                <rect key="frame" x="0.0" y="26.5" width="614" height="20"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="20" id="aHr-3M-lFS"/>
+                                                </constraints>
+                                            </view>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="qBz-3x-B3t" userLabel="Function Stack View">
+                                                <rect key="frame" x="0.0" y="46.5" width="614" height="73"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="１.ワインリストの機能" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mFg-Y6-DKs">
+                                                        <rect key="frame" x="0.0" y="0.0" width="614" height="23"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dga-ws-mzs">
+                                                        <rect key="frame" x="0.0" y="23" width="614" height="50"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fjH-IU-C9R" userLabel="Indent View">
+                                                                <rect key="frame" x="0.0" y="0.0" width="20" height="50"/>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="20" id="YOa-FE-mMh"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="ワインをカテゴリーごとに分類して表示します。 カテゴリーは赤や白、ロゼなど好きな分類を登録できます。 ワインには各種資料を登録できます。ワイン畑の地図やワイナリーの写真など関連する情報を表示することで、よりワインの特徴を理解いただくことができます。" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Yh-xI-wwz">
+                                                                <rect key="frame" x="20" y="0.0" width="594" height="50"/>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                            </textView>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                            </stackView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iUp-AR-gZ9" userLabel="Space View">
+                                                <rect key="frame" x="0.0" y="119.5" width="614" height="20"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="20" id="noL-Mk-0gD"/>
+                                                </constraints>
+                                            </view>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="1S4-UZ-fzC" userLabel="Access Guide Stack View">
+                                                <rect key="frame" x="0.0" y="139.5" width="614" height="73"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="２.アクセスガイドの利用" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eMZ-63-cOp">
+                                                        <rect key="frame" x="0.0" y="0.0" width="614" height="23"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FYy-C4-Fbz">
+                                                        <rect key="frame" x="0.0" y="23" width="614" height="50"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R8V-Kc-hqp" userLabel="Indent View">
+                                                                <rect key="frame" x="0.0" y="0.0" width="20" height="50"/>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="20" id="fGS-gG-I9Y"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="このアプリはiPadのアクセスガイドを利用して、iPadをワインリスト専用端末として利用することを想定しています。 「設定」→「一般」→「アクセスガイド」からアクセスガイドを有効にしてご利用ください。" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eAh-l1-fUA">
+                                                                <rect key="frame" x="20" y="0.0" width="594" height="50"/>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                            </textView>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                            </stackView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jZ2-gz-mLs" userLabel="Space View">
+                                                <rect key="frame" x="0.0" y="212.5" width="614" height="20"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="20" id="HyT-Dc-eUG"/>
+                                                </constraints>
+                                            </view>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="lTq-Nz-VpR" userLabel="Managed Mode Stack View">
+                                                <rect key="frame" x="0.0" y="232.5" width="614" height="73"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="３.管理モードの利用" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q10-aj-rkx">
+                                                        <rect key="frame" x="0.0" y="0.0" width="614" height="23"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4gC-PJ-FVF">
+                                                        <rect key="frame" x="0.0" y="23" width="614" height="50"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0g6-up-h0P" userLabel="Indent View">
+                                                                <rect key="frame" x="0.0" y="0.0" width="20" height="50"/>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="20" id="WsJ-Y6-1np"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="ワインの登録、カテゴリーや資料の登録を行う場合は、管理モードに変更する必要があります。 管理モードを利用する場合は、左リストのタイトル部分を長押ししてください。 管理用パスワードを入力し管理モードを利用します。" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g67-tL-7W4">
+                                                                <rect key="frame" x="20" y="0.0" width="594" height="50"/>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                            </textView>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                            </stackView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dcP-Em-Gkv" userLabel="Space View">
+                                                <rect key="frame" x="0.0" y="305.5" width="614" height="20"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="20" id="QFq-Am-rb6"/>
+                                                </constraints>
+                                            </view>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="PIO-EG-3Sd" userLabel="Password Stack View">
+                                                <rect key="frame" x="0.0" y="325.5" width="614" height="73"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="４.管理パスワード" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hav-PR-xFb" userLabel="２.管理パスワード">
+                                                        <rect key="frame" x="0.0" y="0.0" width="614" height="23"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TY4-fV-vbQ">
+                                                        <rect key="frame" x="0.0" y="23" width="614" height="50"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a5I-oC-q6r" userLabel="Indent View">
+                                                                <rect key="frame" x="0.0" y="0.0" width="20" height="50"/>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="20" id="RSA-q3-ivw"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="パスワードを忘れた場合は、アプリを再起動し、この画面から「設定」を開いて確認できます。 管理用パスワードの初期値は「0000」です。" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JzL-Pq-Nae">
+                                                                <rect key="frame" x="20" y="0.0" width="594" height="50"/>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                            </textView>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                            </stackView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xp9-Qg-fic" userLabel="Space View">
+                                                <rect key="frame" x="0.0" y="398.5" width="614" height="60"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="60" id="vq9-4j-4FQ"/>
+                                                </constraints>
+                                            </view>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="aug-vf-plU" userLabel="Button Stack View">
+                                                <rect key="frame" x="0.0" y="458.5" width="614" height="40"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T2c-Sc-tgM" userLabel="Space View">
+                                                        <rect key="frame" x="0.0" y="0.0" width="123" height="40"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </view>
+                                                    <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1KJ-Yp-8gq">
+                                                        <rect key="frame" x="123" y="0.0" width="122.5" height="40"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                        <state key="normal" title="開始"/>
+                                                        <connections>
+                                                            <segue destination="mSG-WS-qhB" kind="presentation" id="zCe-uE-ZUx"/>
+                                                        </connections>
+                                                    </button>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z4N-Ki-QVk" userLabel="Space View">
+                                                        <rect key="frame" x="245.5" y="0.0" width="123" height="40"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </view>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="igo-1R-l39">
+                                                        <rect key="frame" x="368.5" y="0.0" width="122.5" height="40"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                        <state key="normal" title="設定"/>
+                                                        <connections>
+                                                            <segue destination="ZaU-Oz-wnc" kind="show" id="9Rc-zJ-WIA"/>
+                                                        </connections>
+                                                    </button>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TXa-XZ-RPV" userLabel="Space View">
+                                                        <rect key="frame" x="491" y="0.0" width="123" height="40"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </view>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="iWC-RW-7jw"/>
+                                                </constraints>
+                                            </stackView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U6i-dW-SL3" userLabel="Space View">
+                                                <rect key="frame" x="0.0" y="498.5" width="614" height="60"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="60" id="TCx-iE-7aa"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="K7n-jO-7SG" firstAttribute="centerY" secondItem="P2C-ly-b2d" secondAttribute="centerY" id="19T-O2-eGm"/>
+                                    <constraint firstAttribute="trailing" secondItem="K7n-jO-7SG" secondAttribute="trailing" id="Efi-f2-ao0"/>
+                                    <constraint firstItem="K7n-jO-7SG" firstAttribute="centerX" secondItem="P2C-ly-b2d" secondAttribute="centerX" id="KAI-Xg-UVW"/>
+                                    <constraint firstItem="K7n-jO-7SG" firstAttribute="width" secondItem="P2C-ly-b2d" secondAttribute="width" multiplier="0.8:1" id="Rv8-MX-Dc6"/>
+                                    <constraint firstAttribute="bottom" secondItem="K7n-jO-7SG" secondAttribute="bottom" id="rEq-vC-7Lu"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="P2C-ly-b2d" firstAttribute="top" secondItem="gAC-ZC-jdU" secondAttribute="bottom" id="RKx-xs-Ega"/>
+                            <constraint firstItem="P2C-ly-b2d" firstAttribute="centerX" secondItem="pMD-dO-Pr5" secondAttribute="centerX" id="XHf-NF-Oe9"/>
+                            <constraint firstItem="P2C-ly-b2d" firstAttribute="leading" secondItem="pMD-dO-Pr5" secondAttribute="leading" id="chF-lN-wN5"/>
+                            <constraint firstItem="P2C-ly-b2d" firstAttribute="centerY" secondItem="pMD-dO-Pr5" secondAttribute="centerY" id="qbV-5J-Sbq"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="dwX-Qb-aiJ"/>
+                    <connections>
+                        <outlet property="mainScrollView" destination="P2C-ly-b2d" id="ppd-v2-3zR"/>
+                        <outlet property="mainStackView" destination="K7n-jO-7SG" id="BuQ-dv-ft6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mnS-vt-4uF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1208.59375" y="-309.375"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="ZHX-7Y-Rnp">
@@ -1191,7 +1439,7 @@
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qou-D1-otA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1096" y="-309"/>
+            <point key="canvasLocation" x="-330.46875" y="-309.375"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="cVZ-PF-Xi1">
@@ -1209,25 +1457,25 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rp7-OA-ze6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-144.53125" y="18.75"/>
+            <point key="canvasLocation" x="621.09375" y="18.75"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="k32-3B-Rtm">
+        <scene sceneID="mPD-lV-bWI">
             <objects>
-                <navigationController storyboardIdentifier="settingNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="leq-dI-rOs" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1X3-4h-yVl" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qWZ-RC-T0l">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="g7q-IM-5tz">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="ZaU-Oz-wnc" kind="relationship" relationship="rootViewController" id="meB-7L-1e0"/>
+                        <segue destination="T2p-ye-VVP" kind="relationship" relationship="rootViewController" id="ZWB-Va-Lea"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dgM-5p-gh5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8D5-UK-GO1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="391.40625" y="1406.8359375"/>
+            <point key="canvasLocation" x="-1974.21875" y="-309.375"/>
         </scene>
     </scenes>
     <resources>

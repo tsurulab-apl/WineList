@@ -631,15 +631,14 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         }
     }
 
-    ///
     /// editの有効化
     ///
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
-        return true
+        let isEdit = self.isManageMode()
+        return isEdit
     }
 
-    ///
     /// 削除処理
     ///
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {

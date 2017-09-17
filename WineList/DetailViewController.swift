@@ -141,18 +141,21 @@ class DetailViewController: UIViewController,MasterViewControllerDelegate {
         self.present(initialViewController, animated: true, completion: nil)
     }
     
-    ///
     /// 設定
     ///
     //func settingButtonAction(_ sender: Any){
     func settingButtonAction(){
         //print("settingButtonAction")
-//        let settingViewController = self.storyboard?.instantiateViewController(withIdentifier: "settingViewController") as! SettingViewController
-//        self.present(settingViewController, animated: true, completion: nil)
+        let settingViewController = self.storyboard?.instantiateViewController(withIdentifier: "settingViewController") as! SettingViewController
+        self.navigationController?.pushViewController(settingViewController, animated: true)
+        //self.present(settingViewController, animated: true, completion: nil)
+
+/************
         let settingNavigationController = self.storyboard?.instantiateViewController(withIdentifier: "settingNavigationController") as! UINavigationController
         let settingViewController = settingNavigationController.topViewController as! SettingViewController
         settingViewController.dataShowed = false
         self.navigationController?.pushViewController(settingViewController, animated: true)
+****************/
     }
 
     /// viewDidLoad
