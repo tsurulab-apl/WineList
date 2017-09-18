@@ -9,42 +9,29 @@
 import Foundation
 import CoreData
 
-//public protocol LinkedData {
-//    
-//    var next:LinkedData? { get set }
-//    var previous:LinkedData? { get set }
-//    //func fetchRequest() -> NSFetchRequest<NSManagedObject>
-//}
-//protocol EntityWithName {
-//    static func entityName() -> String
-//}
-
 /// CoreDataで管理する順序リンク付きデータ
 ///
 public class LinkedData: NSManagedObject {
-//    class func entityName() -> String {
-//        fatalError("have to override")
-//    }
 
+    /// エンティティ名
     class var entityName: String {
         get{
             fatalError("have to override")
         }
     }
 
-//    var _entityName = "LinkedData"
-//    var entityName: String {
-//        get {
-//            return self._entityName
-//        }
-//    }
+    /// Next
     @NSManaged public var next: LinkedData?
+    /// Previous
     @NSManaged public var previous: LinkedData?
 
+    /// フェッチリクエストの生成
+    ///
+    /// - Returns: フェッチリクエスト
     override public class func fetchRequest() -> NSFetchRequest<NSFetchRequestResult> {
         //let entityName = NSStringFromClass(type(of: self))
         //let entityName = self.entityName
-        print("##### entityName=\(self.entityName)")
+        //print("##### entityName=\(self.entityName)")
         return NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName)
     }
 }
@@ -80,14 +67,9 @@ public class DataList<T: LinkedData> {
     /// CoreDataのコンテキスト
     var managedObjectContext:NSManagedObjectContext
 
-//    init(entityName:String, managedObjectContext:NSManagedObjectContext) {
-//        self._entityName = entityName
-//        self.managedObjectContext = managedObjectContext
-//    }
-
     /// イニシャライザ
     ///
-    /// - Parameter managedObjectContext: <#managedObjectContext description#>
+    /// - Parameter managedObjectContext: CoreDataのコンテキスト
     init(managedObjectContext:NSManagedObjectContext) {
         self.managedObjectContext = managedObjectContext
     }
@@ -235,7 +217,7 @@ public class DataList<T: LinkedData> {
     /// データの削除
     ///
     /// - Parameter row: 行番号
-    func delete(_ row: Int){
+    func delete(_ row: Int) {
         let data = self.get(row)
         
         self.leave(data: data)
@@ -249,7 +231,7 @@ public class DataList<T: LinkedData> {
     /// - Parameters:
     ///   - data: データ
     ///   - toRow: 移動先の行番号
-    func moveRow(data:T, toRow:Int){
+    func moveRow(data:T, toRow:Int) {
         // 元の位置の調整
         self.leave(data: data)
         // 新しい位置の調整
@@ -261,7 +243,7 @@ public class DataList<T: LinkedData> {
     /// 元の位置の調整
     ///
     /// - Parameter data: データ
-    func leave(data:T){
+    func leave(data:T) {
         if let next = data.next {
             if let previous = data.previous {
                 // 前後とも存在する場合は、前後を連結
@@ -287,7 +269,7 @@ public class DataList<T: LinkedData> {
     /// - Parameters:
     ///   - data: データ
     ///   - toRow: 移動先の行番号
-    func arrive(data:T, toRow:Int){
+    func arrive(data:T, toRow:Int) {
         // 新しい位置のデータを検索
         if let position:T = self.getWithNil(row:toRow) {
             data.previous = position.previous
@@ -304,7 +286,7 @@ public class DataList<T: LinkedData> {
 
     /// データの保存
     ///
-    func save(){
+    func save() {
         do {
             try self.managedObjectContext.save()
         } catch {
@@ -317,7 +299,7 @@ public class DataList<T: LinkedData> {
     /// データの保存
     ///
     /// - Parameter data: データ
-    func save(data:T){
+    func save(data:T) {
         if (data.isInserted) {
             self.insert(data: data)
         } else if (data.isUpdated) {
@@ -329,7 +311,7 @@ public class DataList<T: LinkedData> {
     /// データの追加
     ///
     /// - Parameter data: データ
-    func insert(data:T){
+    func insert(data:T) {
         data.previous = nil
         data.next = nil
         if let last = self.last {
@@ -343,27 +325,27 @@ public class DataList<T: LinkedData> {
     /// データの更新
     ///
     /// - Parameter data: データ
-    func update(data:T){
+    func update(data:T) {
         // 何もしない
     }
     
     /// 先頭に設定
     ///
     /// - Parameter data: データ
-    func setFirst(data:T){
+    func setFirst(data:T) {
         self.first = data
     }
 
     /// 先頭をクリア
     ///
-    func clearFirst(){
+    func clearFirst() {
         self.first = nil
     }
     
     /// 変更通知先の登録
     ///
     /// - Parameter delegate: 通知先
-    func set(delegate: DataListDelegate){
+    func set(delegate: DataListDelegate) {
         self.delegate.append(delegate)
     }
     

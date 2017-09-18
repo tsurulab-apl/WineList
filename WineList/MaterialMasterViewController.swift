@@ -8,7 +8,6 @@
 
 import UIKit
 
-///
 /// MaterialMasterViewControllerデリゲート
 ///
 protocol MaterialMasterViewControllerDelegate: class {
@@ -17,37 +16,33 @@ protocol MaterialMasterViewControllerDelegate: class {
     func delete(material: Material)
 }
 
-///
-/// MaterialMasterViewController
+/// 資料登録マスターテーブルビュー画面
 ///
 class MaterialMasterViewController: UITableViewController,UISplitViewControllerDelegate {
-    // 設定クラス
+    /// 設定クラス
     private let settings = Settings.instance
     
-    //
+    // コントロール
     @IBOutlet var materialTableView: UITableView!
-    ///@IBOutlet var categoryTableView: UITableView!
     
-    //
+    /// デリゲート
     var delegate: MaterialMasterViewControllerDelegate?
 
-    // 資料リスト
+    /// 資料リスト
     private var materialList:DataList<Material>
 
     // ナビゲーションバーのボタン
+
+    /// 追加ボタン
     private var addButton:UIBarButtonItem
+
+    /// Editボタン
     private var editButton:UIBarButtonItem
 
-    ///
     /// イニシャライザ
     ///
     required init?(coder aDecoder: NSCoder) {
         // MaterialList
-        /*********
-        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        let viewContext = appDelegate.persistentContainer.viewContext
-        self.materialList = DataList<Material>(managedObjectContext: viewContext)
-        ********/
         self.materialList = ApplicationContext.instance.wineList.materialList
         
         // BarButton
@@ -70,7 +65,6 @@ class MaterialMasterViewController: UITableViewController,UISplitViewControllerD
         self.editButton.action = #selector(editButtonAction(_:))
     }
 
-    ///
     /// viewDidLoad
     ///
     override func viewDidLoad() {
@@ -106,7 +100,6 @@ class MaterialMasterViewController: UITableViewController,UISplitViewControllerD
         self.navigationItem.setRightBarButtonItems([self.addButton, self.editButton], animated: true)
     }
 
-    ///
     /// didReceiveMemoryWarning
     ///
     override func didReceiveMemoryWarning() {
@@ -114,9 +107,9 @@ class MaterialMasterViewController: UITableViewController,UISplitViewControllerD
         // Dispose of any resources that can be recreated.
     }
 
-    ///
     /// viewWillAppear
     ///
+    /// - Parameter animated: <#animated description#>
     override func viewWillAppear(_ animated: Bool) {
         // CoreDataからデータをfetchしてくる
         //self.materialList.getData()
@@ -125,40 +118,38 @@ class MaterialMasterViewController: UITableViewController,UISplitViewControllerD
         self.materialTableView.reloadData()
     }
 
-    ///
     /// 資料リストの取得
     ///
+    /// - Returns: 資料リスト
     func getMaterialList() -> DataList<Material> {
         return self.materialList
     }
     
-    ///
     /// テーブルのリロード
     ///
-    func reloadMaterialTableView(){
+    func reloadMaterialTableView() {
         //self.materialList.getData()
         self.materialTableView.reloadData()
     }
     
-    ///
     /// ナビゲーションバーの追加ボタン
     ///
-    func addButtonAction(_ sender: Any){
-        //print("addButtonAction")
+    /// - Parameter sender: <#sender description#>
+    func addButtonAction(_ sender: Any) {
         self.addMaterial()
     }
-    ///
+
     /// ナビゲーションバーのeditボタン
     ///
-    func editButtonAction(_ sender: Any){
-        //print("editButtonAction")
+    /// - Parameter sender: <#sender description#>
+    func editButtonAction(_ sender: Any) {
         if (self.materialTableView.isEditing){
             self.materialTableView.setEditing(false, animated: true)
         } else {
             self.materialTableView.setEditing(true, animated: true)
         }
     }
-    ///
+
     /// カテゴリーの追加
     ///
     func addMaterial() {
@@ -173,17 +164,24 @@ class MaterialMasterViewController: UITableViewController,UISplitViewControllerD
         return 0
     }
 *******/
-    ///
+
     /// テーブルビューのデータの個数を返すメソッド
     ///
+    /// - Parameters:
+    ///   - tableView: テーブルビュー
+    ///   - section: セクション番号
+    /// - Returns: データの個数
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return self.materialList.count()
     }
 
-    ///
     /// データを返すメソッド
     ///
+    /// - Parameters:
+    ///   - tableView: テーブルビュー
+    ///   - indexPath: インデックスパス
+    /// - Returns: テーブルビューセル
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "materialCell", for: indexPath)
         
@@ -193,9 +191,11 @@ class MaterialMasterViewController: UITableViewController,UISplitViewControllerD
         return cell
     }
 
-    ///
     /// データ選択後の呼び出しメソッド
     ///
+    /// - Parameters:
+    ///   - tableView: テーブルビュー
+    ///   - indexPath: インデックスパス
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let material = self.materialList.get(indexPath.row)
         self.delegate?.selectedCell(material: material)
@@ -206,17 +206,23 @@ class MaterialMasterViewController: UITableViewController,UISplitViewControllerD
         }
     }
 
-    ///
     /// editの有効化
     ///
+    /// - Parameters:
+    ///   - tableView: テーブルビュー
+    ///   - indexPath: インデックスパス
+    /// - Returns: true:edit有効
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
     
-    ///
     /// 削除処理
     ///
+    /// - Parameters:
+    ///   - tableView: テーブルビュー
+    ///   - editingStyle: 編集スタイル
+    ///   - indexPath: インデックスパス
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let material = self.materialList.get(indexPath.row)
@@ -230,17 +236,23 @@ class MaterialMasterViewController: UITableViewController,UISplitViewControllerD
         }
     }
     
-    ///
     /// 並び替え
     ///
+    /// - Parameters:
+    ///   - tableView: テーブルビュー
+    ///   - fromIndexPath: 移動前インデックスパス
+    ///   - to: 移動先インデックスパス
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
         let material = self.materialList.get(fromIndexPath.row)
         self.materialList.moveRow(data: material, toRow: to.row)
     }
     
-    ///
     /// 並び替えの有効化
     ///
+    /// - Parameters:
+    ///   - tableView: テーブルビュー
+    ///   - indexPath: インデックスパス
+    /// - Returns: true:並び替え有効
     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the item to be re-orderable.
         return true

@@ -8,8 +8,10 @@
 
 import UIKit
 
+/// カテゴリー登録画面
+///
 class CategoryRegistrationViewController: AbstractRegistrationViewController {
-    // カテゴリー
+    /// カテゴリー
     private var category:Category?
 
     // コントロール
@@ -19,7 +21,6 @@ class CategoryRegistrationViewController: AbstractRegistrationViewController {
     @IBOutlet weak var insertDateLabel: UILabel!
     @IBOutlet weak var updateDateLabel: UILabel!
 
-    ///
     /// viewDidLoad
     ///
     override func viewDidLoad() {
@@ -28,28 +29,27 @@ class CategoryRegistrationViewController: AbstractRegistrationViewController {
         // Do any additional setup after loading the view.
     }
 
-    ///
     /// スクロールビューを戻す。
     ///
+    /// - Returns: スクロールビュー
     override func getScrollView() -> UIScrollView {
         return self.mainScrollView
     }
     
-    ///
     /// スクロールビューでズームするビューを戻す。
     ///
+    /// - Returns: ズーム対象ビュー
     override func getZoomView() -> UIView? {
         return self.formStackView
     }
 
-    ///
     /// delegate設定するUITextFiledの配列を戻す。
     ///
+    /// - Returns: delegate設定するUITextFiledの配列
     override func getUITextFields() -> [UITextField] {
         return [self.nameTextField]
     }
     
-    ///
     /// didReceiveMemoryWarning
     ///
     override func didReceiveMemoryWarning() {
@@ -57,16 +57,16 @@ class CategoryRegistrationViewController: AbstractRegistrationViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    ///
     /// viewWillAppear
     ///
+    /// - Parameter animated: <#animated description#>
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
-    ///
+
     /// CoreDataへのカテゴリーデータ保存
     ///
-    func save(){
+    func save() {
         let categoryList = self.getCategoryList()
         var category:Category
         if self.category != nil {
@@ -98,17 +98,16 @@ class CategoryRegistrationViewController: AbstractRegistrationViewController {
         self.reloadCategoryTableView()
     }
 
-    ///
     /// テーブルビューのリロード
     ///
-    func reloadCategoryTableView(){
+    func reloadCategoryTableView() {
         let categoryDetailViewController = self.parent as! CategoryDetailViewController
         categoryDetailViewController.reloadCategoryTableView()
     }
 
-    ///
     /// カテゴリーリストの取得
     ///
+    /// - Returns: カテゴリーリスト
     func getCategoryList() -> DataList<Category> {
         let categoryDetailViewController = self.parent as! CategoryDetailViewController
         let categoryList = categoryDetailViewController.getCategoryList()

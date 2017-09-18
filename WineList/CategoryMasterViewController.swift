@@ -17,7 +17,7 @@ protocol CategoryMasterViewControllerDelegate: class {
     func delete(category: Category)
 }
 
-/// CategoryMasterViewController
+/// カテゴリー登録マスターテーブルビュー画面
 ///
 class CategoryMasterViewController: UITableViewController,UISplitViewControllerDelegate,Messageable {
 
@@ -34,8 +34,10 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
     private var categoryList:DataList<Category>
 
     // ナビゲーションバーのボタン
+
     /// 追加ボタン
     private var addButton:UIBarButtonItem
+
     /// Editボタン
     private var editButton:UIBarButtonItem
     
@@ -82,10 +84,6 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         //self.navigationItem.rightBarButtonItem = self.editButtonItem()
 
-//        let btn_back = UIBarButtonItem()
-//        btn_back.title = "戻る"
-//        self.navigationItem.backBarButtonItem = btn_back
-
         // スプリットビュー
         if let split = self.splitViewController {
             split.delegate = self // デリゲートのセット
@@ -116,13 +114,6 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
 
     }
 
-    ///
-    /// 初期表示をMasterにする。
-    ///
-//    public func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
-//        return true
-//    }
-
     /// didReceiveMemoryWarning
     ///
     override func didReceiveMemoryWarning() {
@@ -148,20 +139,9 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
         return self.categoryList
     }
 
-    ///
-    /// カテゴリーの変更時処理
-    ///
-/*********
-    func changeDataList(type: LinkedData.Type) {
-        if type is Category.Type {
-            self.categoryTableView.reloadData()
-        }
-    }
-***********/
-
     /// テーブルのリロード
     ///
-    func reloadCategoryTableView(){
+    func reloadCategoryTableView() {
         //self.categoryList.getData()
         self.categoryTableView.reloadData()
     }
@@ -170,7 +150,6 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
     ///
     /// - Parameter sender: <#sender description#>
     func addButtonAction(_ sender: Any){
-        print("addButtonAction")
         self.addCategory()
     }
 
@@ -178,7 +157,6 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
     ///
     /// - Parameter sender: <#sender description#>
     func editButtonAction(_ sender: Any){
-        print("editButtonAction")
         if (self.categoryTableView.isEditing){
             self.categoryTableView.setEditing(false, animated: true)
         } else {
@@ -257,7 +235,7 @@ class CategoryMasterViewController: UITableViewController,UISplitViewControllerD
     ///
     /// - Parameters:
     ///   - tableView: テーブルビュー
-    ///   - editingStyle: <#editingStyle description#>
+    ///   - editingStyle: 編集スタイル
     ///   - indexPath: インデックスパス
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {

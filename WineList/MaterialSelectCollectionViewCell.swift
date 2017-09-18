@@ -12,6 +12,7 @@ import UIKit
 ///
 class MaterialSelectCollectionViewCell: UICollectionViewCell {
     
+    // コントロール
     @IBOutlet weak var dataImageView: UIImageView!
     @IBOutlet weak var noteTextView: UITextView!
     @IBOutlet weak var nameLabel: UILabel!

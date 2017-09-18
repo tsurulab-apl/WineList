@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 /// 資料選択画面
 ///
 class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -25,10 +24,6 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
     /// 端末回転時にコレクションビューを再描画するためのフラグ
     private var invalidLayout = false
     
-    // 親ビューコントローラーの資料配列の参照
-    // セグエの遷移時に親画面で設定する。
-    //var materials: [Material] = []
-
     /// ワイン登録用のビューコントローラー
     /// セグエの遷移時に親画面で設定する。
     var registrationViewController:RegistrationViewController?
@@ -104,7 +99,6 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
         self.invalidLayout = true
     }
 
-    
     /// 画面レイアウトの確定
     /// 端末回転時にコレクションビューを再描画する。
     /// viewWillTransition時にinvalidLayoutフラグをtrueにし本メソッドで判定する。
@@ -117,21 +111,6 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
         }
         self.invalidLayout = false
     }
-    
-    /// 選択された資料を保存する。
-    /// TODO:削除
-/*******
-    func saveSelectedMaterial() {
-        self.registrationViewController?.materials.removeAll()
-        if let indexPaths = self.materialSelectCollectionView.indexPathsForSelectedItems {
-            for indexPath in indexPaths {
-                //print(indexPath.row)
-                let material = self.materialList.get(indexPath.row)
-                self.registrationViewController?.materials.append(material)
-            }
-        }
-    }
-*********/
     
     /// コレクションビューに資料を２列で表示するため、
     /// コレクションビューの幅の半分のセルサイズを返す
@@ -232,13 +211,6 @@ class PopupMaterialSelectViewController: UIViewController,UICollectionViewDataSo
     /// - Returns: 選択状態 true:選択 false:非選択
     func isSelected(material:Material) -> Bool {
         let selected = (self.registrationViewController?.materialsWork.contains(material))!
-//        var selected:Bool = false
-//        for selectMaterial in (self.registrationViewController?.materials)! {
-//            if selectMaterial === material {
-//                selected = true
-//                break
-//            }
-//        }
         return selected
     }
 

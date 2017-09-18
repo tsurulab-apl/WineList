@@ -9,24 +9,21 @@
 import Foundation
 import UIKit
 
-///
 /// 設定変更時の通知先設定用Delegate
 ///
 protocol SettingsDelegate: class {
     func changeSettings()
 }
 
-///
 /// 設定
 ///
 public class Settings {
-    // 通知先
+    /// 通知先
     private var delegate:Array<SettingsDelegate> = []
     
     // デフォルト値
     private static let DEFAULT_PASSWORD = "0000"
     private static let DEFAULT_LONG_PRESS_DURATION:Double = 1.0
-    //private static let DEFAULT_IMAGE_NAME = "two-types-of-wine-1761613_640.jpg"
     private static let DEFAULT_IMAGE_NAME = "now_printing"
     private static let DEFAULT_PRICE:Int = 5000
     private static let DEFAULT_PRICE_ASK = "Ask"
@@ -41,10 +38,10 @@ public class Settings {
     private static let KEY_PRICE_ASK = "priceAsk"
     private static let KEY_VINTAGE_RANGE = "vintageRange"
 
-    // UserDefaults
+    /// UserDefaults
     private var userDefaults = UserDefaults.standard
 
-    // デフォルト画像のデフォルト
+    /// デフォルト画像のデフォルト
     var defaultDefaultImage:UIImage
     
     /// シングルトンインスタンス
@@ -158,21 +155,18 @@ public class Settings {
         userDefaults.removeObject(forKey: Settings.KEY_VINTAGE_RANGE)
     }
 
-    ///
     /// イニシャライザ(シングルトン)
     ///
     private init() {
         self.defaultDefaultImage = UIImage(named: Settings.DEFAULT_IMAGE_NAME)!
     }
 
-    ///
     /// 変更通知先の登録
     ///
-    func set(delegate: SettingsDelegate){
+    func set(delegate: SettingsDelegate) {
         self.delegate.append(delegate)
     }
 
-    ///
     /// 変更の通知
     ///
     func notice() {

@@ -8,7 +8,7 @@
 
 import UIKit
 
-/// MaterialDetailViewController
+/// 資料詳細画面
 ///
 class MaterialDetailViewController: UIViewController,MaterialMasterViewControllerDelegate {
     /// 資料
@@ -73,14 +73,14 @@ class MaterialDetailViewController: UIViewController,MaterialMasterViewControlle
     /// ナビゲーションバーのDoneボタン
     ///
     /// - Parameter sender: <#sender description#>
-    func doneButtonAction(_ sender: Any){
+    func doneButtonAction(_ sender: Any) {
         print("doneButtonAction")
         self.dismiss(animated: true, completion: nil)
     }
 
     /// テーブルビューのリロード
     ///
-    func reloadMaterialTableView(){
+    func reloadMaterialTableView() {
         self.materialMasterViewController.reloadMaterialTableView()
     }
 
@@ -122,7 +122,7 @@ class MaterialDetailViewController: UIViewController,MaterialMasterViewControlle
 
     /// 画面の切り替え
     ///
-    func changeScreen(){
+    func changeScreen() {
         if self.material != nil {
             self.materialRegistrationViewController?.view.isHidden = false
         } else {

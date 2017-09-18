@@ -8,30 +8,31 @@
 
 import UIKit
 
+/// カテゴリー登録詳細画面
+///
 class CategoryDetailViewController: UIViewController,CategoryMasterViewControllerDelegate {
-    // カテゴリー
+    /// カテゴリー
     private var category:Category?
 
-    // サブビュー
+    /// サブビュー
     private var categoryRegistrationViewController:CategoryRegistrationViewController? = nil
 
-    // ナビゲーションバーボタン
+    /// ナビゲーションバーボタン
     private var doneButton:UIBarButtonItem
 
-    //
+    // コントロール
     @IBOutlet weak var nameTextField: UITextField!
 
     @IBOutlet weak var insertDateLabel: UILabel!
     @IBOutlet weak var updateDateLabel: UILabel!
 
-    // マスタービューコントローラー
+    /// マスタービューコントローラー
     var categoryMasterViewController:CategoryMasterViewController {
         let masterNavController = self.splitViewController?.viewControllers.first as! UINavigationController
         let categoryMasterViewController = masterNavController.topViewController as! CategoryMasterViewController
         return categoryMasterViewController
     }
 
-    ///
     /// イニシャライザ
     ///
     required init?(coder aDecoder: NSCoder) {
@@ -44,7 +45,6 @@ class CategoryDetailViewController: UIViewController,CategoryMasterViewControlle
         self.doneButton.action = #selector(doneButtonAction(_:))
     }
 
-    ///
     /// viewDidLoad
     ///
     override func viewDidLoad() {
@@ -69,7 +69,6 @@ class CategoryDetailViewController: UIViewController,CategoryMasterViewControlle
         self.categoryRegistrationViewController?.view.isHidden = true
     }
 
-    ///
     /// didReceiveMemoryWarning
     ///
     override func didReceiveMemoryWarning() {
@@ -77,43 +76,36 @@ class CategoryDetailViewController: UIViewController,CategoryMasterViewControlle
         // Dispose of any resources that can be recreated.
     }
 
-    ///
     /// ナビゲーションバーのDoneボタン
     ///
+    /// - Parameter sender: <#sender description#>
     func doneButtonAction(_ sender: Any){
-        print("doneButtonAction")
-        //self.categoryRegistrationViewController?.save()
         self.dismiss(animated: true, completion: nil)
-//        let mainStoryBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//        let initialViewController:UIViewController = mainStoryBoard.instantiateInitialViewController()!
-//        self.present(initialViewController, animated: true, completion: nil)
     }
     
-    ///
     /// テーブルビューのリロード
     ///
-    func reloadCategoryTableView(){
+    func reloadCategoryTableView() {
         self.categoryMasterViewController.reloadCategoryTableView()
     }
 
-    ///
     /// カテゴリーリストの取得
     ///
+    /// - Returns: カテゴリーリスト
     func getCategoryList() -> DataList<Category> {
         let categoryList = self.categoryMasterViewController.getCategoryList()
         return categoryList
     }
 
-    ///
     /// セル選択時(delegate)
     ///
+    /// - Parameter category: カテゴリー
     func selectedCell(category: Category) {
         self.category = category
         self.categoryRegistrationViewController?.selectedCell(category: category)
         self.changeScreen()
     }
     
-    ///
     /// カテゴリーの追加(delegate)
     ///
     func addCategory() {
@@ -123,9 +115,9 @@ class CategoryDetailViewController: UIViewController,CategoryMasterViewControlle
         self.categoryRegistrationViewController?.view.isHidden = false
     }
 
-    ///
     /// カテゴリー削除通知(delegate)
     ///
+    /// - Parameter category: カテゴリー
     func delete(category: Category) {
         if self.category === category {
             self.category = nil
@@ -133,10 +125,9 @@ class CategoryDetailViewController: UIViewController,CategoryMasterViewControlle
         self.changeScreen()
     }
     
-    ///
     /// 画面の切り替え
     ///
-    func changeScreen(){
+    func changeScreen() {
         if self.category != nil {
             self.categoryRegistrationViewController?.view.isHidden = false
         } else {

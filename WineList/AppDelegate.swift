@@ -33,36 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // 初回処理済みフラグを設定
             Settings.instance.appFirstProcessed = true
         }
-/******
-        //スプリットビューコントローラーを取得する。
-        let splitViewController = self.window!.rootViewController as! UISplitViewController
-
-        //常に両方表示にセット
-        //splitViewController.preferredDisplayMode = UISplitViewControllerDisplayMode.allVisible
-        
-        //マスター部のテーブルビューコントローラーを取得する。
-        let masterNavController = splitViewController.viewControllers.first as! UINavigationController
-        let masterViewController = masterNavController.topViewController as! MasterViewController
-        
-        //新しいボタンは戻るボタンの横に追加されるように設定する。
-        masterViewController.navigationItem.leftItemsSupplementBackButton = true
-        
-        //マスター部のナビゲーションバーの左ボタンに画面モードの切り替えボタンを追加する。
-        masterViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
-
-        //ディテール部のビューコントローラーを取得する。
-        let detailNavController = splitViewController.viewControllers.last as! UINavigationController
-        let detailViewController = detailNavController.topViewController as! DetailViewController
-        
-        //新しいボタンは戻るボタンの横に追加されるように設定する。
-        detailViewController.navigationItem.leftItemsSupplementBackButton = true
-        
-        //ディテール部のナビゲーションバーの左ボタンに画面モードの切り替えボタンを設定する。
-        detailViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
-        
-        //マスター部のデリゲート先にディテール部のビューコントローラーを設定する。
-        masterViewController.delegate = detailViewController as MasterViewControllerDelegate
-************/
         return true
     }
 

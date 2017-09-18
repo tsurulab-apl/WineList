@@ -8,16 +8,14 @@
 
 import UIKit
 
-///
 /// SettingViewController
 ///
-//class SettingViewController: AbstractRegistrationViewController,UIImagePickerControllerDelegate {
 class SettingViewController: AbstractRegistrationViewController,SelectableImage {
 
-    // 設定クラス
+    /// 設定クラス
     private let settings = Settings.instance
     
-    // ナビゲーションバーボタン
+    /// ナビゲーションバーボタン
     private var saveButton:UIBarButtonItem
 
     // コントロール
@@ -41,12 +39,6 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
     /// デフォルト画像の状態
     var defaultImageStatus = SelectableImageStatus.nothing
     
-    // デフォルト画像の状態 true:選択済 false:選択なし
-//    var selectImage: Bool = false
-
-    // デフォルト画像のクリア状態 true:クリア false:クリア以外
-//    var clearImage: Bool = false
-
     /// イニシャライザ
     ///
     required init?(coder aDecoder: NSCoder) {
@@ -137,7 +129,7 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
 
     /// ナビゲーションバーの保存ボタン
     ///
-    func saveButtonAction(_ sender: Any){
+    func saveButtonAction(_ sender: Any) {
         self.savePassword()
         self.saveLongPressDuration()
         self.saveDefaultImage()
@@ -153,15 +145,13 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
     
     /// データの表示
     ///
-    func showData(){
+    func showData() {
         self.passwordTextField.text = self.settings.password
         let longPressDuration = self.settings.longPressDuration
         self.longPressDurationSlider.value = Float(longPressDuration)
         self.longPressDurationSliderValueChanged(self.longPressDurationSlider)
         self.defaultImageView.image = self.settings.defaultImage
         self.defaultImageStatus = SelectableImageStatus.nothing
-//        self.selectImage = false
-//        self.clearImage = false
         self.defaultPriceTextField.text = String(self.settings.defaultPrice)
         self.priceAskTextField.text = self.settings.priceAsk
         self.vintageRangeTextField.text = String(self.settings.vintageRange)
@@ -169,7 +159,7 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
     
     /// パスワードの保存
     ///
-    func savePassword(){
+    func savePassword() {
         // nilは保存しないが、空文字はそのまま保存する。
         if let password = self.passwordTextField.text {
             self.settings.password = password
@@ -179,7 +169,7 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
 
     /// 長押し設定の保存
     ///
-    func saveLongPressDuration(){
+    func saveLongPressDuration() {
         var longPressDuration = self.longPressDurationSlider.value
         longPressDuration = roundf(longPressDuration * 10) /  10
         self.settings.longPressDuration = Double(longPressDuration)
@@ -187,16 +177,7 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
 
     /// デフォルト画像の保存
     ///
-    func saveDefaultImage(){
-/**********
-        if self.selectImage {
-            let image = self.defaultImageView.image
-            self.settings.defaultImage = image!
-        }
-        else if self.clearImage {
-            self.settings.clearDefaultImage()
-        }
-**************/
+    func saveDefaultImage() {
         switch self.defaultImageStatus {
         case SelectableImageStatus.selected:
             let image = self.defaultImageView.image
@@ -213,7 +194,7 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
 
     /// デフォルト価格の保存
     ///
-    func saveDefaultPrice(){
+    func saveDefaultPrice() {
         if let defaultPrice = self.defaultPriceTextField.text {
             if let defaultPrice = Int(defaultPrice) {
                 self.settings.defaultPrice = defaultPrice
@@ -227,7 +208,7 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
 
     /// 価格問合せ文字の保存
     ///
-    func savePriceAsk(){
+    func savePriceAsk() {
         // nilは保存しないが、空文字はそのまま保存する。
         if let priceAsk = self.priceAskTextField.text {
             self.settings.priceAsk = priceAsk
@@ -236,7 +217,7 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
 
     /// ヴィンテージ範囲の保存
     ///
-    func saveVintageRange(){
+    func saveVintageRange() {
         if let vintageRange = self.vintageRangeTextField.text {
             if let vintageRange = Int(vintageRange) {
                 self.settings.vintageRange = vintageRange
@@ -278,29 +259,6 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
     /// - Parameter sender: <#sender description#>
     @IBAction func imageSelectTouchUpInside(_ sender: Any) {
         self.selectImageAction()
-/********
-        let alert = UIAlertController(title:"ワイン画像", message: "画像を選択してください。", preferredStyle: UIAlertControllerStyle.alert)
-        
-        let action1 = UIAlertAction(title: "ライブラリより選択", style: UIAlertActionStyle.default, handler: {
-            (action: UIAlertAction!) in
-            self.pickImageFromLibrary()
-        })
-        
-        let action2 = UIAlertAction(title: "カメラを起動", style: UIAlertActionStyle.default, handler: {
-            (action: UIAlertAction!) in
-            self.pickImageFromCamera()
-        })
-        
-        let cancel = UIAlertAction(title: "キャンセル", style: UIAlertActionStyle.cancel, handler: {
-            (action: UIAlertAction!) in
-        })
-        
-        alert.addAction(action1)
-        alert.addAction(action2)
-        alert.addAction(cancel)
-        
-        self.present(alert, animated: true, completion: nil)
-**********/
     }
     
     /// クリアボタン
@@ -308,70 +266,16 @@ class SettingViewController: AbstractRegistrationViewController,SelectableImage 
     /// - Parameter sender: <#sender description#>
     @IBAction func imageClearTouchUpInside(_ sender: Any) {
         self.clearImageAction()
-/**********
-        self.defaultImageView.image = self.settings.defaultDefaultImage
-        self.clearImage = true
-        self.selectImage = false
-***********/
     }
-    
-/*********
-    ///
-    /// Photo Libraryから選択
-    ///
-    func pickImageFromLibrary(){
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary){
-            let imagePickerController = UIImagePickerController()
-            imagePickerController.sourceType = .photoLibrary
-            imagePickerController.allowsEditing = false
-            imagePickerController.delegate = self
-            present(imagePickerController, animated: true, completion: nil)
-        }
-    }
-    
-    ///
-    /// 写真を撮ってそれを選択
-    ///
-    func pickImageFromCamera() {
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
-            let imagePickerController = UIImagePickerController()
-            imagePickerController.sourceType = .camera
-            imagePickerController.allowsEditing = true
-            imagePickerController.delegate = self
-            present(imagePickerController, animated: true, completion: nil)
-        }
-    }
-************/
     
     /// 写真選択時の処理
     ///
     /// - Parameters:
     ///   - picker: <#picker description#>
     ///   - info: <#info description#>
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]){
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         // プロトコル拡張のメソッドに処理を委譲する。
         self.imagePickerControllerAction(picker, didFinishPickingMediaWithInfo: info)
-/*********
-        if info[UIImagePickerControllerOriginalImage] != nil {
-            
-            let originalImage: UIImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-            let editedImage: UIImage? = info[UIImagePickerControllerEditedImage] as? UIImage
-            var image: UIImage? = nil
-            if editedImage != nil{
-                image = editedImage
-            }
-            else {
-                image = originalImage
-            }
-            self.defaultImageView.image = image
-            // 画像を変更対象としてマーク
-            self.defaultImageStatus = SelectableImageStatus.selected
-//            self.selectImage = true
-//            self.clearImage = false
-        }
-        // フォトライブラリの画像・写真選択画面を閉じる
-        picker.dismiss(animated: true, completion: nil)
-*************/
     }
 
     /*

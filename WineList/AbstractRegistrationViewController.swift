@@ -22,11 +22,6 @@ class AbstractRegistrationViewController: UIViewController,UINavigationControlle
     /// スクロール位置調整用のマージンサイズ
     private static let SCROLL_MARGIN:Float = 8.0
 
-/******
-    // メッセージを表示する秒数
-    private static let MESSAGE_SECOND:Double = 0.5
-*********/
-    
     // MARK: - 変数
     
     /// キーボード表示時にテキストフィールドやテキストビューが隠れないようにスクロールする対応用
@@ -108,8 +103,8 @@ class AbstractRegistrationViewController: UIViewController,UINavigationControlle
 
     /// スクロールビューのZoom対象を戻す。
     ///
-    /// - Parameter scrollView: <#scrollView description#>
-    /// - Returns: <#return value description#>
+    /// - Parameter scrollView: スクロールビュー
+    /// - Returns: ズーム対象のビュー
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         // return a view that will be scaled. if delegate returns nil, nothing happens
         let zoomView = self.getZoomView()
@@ -118,7 +113,7 @@ class AbstractRegistrationViewController: UIViewController,UINavigationControlle
     
     /// キーボードを表示する際にテキストフィールドやテキストビューと重複しないようスクロールを調整する。
     ///
-    /// - Parameter notification: <#notification description#>
+    /// - Parameter notification: 通知
     func keyboardWillShowNotification(_ notification: Notification) {
         if let activeText = self.activeText {
             if let userInfo = notification.userInfo {
@@ -251,46 +246,6 @@ class AbstractRegistrationViewController: UIViewController,UINavigationControlle
         present(alert, animated: true, completion: nil)
     }
 
-/**************
-    /// 保存メッセージの表示
-    ///
-    func showSaveMessage() {
-            self.showMessage(title: "保存しました。", message: "")
-    }
-
-    /// リセットメッセージの表示
-    ///
-    func showResetMessage() {
-        self.showMessage(title: "リセットしました。", message: "")
-    }
-
-    /// Invalidメッセージの表示
-    ///
-    /// - Parameter message: メッセージ
-    func showInvalidMessage(message:String) {
-        self.showMessage(title: "確認", message: message)
-    }
-
-    /// メッセージ表示
-    ///
-    /// - Parameters:
-    ///   - title: タイトル文字列
-    ///   - message: メッセージ文字列
-    func showMessage(title:String, message:String) {
-        
-        // アラート作成
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        // アラート表示
-        self.present(alert, animated: true, completion: {
-            // アラートを自動で閉じる
-            DispatchQueue.main.asyncAfter(deadline: .now() + AbstractRegistrationViewController.MESSAGE_SECOND, execute: {
-                alert.dismiss(animated: true, completion: nil)
-            })
-        })
-    }
-*********/
-    
     /*
     // MARK: - Navigation
 

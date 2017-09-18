@@ -8,6 +8,8 @@
 
 import UIKit
 
+/// ワイン参照画面
+///
 class ReferenceViewController: UIViewController,UIScrollViewDelegate {
     /// 設定クラス
     private let settings = Settings.instance
@@ -15,12 +17,10 @@ class ReferenceViewController: UIViewController,UIScrollViewDelegate {
     /// 選択中のワイン
     var wine: Wine? = nil
 
-    /// デフォルトワイン画像
-    //let defaultImageName = "two-types-of-wine-1761613_640.jpg"
-
-    // 資料ボタン画像
-    //let materialButtonDisabledImage = UIImage(named: "grape_r211g211b211_32")
+    /// 資料ボタン画像(Disabled)
     let materialButtonDisabledImage = UIImage(named: "grape_r128g128b128_32")
+
+    /// 資料ボタン画像(Enabled)
     let materialButtonEnabledImage = UIImage(named: "grape_r66g134b244_32")
     
     // コントロール
@@ -37,53 +37,27 @@ class ReferenceViewController: UIViewController,UIScrollViewDelegate {
 
     @IBOutlet weak var materialButton: UIButton!
 
-    ///
     /// viewDidLoad
     ///
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("ReferenceViewController.viewDidLoad")
 
         self.mainScrollView.delegate = self
-        self.title = "ワイン参照"
-        // センタリング
-//        let x = self.view.center.x
-//        self.wineImageView.center.x = x
-//        self.nameLabel.center.x = x
-//        self.vintageLabel.center.x = x
-//        self.noteLabel.center.x = x
-//        self.priceLabel.center.x = x
-        
-        // Do any additional setup after loading the view.
+        //self.title = "ワイン参照"
     }
 
-    ///
-    ///
+    /// didReceiveMemoryWarning
     ///
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-/*******
-    override func viewDidAppear(_ animated: Bool) {
-        print("### viewDidAppear")
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        print("### viewWillAppear")
-    }
-    override func viewWillLayoutSubviews() {
-        print("### viewWillLayoutSubviews")
-    }
-    override func viewDidLayoutSubviews() {
-        print("### viewDidLayoutSubviews")
-    }
-***************/
     
-    ///
     /// マスターテーブルで選択されたワインの表示
     ///
+    /// - Parameter wine: ワイン
     func selectedCell(wine: Wine) {
-        self.title = "ワインの表示"
+        //self.title = "ワインの表示"
         
         self.wine = wine
         self.nameLabel.text = wine.name
@@ -93,73 +67,42 @@ class ReferenceViewController: UIViewController,UIScrollViewDelegate {
 
         // 説明
         self.noteTextView.text = wine.note
-        //let height = StringUtil.height(text: wine.note!)
-        //print(height)
-        let noteSize = self.noteTextView.contentSize
-        print(noteSize)
-        
-        //self.noteTextView.sizeToFit()
         let size = self.noteTextView.sizeThatFits(CGSize(width: self.noteTextView.frame.size.width, height: CGFloat.greatestFiniteMagnitude))
         let height = size.height
         self.noteTextView.frame.size.height = height
 
-        //print(self.noteTextView.contentSize)
-        //self.mainScrollView.contentSize.height = self.mainScrollView.contentSize.height + height - 100
-//        let heightConstraint = self.noteTextView.heightAnchor.constraint(equalToConstant: height)
-//        heightConstraint.isActive = true
-        //self.noteTextView.heightAnchor.constraint(equalToConstant: height).isActive = true
-
-        //self.noteTextView.frame.size.height = height
-        
-        //self.noteTextView.sizeToFit()
-        //self.priceLabel.text = "¥" + self.separateComma(num: Int(wine.price))
         if wine.priceAsk {
             self.priceLabel.text = self.settings.priceAsk
         } else {
             self.priceLabel.text = NumberUtil.japanesePrice(price: Int(wine.price))
         }
+
+        // カテゴリー
         self.categoryLabel.text = wine.category?.name
-//        let category = CategoryEnum.init(raw: Int(wine.category))
-//        self.categoryLabel.text = category?.description
+
         // ワイン画像
         if let image = wine.image {
             self.wineImageView.image = UIImage(data: image)
         }
         else{
-            //self.wineImageView.image = nil
-            //self.wineImageView.image = UIImage(named: self.defaultImageName)
             self.wineImageView.image = self.settings.defaultImage
         }
+
         // 資料ボタン
-        //self.materialButton.isHidden = true
         self.materialButton.setImage(self.materialButtonDisabledImage, for: UIControlState())
         self.materialButton.isEnabled = false
         if let materials = wine.materials {
             if materials.count > 0 {
-                //self.materialButton.isHidden = false
                 self.materialButton.setImage(self.materialButtonEnabledImage, for: UIControlState())
                 self.materialButton.isEnabled = true
             }
         }
-        //
-//        self.view.layoutIfNeeded()
     }
 
-    ///
-    /// カンマ区切り
-    ///
-/*****
-    func separateComma(num:Int) -> String {
-        let formatter = NumberFormatter()
-        formatter.groupingSeparator = ","
-        formatter.numberStyle = .decimal
-        let str = formatter.string(for: num)
-        return str!
-    }
-************/
-    ///
     /// スクロールビューのZoom対象を戻す。
     ///
+    /// - Parameter scrollView: スクロールビュー
+    /// - Returns: ズーム対象ビュー
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
      // return a view that will be scaled. if delegate returns nil, nothing happens
         return self.mainStackView
@@ -170,9 +113,12 @@ class ReferenceViewController: UIViewController,UIScrollViewDelegate {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     */
-    ///
+
     /// セグエによる遷移時
     ///
+    /// - Parameters:
+    ///   - segue: セグエ
+    ///   - sender: <#sender description#>
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.

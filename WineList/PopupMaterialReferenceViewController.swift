@@ -8,7 +8,11 @@
 
 import UIKit
 
+/// 資料参照画面
+///
 class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegate {
+
+    /// テキストビューの高さ
     private static let TEXT_VIEW_HEIGHT: CGFloat = 100.0
     
     /// 処理中のワイン
@@ -36,8 +40,6 @@ class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegat
         self.pageControl.hidesForSinglePage = true
         self.pageControl.currentPageIndicatorTintColor = UIColor.blue2
 
-//        // 端末の向きがかわったらNotificationを呼ばす設定
-//        NotificationCenter.default.addObserver(self, selector: Selector(("onOrientationChange:")), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
     
     /// didReceiveMemoryWarning
@@ -46,29 +48,7 @@ class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegat
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-/***********
-    /// viewWillAppear
-    ///
-    /// - Parameter animated: <#animated description#>
-    override func viewWillAppear(_ animated: Bool) {
-        print("### viewWillAppear")
-    }
 
-    
-    /// viewDidAppear
-    ///
-    /// - Parameter animated: <#animated description#>
-    override func viewDidAppear(_ animated: Bool) {
-        print("### viewDidAppear")
-    }
-
-    /// viewWillTransition
-    /// 画面回転開始時
-    ///
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        print("### viewWillTransition")
-    }
-*******************/
     /// viewDidLayoutSubviews
     ///
     override func viewDidLayoutSubviews() {
@@ -81,9 +61,6 @@ class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegat
         // そのため、popupViewのサイズからページコントローラーの高さを引いた値を利用する。
         let width = self.popupView.frame.width
         let height = self.popupView.frame.height - self.pageControl.frame.height
-        //let popupSize = self.popupView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
-        //let width = self.view.frame.width * 0.8
-        //let height = self.view.frame.height * 0.8
         
         var count:Int = 0
         var x:CGFloat = 0.0
@@ -105,20 +82,13 @@ class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegat
                         let image = UIImage(data: data)
                         let imageView = UIImageView(image: image)
                         imageView.contentMode = UIViewContentMode.scaleAspectFit
-                        //imageView.frame.size.width = width
+
                         if isExistNote {
                             useHeight -= PopupMaterialReferenceViewController.TEXT_VIEW_HEIGHT
                         }
-                        //imageView.frame.size.height = useHeight
                         imageView.heightAnchor.constraint(greaterThanOrEqualToConstant: 300.0).isActive = true
-                        //imageView.heightAnchor.constraint(equalToConstant: 500.0)
-
-                        //imageView.setContentCompressionResistancePriority(500, for: UILayoutConstraintAxis.vertical)
                         imageView.setContentHuggingPriority(100, for: .vertical)
-                        //imageView.layer.borderWidth = 2.0
-                        //imageView.layer.borderColor = UIColor.red.cgColor
 
-                        //stackView.addSubview(imageView)
                         stackView.addArrangedSubview(imageView)
 
                         useHeight = height - useHeight
@@ -126,9 +96,6 @@ class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegat
                     
                     // テキストビューの作成
                     if isExistNote {
-                        //let y = height - useHeight
-                        //let textViewFrame = CGRect(x: 0, y: y, width: width, height: useHeight)
-                        //let textView = UITextView(frame: textViewFrame)
                         let textView = UITextView()
                         textView.font = UIFont.systemFont(ofSize: 14.0)
                         textView.isEditable = false
@@ -140,7 +107,7 @@ class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegat
 
                         // textViewのみの場合は、textViewを垂直方向にセンタリングする。
                         let textViewHeightConstraintActive = self.textViewVerticalCenter(stackView: stackView, isExistImage: isExistImage, height: height, textViewSize: size)
-                        //textView.frame.size.height = size.height
+
                         // textViewの高さを制約で付与する。
                         // ただし、textViewのみで垂直方向にセンタリングする場合は、制約を付与しない。
                         if textViewHeightConstraintActive {
@@ -148,9 +115,6 @@ class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegat
                         }
                         // imageViewより大きい値を設定し、imageViewが拡大されるようにする。
                         textView.setContentHuggingPriority(300, for: .vertical)
-                        //textView.layer.borderWidth = 2.0
-                        //textView.layer.borderColor = UIColor.blue.cgColor
-                        //stackView.addSubview(textView)
 
                         stackView.addArrangedSubview(textView)
 
@@ -259,7 +223,6 @@ class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegat
     /// - Returns: ズーム用スクロールビュー
     private func createZoomScrollView(width:CGFloat, height:CGFloat, x:CGFloat) -> UIScrollView {
         let scrollViewFrame = CGRect(x: x, y: 0, width: width, height: height)
-        //innerFrame.origin.x = x
         let zoomScrollView = UIScrollView(frame: scrollViewFrame)
         zoomScrollView.minimumZoomScale = 1
         zoomScrollView.maximumZoomScale = 4
@@ -271,7 +234,6 @@ class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegat
 
         let stackViewFrame = CGRect(x: 0, y: 0, width: width, height: height)
         let verticalStackView = UIStackView(frame: stackViewFrame)
-        //let verticalStackView = UIStackView()
         verticalStackView.axis = .vertical
         verticalStackView.alignment = .fill
         verticalStackView.distribution = .fill
@@ -280,80 +242,10 @@ class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegat
         //verticalStackView.layer.borderWidth = 5.0
         //verticalStackView.layer.borderColor = UIColor.orange.cgColor
         zoomScrollView.addSubview(verticalStackView)
-
-//        verticalStackView.widthAnchor.constraint(equalTo: zoomScrollView.widthAnchor).isActive = true
-//        verticalStackView.heightAnchor.constraint(greaterThanOrEqualTo: zoomScrollView.heightAnchor, multiplier: 1.0).isActive = true
-//        verticalStackView.centerXAnchor.constraint(equalTo: zoomScrollView.centerXAnchor).isActive = true
-//        verticalStackView.centerYAnchor.constraint(equalTo: zoomScrollView.centerYAnchor).isActive = true
         
         return zoomScrollView
     }
     
-    /// viewDidLayoutSubviews
-    ///
-    //override func viewDidLayoutSubviews() {
-    func viewDidLayoutSubviewsBak() {
-
-        // サブビューの全削除
-        self.removeSubviews()
-        
-        // イメージビューの幅、高さを設定する。
-        // mainScrollView配下のサイズはこの時点では定まっていない。(storyboardのサイズとなっている。)
-        // そのため、popupViewのサイズからページコントローラーの高さを引いた値を利用する。
-        let width = self.popupView.frame.width
-        let height = self.popupView.frame.height - self.pageControl.frame.height
-        //let popupSize = self.popupView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
-        //let width = self.view.frame.width * 0.8
-        //let height = self.view.frame.height * 0.8
-
-        var count:Int = 0
-        var x:CGFloat = 0.0
-        if let wine = self.wine {
-            if let materials = wine.materials {
-                for material in materials {
-                    if let data = (material as! Material).data {
-                        // イメージビューの生成
-                        let image = UIImage(data: data)
-                        let imageView = UIImageView(image: image)
-                        imageView.contentMode = UIViewContentMode.scaleAspectFit
-                        //imageView.layer.borderWidth = 0.5
-                        //imageView.layer.borderColor = UIColor.red.cgColor
-                        imageView.frame.size.width = width
-                        imageView.frame.size.height = height
-//                        var rect = imageView.frame
-//                        rect.size.width = width
-//                        rect.size.height = height
-//                        //rect.origin.x = x
-//                        imageView.frame = rect
-
-                        // ズーム用スクロールビューの作成
-                        let zoomScrollView = self.createZoomScrollView(subview: imageView, x: x)
-
-                        // スライダー用スクロールビューにズーム用スクロールビューを追加
-                        self.mainScrollView.addSubview(zoomScrollView)
-                        
-                        count += 1
-                        x += width
-                    }
-                }
-            }
-        }
-
-        // スクロールビューのサイズを調整
-        let scrollViewWidth:CGFloat = width * CGFloat(count)
-        self.mainScrollView.contentSize = CGSize(width: scrollViewWidth, height: height)
-
-        // ページコントロールを設定
-        self.pageControl.numberOfPages = count
-
-        // 回転時にページに合わせてスクロール位置を調整
-        // offset.xは正しい値になっているが、何故かずれてしまう現象に対応
-        // この処理を非同期で実行することでずれを正す。
-        DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
-            self.mainScrollView.contentOffset.x = self.mainScrollView.frame.maxX * CGFloat(self.pageControl.currentPage)
-        })
-    }
-
     /// ズーム用スクロールビューの作成
     ///
     /// - Parameters:
@@ -379,7 +271,6 @@ class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegat
         return zoomScrollView
     }
     
-    ///
     /// サブビューの全削除
     ///
     private func removeSubviews() {
@@ -388,9 +279,11 @@ class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegat
         }
     }
     
-    ///
     /// ポップアップ以外をタッチすると閉じる。
     ///
+    /// - Parameters:
+    ///   - touches: <#touches description#>
+    ///   - event: <#event description#>
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         for touch: UITouch in touches {
@@ -402,9 +295,10 @@ class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegat
         }
     }
 
-    ///
     /// スクロールビューのZoom対象を戻す。
     ///
+    /// - Parameter scrollView: スクロールビュー
+    /// - Returns: ズーム対象ビュー
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         // return a view that will be scaled. if delegate returns nil, nothing happens
         // スクロールビュー内のサブビュー(イメージビュー)をZoom対象として戻す。
@@ -412,18 +306,18 @@ class PopupMaterialReferenceViewController: UIViewController,UIScrollViewDelegat
         return zoomView
     }
 
-    ///
     /// スクロール停止時
     /// ページコントロールのカレントページを変更する。
     ///
+    /// - Parameter scrollView: スクロールビュー
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         self.pageControl.currentPage = Int(self.mainScrollView.contentOffset.x / self.mainScrollView.frame.maxX)
     }
     
-    ///
     /// ページコントロールのタップ
     /// ページコントロールのカレントページに合わせてスクロールする。
     ///
+    /// - Parameter sender: <#sender description#>
     @IBAction func pageControlValueChanged(_ sender: UIPageControl) {
         self.mainScrollView.contentOffset.x = self.mainScrollView.frame.maxX * CGFloat(sender.currentPage)
     }

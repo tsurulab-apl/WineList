@@ -8,6 +8,8 @@
 
 import UIKit
 
+/// 資料登録画面
+///
 class MaterialRegistrationViewController: AbstractRegistrationViewController,SelectableImage {
 
     /// 処理中の資料オブジェクト
@@ -102,7 +104,7 @@ class MaterialRegistrationViewController: AbstractRegistrationViewController,Sel
     
     /// タイプの初期化
     ///
-    func initMaterialType(){
+    func initMaterialType() {
         self.materialTypeSegmentedControl.removeAllSegments()
         var i = 0
         for elem in MaterialType.enumerate() {
@@ -122,7 +124,7 @@ class MaterialRegistrationViewController: AbstractRegistrationViewController,Sel
 
     /// CoreDataへの資料データ保存
     ///
-    func save(){
+    func save() {
         let materialList = self.getMaterialList()
         var material:Material
         if self.material != nil {
@@ -181,7 +183,7 @@ class MaterialRegistrationViewController: AbstractRegistrationViewController,Sel
     
     /// テーブルビューのリロード
     ///
-    func reloadMaterialTableView(){
+    func reloadMaterialTableView() {
         let materialDetailViewController = self.parent as! MaterialDetailViewController
         materialDetailViewController.reloadMaterialTableView()
     }
@@ -224,7 +226,7 @@ class MaterialRegistrationViewController: AbstractRegistrationViewController,Sel
     /// 資料タイプのセグメントコントロールを選択
     ///
     /// - Parameter material: セグメントコントロールを選択する対象の資料
-    func setMaterialTypeSegmentedControl(material: Material){
+    func setMaterialTypeSegmentedControl(material: Material) {
         var index = 0
         if let materialType = MaterialType.init(raw: material.type) {
             index = materialType.index
@@ -274,68 +276,14 @@ class MaterialRegistrationViewController: AbstractRegistrationViewController,Sel
         self.clearImageAction(defaultImage: self.newImage)
     }
 
-/*******
-    ///
-    /// Photo Libraryから選択
-    ///
-    func pickImageFromLibrary(){
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary){
-            let imagePickerController = UIImagePickerController()
-            imagePickerController.sourceType = .photoLibrary
-            imagePickerController.allowsEditing = false
-            imagePickerController.delegate = self
-            present(imagePickerController, animated: true, completion: nil)
-        }
-    }
-    
-    ///
-    /// 写真を撮ってそれを選択
-    ///
-    func pickImageFromCamera() {
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
-            let imagePickerController = UIImagePickerController()
-            imagePickerController.sourceType = .camera
-            imagePickerController.allowsEditing = true
-            imagePickerController.delegate = self
-            present(imagePickerController, animated: true, completion: nil)
-        }
-    }
-***********/
- 
     /// 画像選択時の処理
     ///
     /// - Parameters:
     ///   - picker: <#picker description#>
     ///   - info: <#info description#>
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]){
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         // プロトコル拡張のメソッドに処理を委譲する。
         self.imagePickerControllerAction(picker, didFinishPickingMediaWithInfo: info)
-/*******
-        if info[UIImagePickerControllerOriginalImage] != nil {
-            
-            // アップ用画像の一時保存
-            let originalImage: UIImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-            let editedImage: UIImage? = info[UIImagePickerControllerEditedImage] as? UIImage
-            //let wineImageSize: CGSize = CGSize(width: 256, height: 358)
-            //let wineImageSize: CGSize = CGSize(width: 50, height: 50)
-            var image: UIImage? = nil
-            if editedImage != nil{
-                //self.wineImageView.image = editedImage?.resize(size: wineImageSize)
-                //self.wineImageView.image = editedImage?.fit(rect: self.wineImageView.frame)
-                //self.wineImageView.image = self.fit(image: editedImage!,rect: self.wineImageView.frame)
-                image = editedImage
-            }
-            else {
-                //self.wineImageView.image = originalImage.resize(size: wineImageSize)
-                //self.wineImageView.image = originalImage.fit(rect: self.wineImageView.frame)
-                //self.wineImageView.image = self.fit(image: originalImage,rect: self.wineImageView.frame)
-                image = originalImage
-            }
-            self.materialImageView.image = image
-        }
-        // フォトライブラリの画像・写真選択画面を閉じる
-        picker.dismiss(animated: true, completion: nil)
-******************/
     }
 
     /// バリデーション

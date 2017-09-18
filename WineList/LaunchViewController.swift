@@ -8,6 +8,8 @@
 
 import UIKit
 
+/// 起動画面
+///
 class LaunchViewController: UIViewController, UIScrollViewDelegate {
 
     // コントロール
@@ -32,6 +34,8 @@ class LaunchViewController: UIViewController, UIScrollViewDelegate {
     
     /// スクロールビューのZoom対象を戻す。
     ///
+    /// - Parameter scrollView: スクロールビュー
+    /// - Returns: ズーム対象のビュー
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         // return a view that will be scaled. if delegate returns nil, nothing happens
         return self.mainStackView

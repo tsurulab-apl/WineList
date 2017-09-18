@@ -8,15 +8,13 @@
 
 import Foundation
 
-///
-///
+/// イテレート可能なEmun型
 ///
 public protocol EnumEnumerable {
     associatedtype Case = Self
 }
 
-///
-///
+/// イテレート可能なEmun型(拡張)
 ///
 public extension EnumEnumerable where Case: Hashable {
     private static var iterator: AnyIterator<Case> {
@@ -44,19 +42,21 @@ public extension EnumEnumerable where Case: Hashable {
     }
 }
 
-///
-/// カテゴリー
+/// カテゴリー(利用していない。)
 ///
 public enum CategoryEnum: Int16, CustomStringConvertible,EnumEnumerable {
     case White = 0
     case Red = 1
     case Rose = 2
     case Sparkling = 3
-    //
+
+    /// raw値によるイニシャライザ
     init?(raw: Int) {
         self.init(rawValue: Int16(raw))
     }
-    //var description: String { return rawValue }
+
+    /// description
+    ///
     public var description: String {
         switch self {
         case .White: return "White"
@@ -67,7 +67,6 @@ public enum CategoryEnum: Int16, CustomStringConvertible,EnumEnumerable {
     }
 }
 
-///
 /// 資料タイプ
 ///
 public enum MaterialType: Int16, CustomStringConvertible,EnumEnumerable {
@@ -75,14 +74,12 @@ public enum MaterialType: Int16, CustomStringConvertible,EnumEnumerable {
     case image = 200
     case other = 9999
 
-    ///
     /// raw値によるイニシャライザ
     ///
     init?(raw: Int16) {
         self.init(rawValue: raw)
     }
 
-    ///
     /// index値によるイニシャライザ
     ///
     init?(index: Int) {
@@ -94,7 +91,6 @@ public enum MaterialType: Int16, CustomStringConvertible,EnumEnumerable {
         }
     }
 
-    ///
     /// description
     ///
     public var description: String {
@@ -105,7 +101,6 @@ public enum MaterialType: Int16, CustomStringConvertible,EnumEnumerable {
         }
     }
 
-    ///
     /// index
     ///
     public var index: Int {

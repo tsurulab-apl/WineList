@@ -8,6 +8,8 @@
 
 import UIKit
 
+/// ワインのマスターテーブルのセル
+///
 class WineTableViewCell: UITableViewCell {
 
     // コントロール
