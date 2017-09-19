@@ -648,7 +648,7 @@
                                                             </view>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3ix-U2-DFX">
                                                                 <rect key="frame" x="600" y="4" width="14" height="32"/>
-                                                                <state key="normal" image="grape_r66g134b244_32.png"/>
+                                                                <state key="normal" image="MaterialEnabledIcon"/>
                                                                 <connections>
                                                                     <segue destination="Fgb-pQ-W3Q" kind="presentation" identifier="PopupMaterialReference" id="jht-E9-3N2"/>
                                                                 </connections>
@@ -1479,6 +1479,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="grape_r66g134b244_32.png" width="32" height="32"/>
+        <image name="MaterialEnabledIcon" width="32" height="32"/>
     </resources>
 </document>

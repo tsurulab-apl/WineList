@@ -18,10 +18,12 @@ class ReferenceViewController: UIViewController,UIScrollViewDelegate {
     var wine: Wine? = nil
 
     /// 資料ボタン画像(Disabled)
-    let materialButtonDisabledImage = UIImage(named: "grape_r128g128b128_32")
+//    let materialButtonDisabledImage = UIImage(named: "grape_r128g128b128_32")
+    let materialButtonDisabledImage = UIImage(named: "MaterialDisabledIcon")
 
     /// 資料ボタン画像(Enabled)
-    let materialButtonEnabledImage = UIImage(named: "grape_r66g134b244_32")
+//    let materialButtonEnabledImage = UIImage(named: "grape_r66g134b244_32")
+    let materialButtonEnabledImage = UIImage(named: "MaterialEnabledIcon")
     
     // コントロール
     @IBOutlet weak var mainScrollView: UIScrollView!

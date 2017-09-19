@@ -8,11 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		EB26A02F1F320C700040F42F /* PopupMaterialReferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB26A02E1F320C700040F42F /* PopupMaterialReferenceViewController.swift */; };
-		EB26A03B1F3557C30040F42F /* grape_r66g134b244_32.png in Resources */ = {isa = PBXBuildFile; fileRef = EB26A03A1F3557C30040F42F /* grape_r66g134b244_32.png */; };
 		EB26A0411F3B4E0B0040F42F /* WineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB26A0401F3B4E0B0040F42F /* WineTableViewCell.swift */; };
 		EB26A0431F3BEB110040F42F /* SelectableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB26A0421F3BEB110040F42F /* SelectableImage.swift */; };
-		EB26A0451F3C8AAF0040F42F /* now_printing.png in Resources */ = {isa = PBXBuildFile; fileRef = EB26A0441F3C8AAF0040F42F /* now_printing.png */; };
-		EB26A0491F41330A0040F42F /* grape_r128g128b128_32.png in Resources */ = {isa = PBXBuildFile; fileRef = EB26A0481F41330A0040F42F /* grape_r128g128b128_32.png */; };
 		EB26A04B1F4471BF0040F42F /* Messageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB26A04A1F4471BF0040F42F /* Messageable.swift */; };
 		EB28D33A1EBB655500E77397 /* ReferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB28D3391EBB655500E77397 /* ReferenceViewController.swift */; };
 		EB28D33E1EBD594100E77397 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB28D33D1EBD594100E77397 /* RegistrationViewController.swift */; };
@@ -71,11 +68,8 @@
 
 /* Begin PBXFileReference section */
 		EB26A02E1F320C700040F42F /* PopupMaterialReferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupMaterialReferenceViewController.swift; sourceTree = "<group>"; };
-		EB26A03A1F3557C30040F42F /* grape_r66g134b244_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grape_r66g134b244_32.png; sourceTree = "<group>"; };
 		EB26A0401F3B4E0B0040F42F /* WineTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WineTableViewCell.swift; sourceTree = "<group>"; };
 		EB26A0421F3BEB110040F42F /* SelectableImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectableImage.swift; sourceTree = "<group>"; };
-		EB26A0441F3C8AAF0040F42F /* now_printing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = now_printing.png; sourceTree = "<group>"; };
-		EB26A0481F41330A0040F42F /* grape_r128g128b128_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grape_r128g128b128_32.png; sourceTree = "<group>"; };
 		EB26A04A1F4471BF0040F42F /* Messageable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Messageable.swift; sourceTree = "<group>"; };
 		EB28D3391EBB655500E77397 /* ReferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferenceViewController.swift; sourceTree = "<group>"; };
 		EB28D33D1EBD594100E77397 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
@@ -175,7 +169,6 @@
 		EBA9C4471E9E526400311E3B /* WineList */ = {
 			isa = PBXGroup;
 			children = (
-				EBA9C47F1E9E601100311E3B /* images */,
 				EBA9C4481E9E526400311E3B /* AppDelegate.swift */,
 				EBA9C44C1E9E526400311E3B /* Main.storyboard */,
 				EBFAB47B1F26F89500E7F95A /* PopupMaterialSelectViewController.swift */,
@@ -229,16 +222,6 @@
 				EBA9C46D1E9E526400311E3B /* Info.plist */,
 			);
 			path = WineListUITests;
-			sourceTree = "<group>";
-		};
-		EBA9C47F1E9E601100311E3B /* images */ = {
-			isa = PBXGroup;
-			children = (
-				EB26A0481F41330A0040F42F /* grape_r128g128b128_32.png */,
-				EB26A0441F3C8AAF0040F42F /* now_printing.png */,
-				EB26A03A1F3557C30040F42F /* grape_r66g134b244_32.png */,
-			);
-			name = images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -351,12 +334,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB26A0491F41330A0040F42F /* grape_r128g128b128_32.png in Resources */,
 				EBFAB4741F24394500E7F95A /* Material.storyboard in Resources */,
 				EBF3206C1EF8A0BE00797BD6 /* Category.storyboard in Resources */,
-				EB26A03B1F3557C30040F42F /* grape_r66g134b244_32.png in Resources */,
 				EBA9C4531E9E526400311E3B /* Assets.xcassets in Resources */,
-				EB26A0451F3C8AAF0040F42F /* now_printing.png in Resources */,
 				EBA9C44E1E9E526400311E3B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

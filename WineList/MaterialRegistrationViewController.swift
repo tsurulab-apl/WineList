@@ -16,7 +16,7 @@ class MaterialRegistrationViewController: AbstractRegistrationViewController,Sel
     private var material:Material?
 
     /// 新規追加時の画像
-    let newImage = UIImage(named: "now_printing")!
+    let newImage = UIImage(named: "NowPrinting")!
     
     /// 資料画像の状態
     var imageStatus = SelectableImageStatus.nothing

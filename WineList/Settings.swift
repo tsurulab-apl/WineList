@@ -24,7 +24,7 @@ public class Settings {
     // デフォルト値
     private static let DEFAULT_PASSWORD = "0000"
     private static let DEFAULT_LONG_PRESS_DURATION:Double = 1.0
-    private static let DEFAULT_IMAGE_NAME = "now_printing"
+    private static let DEFAULT_IMAGE_NAME = "NowPrinting"
     private static let DEFAULT_PRICE:Int = 5000
     private static let DEFAULT_PRICE_ASK = "Ask"
     private static let DEFAULT_VINTAGE_RANGE:Int = 50
