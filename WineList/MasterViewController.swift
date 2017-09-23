@@ -409,7 +409,13 @@ class MasterViewController: UITableViewController,SettingsDelegate {
         let wine = self.wineList.getWine(category, indexPath.row)
         
         // 名前
-        cell.nameLabel.text = wine.name
+        #if (!arch(i386) && !arch(x86_64))
+            // 実機
+            cell.nameLabel.text = wine.name
+        #else
+            // シュミレータの場合、ラベルが横にはみ出る問題に対応(スクリーンショットを撮るため)
+            cell.nameLabel.text = "   " + wine.name!
+        #endif
 
         // 価格
         if wine.priceAsk {
